@@ -26,10 +26,12 @@
 
 :: Compile CryptoPP with MSBuild for Windows | Other platforms to come later
 cd MapleLib/vendor/cryptopp
-if not exist x64\Output\Debug (
+@REM if not exist x64\Output\Debug (
     MSBuild cryptlib.vcxproj /p:Configuration=Debug /p:Platform=x64
-)
-if not exist x64\Output\Release (
+    @REM MSBuild cryptdll.vcxproj /p:Configuration=Debug /p:Platform=x64
+@REM )
+@REM if not exist x64\Output\Release (
     MSBuild cryptlib.vcxproj /p:Configuration=Release /p:Platform=x64
-)
+    @REM MSBuild cryptdll.vcxproj /p:Configuration=Release /p:Platform=x64
+@REM )
 cd ../../../

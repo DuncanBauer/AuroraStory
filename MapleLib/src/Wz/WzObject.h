@@ -13,6 +13,7 @@ namespace Maple
       ~WzObject() {}
 
       std::string m_Name;
+      void print();
     private:
     };
 }
