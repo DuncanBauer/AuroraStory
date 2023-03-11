@@ -25,7 +25,7 @@
 
 
 :: Compile CryptoPP with MSBuild for Windows | Other platforms to come later
-cd AuroraMapleLib/vendor/cryptopp
+cd MapleLib/vendor/cryptopp
 if not exist x64\Output\Debug (
     MSBuild cryptlib.vcxproj /p:Configuration=Debug /p:Platform=x64
 )
