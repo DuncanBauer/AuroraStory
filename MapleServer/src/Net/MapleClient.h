@@ -45,11 +45,11 @@ class MapleClient : public TCPConnection
          ****************/
         void start()
         {
-            ByteBuffer recvIV = this->recvCipher->getIV();
-            ByteBuffer sendIV = this->sendCipher->getIV();
+            byte* recvIV = this->recvCipher->getIV();
+            byte* sendIV = this->sendCipher->getIV();
 
             // This is the packet for the v83 MapleStory Global(NA) handshake
-            ByteBuffer buff;
+            byte* buff;
             PacketParser::writeShort(&buff, 0x0E);
             PacketParser::writeShort(&buff, 83);
             PacketParser::writeShort(&buff, 1);
@@ -97,11 +97,11 @@ class MapleClient : public TCPConnection
     private:
         MapleClient(boost::asio::io_context& _ioContext) : TCPConnection(_ioContext) 
         {
-            ByteBuffer recvIV = { 70, 114, 122,  82 };
-            ByteBuffer sendIV = { 82,  48, 120, 115 };
+            byte recvIV[] = {70, 114, 122,  82};
+            byte sendIV[] = {82,  48, 120, 115};
 
-            this->recvCipher = new MapleCrypto::MapleAESOFB((short)83, recvIV, 0);
-            this->sendCipher = new MapleCrypto::MapleAESOFB((short)(0xFFFF - 83), sendIV, 1);
+            this->recvCipher = new Maple::Crypto::MapleCrypto((short)83, recvIV, false);
+            this->sendCipher = new Maple::Crypto::MapleCrypto((short)(0xFFFF - 83), sendIV, true);
 
             this->setSocketActive(true);
         }
@@ -116,7 +116,7 @@ class MapleClient : public TCPConnection
                 std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + _bytes_transferred);
 
                 std::cout << "DATA: " << std::hex << '\n';
-                byte header[4];
+                byte header[4] = { 0 };
                 for(int i = 0; i < _bytes_transferred; ++i)
                 {
                     header[i] = (byte)str[i];
@@ -124,7 +124,7 @@ class MapleClient : public TCPConnection
                 }
                 std::cout << "\n_bytes_transferred: " << _bytes_transferred << '\n';
 
-                short packetLength = MapleCrypto::MapleAESOFB::getPacketLength(header);
+                short packetLength = Maple::Crypto::MapleCrypto::getPacketLength(header);
                 if(packetLength < 2)
                 {
                     this->shutdown();
@@ -177,7 +177,7 @@ class MapleClient : public TCPConnection
                 std::cout << "\n\n";
 
                 std::cout << "(AESDECRYP) ";
-                this->recvCipher->crypt(&bb);
+                this->recvCipher->crypt(&bb, bb.size());
                 for(int i = 0; i < bb.size(); ++i)
                 {
                     std::cout << (unsigned int)bb[i] << ' ';
@@ -185,7 +185,7 @@ class MapleClient : public TCPConnection
                 std::cout << "\n\n";
 
                 std::cout << "(DECRYPTED) ";
-                MapleCrypto::CustomEncryption::decrypt(&bb, bb.size());
+                Maple::Crypto::MapleCrypto::MapleDecrypt(bb.data(), bb.size());
                 for(int i = 0; i < bb.size(); ++i)
                 {
                     std::cout << (unsigned int)bb[i] << ' ';
@@ -244,8 +244,8 @@ class MapleClient : public TCPConnection
             }
         }
 
-        MapleCrypto::MapleAESOFB* recvCipher = nullptr;
-        MapleCrypto::MapleAESOFB* sendCipher = nullptr;
+        Maple::Crypto::MapleCrypto* recvCipher = nullptr;
+        Maple::Crypto::MapleCrypto* sendCipher = nullptr;
 };
 
 #endif

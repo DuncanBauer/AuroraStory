@@ -21,8 +21,6 @@
 
 // Aurora Server
 #include "ASIOCommon.h"
-#include "Crypto/MapleAESEncryption.h"
-#include "Crypto/MapleCustomEncryption.h"
 #include "PacketParser.h"
 
 // C++
