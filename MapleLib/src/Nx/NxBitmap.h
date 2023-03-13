@@ -22,9 +22,9 @@ namespace Nx
 			//Do not free the pointer returned by this method
 			//Every time this function is called
 			//any previous pointers returned by this method become invalid
+			std::vector<char> bitmap_buf;
 			void const * GetData() const 
 			{
-				std::vector<char> bitmap_buf;
 				if(!m_Data)
 				{
 					return nullptr;
