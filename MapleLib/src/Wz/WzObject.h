@@ -1,19 +1,29 @@
 #pragma once
 
 #include "Maple.h"
+#include "WzEnums.h"
+
 
 #include <string>
 
-namespace Maple
+namespace Wz
 {
-  class AURORA_MAPLE_API WzObject
-  {
-    public:
-      WzObject(std::string name);
-      ~WzObject() {}
+	class WzFile;
 
-      std::string m_Name;
-      void print();
-    private:
-    };
+
+
+
+	class AURORA_MAPLE_API WzObject
+	{
+		public:
+			WzObject() {}
+			virtual ~WzObject() = 0;
+
+		private:
+			std::string m_Name;
+			WzObjectType m_Type = WzObjectType::FILE;
+			WzObject* m_Parent = nullptr;
+			WzFile* m_File = nullptr;
+
+	};
 }
