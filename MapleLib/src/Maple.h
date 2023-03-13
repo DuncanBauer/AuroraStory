@@ -8,7 +8,7 @@
         #define AURORA_MAPLE_API _declspec(dllimport)
     #endif
 #else
-    #define AURORA_MAPLE_API _declspec(dllexport)
+    #define AURORA_MAPLE_API 
 //  #error PROJECT AURORA ONLY SUPPORTS WINDOWS!
 #endif
 #pragma endregion
@@ -22,7 +22,6 @@
 // Typedefs
 using byte = unsigned char;
 using ByteBuffer = std::vector<byte>;
-using OffsetTable = unsigned long long;
 
 // Declarations
 short MapleVersion;

@@ -13,9 +13,11 @@ IncludeDir = {}
 IncludeDir["Boost"] = "C:/boost/boost_1_81_0"
 IncludeDir["CryptoPP"] = "MapleLib/vendor/"
 IncludeDir["MapleLib"]  = "MapleLib/src"
+IncludeDir["lz4"]  = "MapleLib/vendor/lz4/lib"
 
 LinkDir = {}
 LinkDir["CryptoPP"] = "MapleLib/vendor/cryptopp/x64/Output/%{cfg.buildcfg}"
+LinkDir["lz4"] = "MapleLib/vendor/lz4/build/VS2022/bin/x64-%{cfg.buildcfg}"
 -- LinkDir["CryptoPP"] = "MapleLib/vendor/cryptopp/x64/DLL_Output/%{cfg.buildcfg}"
 
 project "MapleLib"
@@ -37,15 +39,18 @@ project "MapleLib"
 	{
 		"%{IncludeDir.MapleLib}",
 		"%{IncludeDir.Boost}",
-		"%{IncludeDir.CryptoPP}"
+		"%{IncludeDir.CryptoPP}",
+		"%{IncludeDir.lz4}"
 	}
 	libdirs
 	{
-		"%{LinkDir.CryptoPP}"
+		"%{LinkDir.CryptoPP}",
+		"%{LinkDir.lz4}"
 	}
 	links
 	{
-		"cryptlib.lib"
+		"cryptlib.lib",
+		"liblz4-static.lib"
 	}
 
 	filter "system:windows"

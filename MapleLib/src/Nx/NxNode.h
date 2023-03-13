@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Maple.h"
+#include "NxFile.h"
 
 namespace Nx
 {
@@ -15,13 +16,13 @@ namespace Nx
 		AUDIO = 6,
 	};
 
-	struct AURORA_MAPLE_API NxAudio
+	struct AURORA_MAPLE_API NxAudioData
 	{
 		uint32_t index;
 		uint32_t length;
 	};
 
-	struct AURORA_MAPLE_API NxBitmap
+	struct AURORA_MAPLE_API NxBitmapData
 	{
 		uint32_t index;
 		uint16_t width;
@@ -40,14 +41,18 @@ namespace Nx
 				double const dreal;
 				uint32_t const string;
 				int32_t const vector[2];
-				NxBitmap const bitmap;
-				NxAudio const audio;
+				NxBitmapData const bitmap;
+				NxAudioData const audio;
 			};
 	};
 
 	class AURORA_MAPLE_API NxNode
 	{
 		public:
+			NxNode();
+
+		private:
+			NxNode(NxNodeData const*, NxFileData const*);
 
 		private:
 			uint32_t   m_Name;
@@ -55,5 +60,6 @@ namespace Nx
 			uint16_t   m_ChildrenCount;
 			uint16_t   m_Type;
 			NxNodeData m_Data;
+			friend NxFile;
 	};
 }
