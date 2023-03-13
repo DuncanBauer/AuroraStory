@@ -137,7 +137,7 @@ namespace Nx
 			NxNode Resolve(std::string) const;
 		
 		private:
-			NxNode(NxNodeData const *, NxFileData const *);
+			NxNode(NxNodeData const * data, NxFileData const * file);
 			NxNode GetChild(char const *, uint16_t) const;
 			int64_t ToInteger() const;
 			double ToReal() const;
@@ -149,6 +149,9 @@ namespace Nx
 			//Internal variables
 			NxNodeData const * m_Data = nullptr;
 			NxFileData const * m_File = nullptr;
-			friend NxFile;
+
+			friend class NxFile;
+			friend class NxBitmap;
+			friend class NxAudio;
 	};
 }

@@ -46,7 +46,6 @@ namespace Wz
 	{
 		public:
 			WzKey(ByteBuffer iv, ByteBuffer aeskey) : m_IV(iv), m_AESKey(aeskey) {}
-			WzKey(ByteBuffer iv, byte* aeskey) : m_IV(iv), m_AESKey(aeskey) {}
 
 			byte& operator[](int index)
 			{
@@ -95,7 +94,7 @@ namespace Wz
 				e.SetKeyWithIV(m_AESKey.data(), m_AESKey.size(), m_IV.data());
 				
 				size_t remaining = (size_t)size - startIndex;
-				byte buffer[16];
+				byte buffer[16] = { 0 };
 
 				for (int i = 0; i < remaining; i += 16)
 				{
@@ -121,25 +120,25 @@ namespace Wz
 	class WzKeyGenerator
 	{
 
-		static byte* GetIvFromZlz(std::string zlzStream)
-		{
-			byte iv[4];
-			zlzStream.Seek(0x10040, SeekOrigin.Begin);
-			zlzStream.Read(iv, 0, 4);
-			return iv;
-		}
+		//static byte* GetIvFromZlz(std::string zlzStream)
+		//{
+		//	byte iv[4];
+		//	zlzStream.Seek(0x10040, SeekOrigin.Begin);
+		//	zlzStream.Read(iv, 0, 4);
+		//	return iv;
+		//}
 
-		static byte* GetAesKeyFromZlz(FileStream zlzStream)
-		{
-			byte aes[32];
-			zlzStream.Seek(0x10060, SeekOrigin.Begin);
-			for (int i = 0; i < 8; i++)
-			{
-				zlzStream.Read(aes, i * 4, 4);
-				zlzStream.Seek(12, SeekOrigin.Current);
-			}
-			return aes;
-		}
+		//static byte* GetAesKeyFromZlz(FileStream zlzStream)
+		//{
+		//	byte aes[32];
+		//	zlzStream.Seek(0x10060, SeekOrigin.Begin);
+		//	for (int i = 0; i < 8; i++)
+		//	{
+		//		zlzStream.Read(aes, i * 4, 4);
+		//		zlzStream.Seek(12, SeekOrigin.Current);
+		//	}
+		//	return aes;
+		//}
 
 		static WzKey GenerateWzKey(ByteBuffer iv)
 		{

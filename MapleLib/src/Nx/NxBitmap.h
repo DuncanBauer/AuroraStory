@@ -3,6 +3,7 @@
 #include "Maple.h"
 
 #include "lz4.h"
+#include <vector>
 
 namespace Nx
 {
@@ -22,8 +23,8 @@ namespace Nx
 			//Do not free the pointer returned by this method
 			//Every time this function is called
 			//any previous pointers returned by this method become invalid
-			std::vector<char> bitmap_buf;
-			void const * GetData() const 
+			mutable std::vector<char> m_BitmapBuffer;
+			void const * GetData() const
 			{
 				if(!m_Data)
 				{
@@ -31,14 +32,14 @@ namespace Nx
 				}
 
 				auto const length = GetLength();
-				if(length + 0x20 > bitmap_buf.size())
+				if (static_cast<unsigned long long>(length) + 0x20 > m_BitmapBuffer.size())
 				{
-					bitmap_buf.resize(length + 0x20);
+					m_BitmapBuffer.resize(static_cast<std::vector<char, std::allocator<char>>::size_type>(length) + 0x20);
 				}
 				
 				// Skip the 'PKG4' at the beginning of the file
-				::LZ4_decompress_fast(4 + reinterpret_cast<char const *>(m_Data), bitmap_buf.data(), static_cast<int>(length));
-				return bitmap_buf.data();
+				::LZ4_decompress_fast(4 + reinterpret_cast<char const *>(m_Data), m_BitmapBuffer.data(), static_cast<int>(length));
+				return m_BitmapBuffer.data();
 			}
 			uint16_t GetWidth() const { return m_Width; }
 			uint16_t GetHeight() const { return m_Height;}
@@ -49,7 +50,7 @@ namespace Nx
 			NxBitmap(void const * data, uint16_t width, uint16_t height) : m_Data(data), m_Width(width), m_Height(height) {}
 			void const * m_Data = nullptr;
 			uint16_t m_Width,
-					 m_Height = 0;
-			friend NxNode;
+							 m_Height = 0;
+			friend class NxNode;
 	};
 }

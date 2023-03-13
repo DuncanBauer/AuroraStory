@@ -27,6 +27,6 @@ namespace Nx
 			NxAudio(void const * data, uint32_t length) : m_Data(data), m_Length(length) {}
 			void const * m_Data = nullptr;
 			uint32_t m_Length = 0;
-			friend NxNode;
+			friend class NxNode;
 	};
 }

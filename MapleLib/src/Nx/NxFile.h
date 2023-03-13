@@ -28,12 +28,12 @@ namespace Nx
 	class AURORA_MAPLE_API NxFileData
 	{
 		public:
-			void const		 * m_Base = nullptr;
-			NxHeader const	 * m_Header = nullptr;
+			void			 const * m_Base = nullptr;
 			NxNodeData const * m_NodeTable = nullptr;
-			uint64_t const	 * m_StringTable,
-							 * m_BitmapTable,
-							 * m_AudioTable  = nullptr;
+			uint64_t   const * m_StringTable = nullptr;
+			uint64_t	 const * m_BitmapTable = nullptr;
+			uint64_t	 const * m_AudioTable = nullptr;
+			NxHeader	 const * m_Header = nullptr;
 
 			#ifdef _WIN32
 				void * m_FileHandle = nullptr;
@@ -56,7 +56,7 @@ namespace Nx
 			void Open(std::string fileName);
 			void Close();
 
-			NxNode GetRoot() const { return {m_Data->m_NodeTable, m_Data}; }
+			NxNode GetRoot() const { return NxNode(m_Data->m_NodeTable, m_Data); }
 			std::string GetString(uint32_t id) const { 
 				auto const s = reinterpret_cast<char const *>(m_Data->m_Base) + m_Data->m_StringTable[id]; // Get the address of the string by adding the offset of the string to the address of the base object
 				return {s + 2, *reinterpret_cast<uint16_t const *>(s)};
@@ -69,6 +69,6 @@ namespace Nx
 
 		private:
 			NxFileData* m_Data = nullptr;
-
+			friend class NxNode;
 	};
 }

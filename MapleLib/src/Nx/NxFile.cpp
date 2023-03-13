@@ -78,8 +78,8 @@ namespace Nx
 			CloseHandle(m_Data->m_MappingHandle);
 			CloseHandle(m_Data->m_FileHandle);
 		#else
-			munmap(const_cast<char*>(data), size);
-			close(fd);
+			munmap(const_cast<char*>(m_Data->m_Base), m_Data->m_Size);
+			close(m_Data->m_Base);
 		#endif
 	}
 }
