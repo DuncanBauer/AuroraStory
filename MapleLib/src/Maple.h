@@ -22,6 +22,7 @@
 // Typedefs
 using byte = unsigned char;
 using ByteBuffer = std::vector<byte>;
+using OffsetTable = unsigned long long;
 
 // Declarations
 short MapleVersion;
