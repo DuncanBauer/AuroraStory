@@ -20,9 +20,12 @@
 #include <vector>
 
 // Typedefs
+class WzImageProperty;
+
 using byte = unsigned char;
 using ByteBuffer = std::vector<byte>;
 using vector2i = std::pair<uint32_t, uint32_t>;
+using WzImageProperties = std::vector<WzImageProperty>;
 
 // Declarations
 short MapleVersion;

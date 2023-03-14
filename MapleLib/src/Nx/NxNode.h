@@ -20,31 +20,31 @@ namespace Nx
 
 	struct AURORA_MAPLE_API NxAudioData
 	{
-		uint32_t index;
-		uint32_t length;
+		uint32_t m_Index;
+		uint32_t m_Length;
 	};
 
 	struct AURORA_MAPLE_API NxBitmapData
 	{
-		uint32_t index;
-		uint16_t width;
-		uint16_t height;
+		uint32_t m_Index;
+		uint16_t m_Width;
+		uint16_t m_Height;
 	};
 
 	class AURORA_MAPLE_API NxNodeData
 	{
 		public:
-			uint32_t const name;
-			uint32_t const children;
-			uint16_t const num;
-			NxDataType const type;
+			uint32_t const m_Name;
+			uint32_t const m_Children;
+			uint16_t const m_Num;
+			NxDataType const m_Type;
 			union {
-				int64_t const ireal;
-				double const dreal;
-				uint32_t const string;
-				int32_t const vector[2];
-				NxBitmapData const bitmap;
-				NxAudioData const audio;
+				int64_t const m_Ireal;
+				double const m_Dreal;
+				uint32_t const m_String;
+				int32_t const m_Vector[2];
+				NxBitmapData const m_Bitmap;
+				NxAudioData const m_Audio;
 			};
 	};
 

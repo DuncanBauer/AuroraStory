@@ -4,5 +4,15 @@
 
 namespace Wz
 {
+	void WzFile::ImportWzFile(std::string fileName)
+	{
+	}
 
+	void WzFile::ExportWz()
+	{
+	}
+	
+	void WzFile::ExportXML()
+	{
+	}
 }

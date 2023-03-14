@@ -120,6 +120,50 @@ project "MapleServer"
 		optimize "on"
 
 
+project "MapleUnitTesting"
+	location "MapleUnitTesting"
+	kind "ConsoleApp"
+	staticruntime "off"
+	language "C++"
+	cppdialect "C++20"
+ 
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+ 		"%{prj.name}/src/**.cpp",
+ 		"%{prj.name}/src/**.h"
+	}
+
+	includedirs
+	{
+ 		"%{IncludeDir.MapleLib}",
+ 		"%{IncludeDir.CryptoPP}",
+	}
+
+	links
+	{
+ 		"MapleLib",
+	}
+
+	filter "system:windows"
+ 		systemversion "latest"
+ 		defines
+ 		{
+ 			"PA_PLATFORM_WINDOWS",
+ 		}
+
+	filter "configurations:Debug"
+ 		defines "PA_DEBUG"
+ 		runtime "Debug"
+ 		symbols "on"
+
+ 	filter "configurations:Release"
+ 		defines "PA_RELEASE"
+ 		runtime "Release"
+ 		optimize "on"
+
 -- project "MapleWzEditor"
 -- 	location "MapleWzEditor"
 -- 	kind "ConsoleApp"
