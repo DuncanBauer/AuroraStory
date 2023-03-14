@@ -24,8 +24,8 @@ namespace Wz
 
 			std::string m_Ident;
 			std::string m_Copyright;
-			unsigned int m_FileStart;
-			unsigned long m_FileSize;
+			unsigned int m_FileStart = 0;
+			unsigned long m_FileSize = 0;
 	};
 
 }

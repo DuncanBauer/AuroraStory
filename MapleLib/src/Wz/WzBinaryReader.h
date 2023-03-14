@@ -27,22 +27,22 @@ namespace Wz
 			m_FileStream.seekg(offset);
 			if (readByte)
 			{
-				ReadByte();
+				//ReadByte();
 			}
 			std::string ReturnString = ReadString();
 			m_FileStream.seekg(CurrentOffset);
 			return ReturnString;
 		}
-		std::string ReadString(int length);
-		std::string ReadString();
-		std::string ReadStringBlock();
-		std::string ReadNullTerminatedString();
-		int ReadCompressedInt();
-		long ReadLong();
-		unsigned int ReadOffset();
+		std::string ReadString(int length) { return ""; }
+		std::string ReadString() { return ""; }
+		std::string ReadStringBlock() { return ""; }
+		std::string ReadNullTerminatedString() { return ""; }
+		int ReadCompressedInt() { return 0; }
+		long ReadLong() { return 0; }
+		unsigned int ReadOffset() { return 0; }
 
-		std::string DecryptString(std::string string);
-		std::string DecryptNonUnicodeString(std::string string);
+		std::string DecryptString(std::string string) { return ""; }
+		std::string DecryptNonUnicodeString(std::string string) { return ""; }
 	
 	private:
 		WzKey m_Key;

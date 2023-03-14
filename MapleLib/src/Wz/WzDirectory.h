@@ -9,24 +9,24 @@ namespace Wz
 	class AURORA_MAPLE_API WzDirectory : public WzObject
 	{
 		public:
-			WzDirectory() {}
+			WzDirectory() : m_Offset(0), m_OffsetSize(0), m_Hash(0), m_Size(0), m_Checksum(0) {}
 			~WzDirectory() {}
 			
-			virtual void ExportXML();
+			virtual void ExportXML() {}
 
-			void ParseDirectory();
-			void GetDirectory();
-			void SaveDirectory();
-			void ClearDirectory();
-			void AddDirectory();
-			void DeleteDirectory();
+			void ParseDirectory() {}
+			void GetDirectory() {}
+			void SaveDirectory() {}
+			void ClearDirectory() {}
+			void AddDirectory() {}
+			void DeleteDirectory() {}
 
-			void ParseImages();
-			void GetImage();
-			void SaveImages();
-			void ClearImages();
-			void AddImage();
-			void DeleteImage();
+			void ParseImages() {}
+			void GetImage() {}
+			void SaveImages() {}
+			void ClearImages() {}
+			void AddImage() {}
+			void DeleteImage() {}
 
 		private:
 			std::vector<WzImage> m_Images;

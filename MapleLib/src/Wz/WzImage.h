@@ -3,13 +3,14 @@
 #include "Maple.h"
 
 #include "WzObject.h"
-#include "Properties/WzImageProperty.h"
 
 #include "WzBinaryReader.h"
 
 
 namespace Wz
 {
+	class WzImageProperty;
+	using WzImageProperties = std::vector<WzImageProperty>;
 	class AURORA_MAPLE_API WzImage : public WzObject
 	{
 		public:
@@ -31,27 +32,27 @@ namespace Wz
 			void ClearProperties();
 
 			// Getters and Setters
-			bool IsParsed() const { return m_Parsed; }
-			bool IsChanged() const { return m_Changed; }
-			bool IsParsingEverything() const { return m_ParseEverything; }
-			int GetSize() const { return m_Size; }
-			int GetChecksum() const { return m_Checksum; }
-			int GetBlockStart() const { return m_BlockStart; }
-			unsigned int GetOffset() const { return m_Offset; }
-			long GetTempFileStart() const { return m_TempFileStart; }
-			long GetTempFileEnd() const { return m_TempFileEnd; }
-			WzBinaryReader& GetReader() { return *m_Reader; }
-			WzImageProperties& GetProperties() { return *m_Properties; }
+			//bool IsParsed() const { return m_Parsed; }
+			//bool IsChanged() const { return m_Changed; }
+			//bool IsParsingEverything() const { return m_ParseEverything; }
+			//int GetSize() const { return m_Size; }
+			//int GetChecksum() const { return m_Checksum; }
+			//int GetBlockStart() const { return m_BlockStart; }
+			//unsigned int GetOffset() const { return m_Offset; }
+			//long GetTempFileStart() const { return m_TempFileStart; }
+			//long GetTempFileEnd() const { return m_TempFileEnd; }
+			//WzBinaryReader& GetReader() { return *m_Reader; }
+			//WzImageProperties& GetProperties() { return *m_Properties; }
 
-			void Set(int size) { m_Size = size; }
-			void Set(int checksum) { m_Checksum = checksum; }
-			void Set(int blockStart) { m_BlockStart = blockStart; }
-			void Set(unsigned int offset) { m_Offset = offset; }
-			void Set(long tempFileStart) { m_TempFileStart = tempFileStart; }
-			void Set(long tempFileEnd) { m_TempFileEnd = tempFileEnd; }
-			void SetParsedState(bool parsed) { m_Parsed = parsed; }
-			void SetChangedState(bool changed) { m_Changed = changed; }
-			void SetParseEverythingState(bool parseEverything) { m_ParseEverything = parseEverything; }
+			//void Set(int size) { m_Size = size; }
+			//void Set(int checksum) { m_Checksum = checksum; }
+			//void Set(int blockStart) { m_BlockStart = blockStart; }
+			//void Set(unsigned int offset) { m_Offset = offset; }
+			//void Set(long tempFileStart) { m_TempFileStart = tempFileStart; }
+			//void SetT(long tempFileEnd) { m_TempFileEnd = tempFileEnd; }
+			//void SetParsedState(bool parsed) { m_Parsed = parsed; }
+			//void SetChangedState(bool changed) { m_Changed = changed; }
+			//void SetParseEverythingState(bool parseEverything) { m_ParseEverything = parseEverything; }
 
 		private:
 			bool m_Parsed;

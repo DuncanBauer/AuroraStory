@@ -48,9 +48,7 @@ namespace Wz
 	void WzImage::ClearProperties()
 	{
 	}
-	void WzImage::WriteValue()
-	{
-	}
+
 	void WzImage::ExportXML()
 	{
 	}

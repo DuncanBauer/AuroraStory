@@ -171,6 +171,10 @@ namespace Net
                 0x33, 0x00, 0x00, 0x00, 0x55, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00,
                 0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
             };
+            static const byte TRIMMED_DEFAULT_MAPLESTORY_USER_KEY[] = {
+                0x13, 0x08, 0x06, 0xB4, 0x1B, 0x0F, 0x33, 0x52
+            };
+
             static ByteBuffer GetTrimmedUserKey()
             {
                 ByteBuffer key;
@@ -305,8 +309,7 @@ namespace Net
                 }
                 static std::string AesCrypt(byte* iv, byte* data, bool cryptFlag)
                 {
-                  const byte* key = Constants::GetTrimmedUserKey().data();
-                  return AesCrypt(iv, key, data, cryptFlag);
+                    return AesCrypt(iv, Constants::GetTrimmedUserKey().data(), data, cryptFlag);
                 }
 
                 // MAPLE CUSTOM ENCRYPTION

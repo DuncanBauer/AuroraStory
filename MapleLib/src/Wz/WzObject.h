@@ -2,17 +2,17 @@
 
 #include "Maple.h"
 
-#include "WzFile.h"
 #include "WzEnums.h"
 
 #include <string>
 
 namespace Wz
 {
+	class WzFile;
 	class AURORA_MAPLE_API WzObject
 	{
 		public:
-			WzObject() = default;
+			WzObject() = default
 			WzObject(std::string name) : m_Name(name) {}
 			WzObject(std::string name, WzObjectType type) : m_Name(name), m_Type(type) {}
 			WzObject(std::string name, WzObjectType type, WzObject* parent) : m_Name(name), m_Type(type), m_Parent(parent) {}
