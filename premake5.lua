@@ -18,7 +18,7 @@ IncludeDir["MapleLib"]  = "MapleLib/src"
 
 LinkDir = {}
 LinkDir["CryptoPP"] = "MapleLib/vendor/cryptopp/x64/Output/%{cfg.buildcfg}"
-LinkDir["lz4"]      = "MapleLib/vendor/lz4/build/VS2022/bin/x64_%{cfg.buildcfg}"
+LinkDir["lz4"]      = "MapleLib/vendor/lz4/build/VS2022/liblz4/bin/x64_%{cfg.buildcfg}"
 
 project "MapleLib"
 	location "MapleLib"
@@ -88,7 +88,7 @@ project "MapleLib"
 project "MapleUnitTesting"
 	location "MapleUnitTesting"
 	kind "ConsoleApp"
-	staticruntime "off"
+	staticruntime "on"
 	language "C++"
 	cppdialect "C++20"
  
@@ -109,7 +109,7 @@ project "MapleUnitTesting"
 
 	links
 	{
- 		"MapleLib",
+ 		"MapleLib.dll",
 	}
 
 	filter "system:windows"
