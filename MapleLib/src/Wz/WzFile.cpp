@@ -137,7 +137,7 @@ namespace Wz
 				throw std::runtime_error("Failed to open file " + filepath);
 			}
 		
-			m_MappingHandle = CreateFileMapping(m_FileHandle, NULL, PAGE_READONLY, 0, size, NULL);
+			m_MappingHandle = CreateFileMappingA(m_FileHandle, NULL, PAGE_READONLY, 0, size, NULL);
 			if (!m_MappingHandle)
 			{
 				std::cout << m_MappingHandle << '\n';

@@ -465,7 +465,7 @@ namespace Net
                 }
                 static void multiplyBytes(ByteBuffer input, ByteBuffer output, int count, int mult)
                 {
-                    std::vector<byte> retVal(count * mult);
+                    ByteBuffer retVal(count * mult);
                     for (int x = 0; x < count * mult; x++)
                     {
                         output[x] = input[x % count];
