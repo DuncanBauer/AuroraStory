@@ -71,7 +71,7 @@ namespace Wz
 				if (!m_Keys.empty())
 				{
 					std::memcpy(newKeys.data(), m_Keys.data(), m_Keys.size());
-					startIndex = m_Keys.size();
+					startIndex = (int)(m_Keys.size());
 				}
 
 				CryptoPP::ECB_Mode<CryptoPP::Rijndael>::Encryption e;
@@ -94,17 +94,17 @@ namespace Wz
 				m_Keys = newKeys;
 			}
 
-			static byte* GetIvFromZlz(std::ifstream zlzStream)
+			static ByteBuffer GetIvFromZlz(std::ifstream zlzStream)
 			{
-				byte iv[4];
+				ByteBuffer iv(4);
 			//	zlzStream.Seek(0x10040, SeekOrigin.Begin);
 			//	zlzStream.Read(iv, 0, 4);
 				return iv;
 			}
 
-			static byte* GetAesKeyFromZlz(std::ifstream zlzStream)
+			static ByteBuffer GetAesKeyFromZlz(std::ifstream zlzStream)
 			{
-				byte aes[32];
+				ByteBuffer aes(32);
 			//	zlzStream.Seek(0x10060, SeekOrigin.Begin);
 			//	for (int i = 0; i < 8; i++)
 			//	{

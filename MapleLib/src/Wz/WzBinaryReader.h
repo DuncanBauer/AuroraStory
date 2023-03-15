@@ -23,7 +23,7 @@ namespace Wz
 		std::string ReadString(long offset) { return ReadString(offset, false); }
 		std::string ReadString(long offset, bool readByte)
 		{
-			long CurrentOffset = m_FileStream.tellg();
+			long CurrentOffset = (long)m_FileStream.tellg();
 			m_FileStream.seekg(offset);
 			if (readByte)
 			{

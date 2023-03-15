@@ -32,17 +32,17 @@ namespace Wz
 			void ClearProperties();
 
 			// Getters and Setters
-			//bool IsParsed() const { return m_Parsed; }
-			//bool IsChanged() const { return m_Changed; }
-			//bool IsParsingEverything() const { return m_ParseEverything; }
-			//int GetSize() const { return m_Size; }
-			//int GetChecksum() const { return m_Checksum; }
-			//int GetBlockStart() const { return m_BlockStart; }
-			//unsigned int GetOffset() const { return m_Offset; }
-			//long GetTempFileStart() const { return m_TempFileStart; }
-			//long GetTempFileEnd() const { return m_TempFileEnd; }
-			//WzBinaryReader& GetReader() { return *m_Reader; }
-			//WzImageProperties& GetProperties() { return *m_Properties; }
+			bool IsParsed() const { return m_Parsed; }
+			bool IsChanged() const { return m_Changed; }
+			bool IsParsingEverything() const { return m_ParseEverything; }
+			int GetSize() const { return m_Size; }
+			int GetChecksum() const { return m_Checksum; }
+			int GetBlockStart() const { return m_BlockStart; }
+			unsigned int GetOffset() const { return m_Offset; }
+			long GetTempFileStart() const { return m_TempFileStart; }
+			long GetTempFileEnd() const { return m_TempFileEnd; }
+			WzBinaryReader& GetReader() { return *m_Reader; }
+			WzImageProperties& GetProperties() { return *m_Properties; }
 
 			//void Set(int size) { m_Size = size; }
 			//void Set(int checksum) { m_Checksum = checksum; }

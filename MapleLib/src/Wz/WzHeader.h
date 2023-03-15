@@ -7,12 +7,21 @@ namespace Wz
 	class AURORA_MAPLE_API WzHeader
 	{
 		public:
+			WzHeader() = default;
+			WzHeader(const WzHeader& other)
+			{
+				m_Ident = other.m_Ident;
+				m_Copyright = other.m_Copyright;
+				m_FileStart = other.m_FileStart;
+				m_FileSize = other.m_FileSize;
+			}
+
 			void RecalculateFileStart()
 			{
 				m_FileStart = (unsigned int)(m_Ident.length() + sizeof(unsigned long) + sizeof(unsigned int) + m_Copyright.length() + 1);
 			}
 
-			WzHeader GetDefault()
+			static WzHeader GetDefault()
 			{
 				WzHeader header;
 				header.m_Ident = "PKG1";

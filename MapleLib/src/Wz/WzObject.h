@@ -32,7 +32,7 @@ namespace Wz
 
 		protected:
 			std::string m_Name;
-			WzObjectType m_Type;
+			WzObjectType m_Type = WzObjectType::FILE;
 			WzObject* m_Parent = nullptr;
 			WzFile* m_WzFile = nullptr;
 	};

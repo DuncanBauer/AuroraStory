@@ -28,6 +28,15 @@ namespace Wz
 			void AddImage() {}
 			void DeleteImage() {}
 
+			std::vector<WzImage> GetImages() { return m_Images; }
+			std::vector<WzDirectory> GetSubDirs() { return m_SubDirs; }
+			ByteBuffer GetWzIV() { return m_WzIV; }
+			unsigned int GetOffset() { return m_Offset; }
+			int GetOffsetSize() { return m_OffsetSize; }
+			unsigned int GetHash() { return m_Hash; }
+			int GetSize() { return m_Size; }
+			int GetChecksum() { return m_Checksum; }
+
 		private:
 			std::vector<WzImage> m_Images;
 			std::vector<WzDirectory> m_SubDirs;
@@ -37,5 +46,8 @@ namespace Wz
 			unsigned int m_Hash;
 			int m_Size;
 			int m_Checksum;
+
+		private:
+			friend WzFile;
 	};
 }

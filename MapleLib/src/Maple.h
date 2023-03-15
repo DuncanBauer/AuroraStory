@@ -2,14 +2,17 @@
 
 // Define dllexport and dllimport for Windows
 #ifdef PA_PLATFORM_WINDOWS
-    #ifdef PA_MAPLE_BUILD_DLL
-        #define AURORA_MAPLE_API _declspec(dllexport)
+    #ifdef PA_DYNAMIC
+        #ifdef PA_MAPLE_BUILD_DLL
+            #define AURORA_MAPLE_API _declspec(dllexport)
+        #else
+            #define AURORA_MAPLE_API _declspec(dllimport)
+        #endif
     #else
-        #define AURORA_MAPLE_API _declspec(dllimport)
+        #define AURORA_MAPLE_API 
     #endif
 #else
-    #define AURORA_MAPLE_API 
-//  #error PROJECT AURORA ONLY SUPPORTS WINDOWS!
+  #error PROJECT AURORA ONLY SUPPORTS WINDOWS!
 #endif
 #pragma endregion
 

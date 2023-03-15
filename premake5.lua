@@ -22,7 +22,7 @@ LinkDir["lz4"]      = "MapleLib/vendor/lz4/build/VS2022/liblz4/bin/x64_%{cfg.bui
 
 project "MapleLib"
 	location "MapleLib"
-	kind "SharedLib"
+	kind "StaticLib"
 	staticruntime "on"
 	language "C++"
 	cppdialect "C++20"
@@ -67,12 +67,12 @@ project "MapleLib"
 			"PA_ASSERTS_ENABLED",
 			"PA_MAPLE_BUILD_DLL"
 		}
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/MapleUnitTesting"),
+--		postbuildcommands {
+--			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/MapleUnitTesting"),
 --			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/MapleServer"),
 --			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/MapleWzEditor"),
 --			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/MapleClient")
-		}
+--		}
 
 	filter "configurations:Debug"
 		defines "PA_DEBUG"
@@ -109,7 +109,7 @@ project "MapleUnitTesting"
 
 	links
 	{
- 		"MapleLib.dll",
+ 		"MapleLib",
 	}
 
 	filter "system:windows"
