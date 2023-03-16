@@ -48,13 +48,13 @@ int main(int argc, char** argv)
 
 		std::cout << "Writing\n";
 		Util::BinaryTool tool("test2.wz", std::ios::binary | std::ios::out);
-		tool.WriteByte('a');
-		tool.WriteShort((int16_t)1111);
-		tool.WriteInt(9999999);
-		tool.WriteLong(66666666666);
-		tool.WriteFloat(3.2f);
-		tool.WriteDouble(3.5);
-		tool.WriteString("Wow whata string but what do you know");
+		tool.Write((byte)'a');
+		tool.Write((int16_t)1111);
+		tool.Write(9999999);
+		tool.Write(66666666666);
+		tool.Write(3.2f);
+		tool.Write(3.5);
+		tool.Write("Wow whata string but what do you know");
 		tool.WriteNullTerminatedString("Wow whata string but what do you know");
 		tool.close();
 		std::cin.ignore(1000, '\n');

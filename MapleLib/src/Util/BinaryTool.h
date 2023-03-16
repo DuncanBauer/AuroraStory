@@ -47,19 +47,26 @@ namespace Util
 			int64_t ReadLong();
 			float ReadFloat();
 			double ReadDouble();
+			std::string ReadString();
 			std::string ReadString(int length);
 			std::string ReadNullTerminatedString();
 			std::string ReadUnicodeString(int length);
 
-			void WriteByte(byte data);
-			void WriteShort(int16_t data);
-			void WriteInt(int32_t data);
-			void WriteLong(int64_t data);
-			void WriteFloat(float data);
-			void WriteDouble(double data);
-			void WriteString(std::string data);
+			void Write(byte data);
+			void Write(int16_t data);
+			void Write(int32_t data);
+			void Write(int64_t data);
+			void Write(float data);
+			void Write(double data);
+			void Write(std::string data);
+			void Write(std::string data, int length);
 			void WriteNullTerminatedString(std::string data);
 			void WriteUnicodeString(std::string data);
+
+			std::string EncryptString(std::string stringToEncrypt);
+			std::string EncryptNonUnicodeString(std::string stringToEncrypt);
+			std::string DecryptString(std::string stringToDecrypt);
+			std::string DecryptNonUnicodeString(std::string stringToDecrypt);
 
 
 

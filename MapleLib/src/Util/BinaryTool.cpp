@@ -312,6 +312,12 @@ namespace Util
 		return data;
 	}
 
+	std::string BinaryTool::ReadString()
+	{
+		std::string data;
+		return data;
+	}
+
 	std::string BinaryTool::ReadString(int length)
 	{
 		std::string data;
@@ -331,52 +337,60 @@ namespace Util
 		return data;
 	}
 
-	void BinaryTool::WriteByte(byte data)
+	void BinaryTool::Write(byte data)
 	{
 		put(data);
 	}
 
-	void BinaryTool::WriteShort(int16_t data)
+	void BinaryTool::Write(int16_t data)
 	{
-		WriteByte(data & 0xFF);
-		WriteByte((data >> 8) & 0xFF);
+		Write((byte)(data & 0xFF));
+		Write((byte)((data >> 8) & 0xFF));
 	}
 
-	void BinaryTool::WriteInt(int32_t data)
+	void BinaryTool::Write(int32_t data)
 	{
-		WriteByte(data & 0xFF);
-		WriteByte((data >> 8) & 0xFF);
-		WriteByte((data >> 16) & 0xFF);
-		WriteByte((data >> 24) & 0xFF);
+		Write((byte)(data & 0xFF));
+		Write((byte)((data >> 8) & 0xFF));
+		Write((byte)((data >> 16) & 0xFF));
+		Write((byte)((data >> 24) & 0xFF));
 	}
 
-	void BinaryTool::WriteLong(int64_t data)
+	void BinaryTool::Write(int64_t data)
 	{
-		WriteByte(data & 0xFF);
-		WriteByte((data >> 8)  & 0xFF);
-		WriteByte((data >> 16) & 0xFF);
-		WriteByte((data >> 24) & 0xFF);
-		WriteByte((data >> 32) & 0xFF);
-		WriteByte((data >> 40) & 0xFF);
-		WriteByte((data >> 48) & 0xFF);
-		WriteByte((data >> 56) & 0xFF);
+		Write((byte)(data & 0xFF));
+		Write((byte)((data >> 8)  & 0xFF));
+		Write((byte)((data >> 16) & 0xFF));
+		Write((byte)((data >> 24) & 0xFF));
+		Write((byte)((data >> 32) & 0xFF));
+		Write((byte)((data >> 40) & 0xFF));
+		Write((byte)((data >> 48) & 0xFF));
+		Write((byte)((data >> 56) & 0xFF));
 	}
 
-	void BinaryTool::WriteFloat(float data)
+	void BinaryTool::Write(float data)
 	{
 		write(reinterpret_cast<const char*>(&data), sizeof(float));
 	}
 
-	void BinaryTool::WriteDouble(double data)
+	void BinaryTool::Write(double data)
 	{
 		write(reinterpret_cast<const char*>(&data), sizeof(double));
 	}
 
-	void BinaryTool::WriteString(std::string data)
+	void BinaryTool::Write(std::string data)
 	{
 		for (char c : data)
 		{
-			WriteByte(c);
+			Write((byte)c);
+		}
+	}
+
+	void BinaryTool::Write(std::string data, int length)
+	{
+		for (char c : data)
+		{
+			Write((byte)c);
 		}
 	}
 
@@ -384,8 +398,41 @@ namespace Util
 	{
 		for (char c : data)
 		{
-			WriteByte(c);
+			Write((byte)c);
 		}
-		WriteByte('\0');
+		Write((byte)'\0');
+	}
+
+	std::string EncryptString(std::string stringToDecrypt)
+	{
+		//std::string outputChars(stringToDecrypt.size(), '\0');
+		//for (int i = 0; i < stringToDecrypt.size(); i++)
+		//	outputChars[i] = (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
+		//return outputChars;
+	}
+
+	std::string EncryptNonUnicodeString(std::string stringToDecrypt)
+	{
+		//std::string outputChars(stringToDecrypt.size(), '\0');
+		//for (int i = 0; i < stringToDecrypt.size(); i++)
+		//	outputChars[i] = (char)(stringToDecrypt[i] ^ WzKey[i]);
+		//return outputChars;
+	}
+
+
+	std::string BinaryTool::DecryptString(std::string stringToDecrypt)
+	{
+		//std::string outputString = "";
+		//for (int i = 0; i < stringToDecrypt.size(); i++)
+		//	outputString += (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
+		//return outputString;
+	}
+
+	std::string BinaryTool::DecryptNonUnicodeString(std::string stringToDecrypt)
+	{
+		//std::string outputString = "";
+		//for (int i = 0; i < stringToDecrypt.size(); i++)
+		//	outputString += (char)(stringToDecrypt[i] ^ WzKey[i]);
+		//return outputString;
 	}
 }
