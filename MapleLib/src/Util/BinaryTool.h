@@ -42,6 +42,7 @@ namespace Util
 			BinaryTool& operator>>(T& data);
 
 			byte ReadByte();
+			ByteBuffer ReadBytes(int count);
 			int16_t ReadShort();
 			int32_t ReadInt();
 			int64_t ReadLong();

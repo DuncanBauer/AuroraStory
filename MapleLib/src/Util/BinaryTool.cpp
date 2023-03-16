@@ -239,6 +239,18 @@ namespace Util
 		return result;
 	}
 
+	ByteBuffer BinaryTool::ReadBytes(int count)
+	{
+		ByteBuffer buff(count);
+		char c;
+		for (int i = 0; i < count; i++)
+		{
+			read(&c, 1);
+			buff.push_back(c);
+		}
+		return buff;
+	}
+
 	int16_t BinaryTool::ReadShort()
 	{
 		int16_t r1, r2;
@@ -405,34 +417,33 @@ namespace Util
 
 	std::string EncryptString(std::string stringToDecrypt)
 	{
-		//std::string outputChars(stringToDecrypt.size(), '\0');
+		std::string outputChars(stringToDecrypt.size(), '\0');
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
 		//	outputChars[i] = (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
-		//return outputChars;
+		return outputChars;
 	}
 
 	std::string EncryptNonUnicodeString(std::string stringToDecrypt)
 	{
-		//std::string outputChars(stringToDecrypt.size(), '\0');
+		std::string outputChars(stringToDecrypt.size(), '\0');
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
 		//	outputChars[i] = (char)(stringToDecrypt[i] ^ WzKey[i]);
-		//return outputChars;
+		return outputChars;
 	}
-
 
 	std::string BinaryTool::DecryptString(std::string stringToDecrypt)
 	{
-		//std::string outputString = "";
+		std::string outputString = "";
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
 		//	outputString += (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
-		//return outputString;
+		return outputString;
 	}
 
 	std::string BinaryTool::DecryptNonUnicodeString(std::string stringToDecrypt)
 	{
-		//std::string outputString = "";
+		std::string outputString = "";
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
 		//	outputString += (char)(stringToDecrypt[i] ^ WzKey[i]);
-		//return outputString;
+		return outputString;
 	}
 }

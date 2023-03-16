@@ -24,4 +24,5 @@
 
 // Typedefs
 using byte = unsigned char;
+using ByteBuffer = std::vector<byte>;
 using vector2i = std::pair<uint32_t, uint32_t>;

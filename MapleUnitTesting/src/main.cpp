@@ -44,32 +44,62 @@ int main(int argc, char** argv)
 		//std::cin.ignore(1000, '\n');
 
 
+		Util::BinaryTool tool("Etc.wz", std::ios::binary | std::ios::in);
+		
+		// Read header
+		std::string Ident = tool.ReadString(4);
+		long FSize = tool.ReadLong();
+		int FStart = tool.ReadInt();
+		std::string Copyright = tool.ReadNullTerminatedString();
+		
+		std::cout << "IDENT: " << Ident << '\n';
+		std::cout << "FSIZE: " << FSize << '\n';
+		std::cout << "FSTART: " << FStart << '\n';
+		std::cout << "COPYRIGHT: " << Copyright << '\n';
 
+		// File data?
+		std::cout << "Cursor Pos: " << tool.tellg() << '\n';
+		ByteBuffer buf = tool.ReadBytes((int)(FStart - tool.tellg()));
 
-		std::cout << "Writing\n";
-		Util::BinaryTool tool("test2.wz", std::ios::binary | std::ios::out);
-		tool.Write((byte)'a');
-		tool.Write((int16_t)1111);
-		tool.Write(9999999);
-		tool.Write(66666666666);
-		tool.Write(3.2f);
-		tool.Write(3.5);
-		tool.Write("Wow whata string but what do you know");
-		tool.WriteNullTerminatedString("Wow whata string but what do you know");
+		// Get file version
+		short file_version = tool.ReadShort();
+		std::cout << "FILE_VERSION: " << file_version << '\n';
+
+		std::cout << "DATA: " << '\n';
+		std::cout << buf.size() << '\n';
+		for (byte b : buf) std::cout << b << ' ';
+
 		tool.close();
-		std::cin.ignore(1000, '\n');
 
-		std::cout << "Reading\n";
-		tool.open("test2.wz", std::ios::binary | std::ios::in);
-		std::cout << tool.ReadByte() << '\n';
-		std::cout << tool.ReadShort() << '\n';
-		std::cout << tool.ReadInt() << '\n';
-		std::cout << tool.ReadLong() << '\n';
-		std::cout << tool.ReadFloat() << '\n';
-		std::cout << tool.ReadDouble() << '\n';
-		std::cout << tool.ReadString(37) << '\n';
-		std::cout << tool.ReadNullTerminatedString() << '\n';
-		tool.close();
+
+
+		//std::cout << "Writing\n";
+		//Util::BinaryTool tool("test2.wz", std::ios::binary | std::ios::out);
+		//tool.Write((byte)'a');
+		//tool.Write((int16_t)1111);
+		//tool.Write(9999999);
+		//tool.Write(66666666666);
+		//tool.Write(3.2f);
+		//tool.Write(3.5);
+		//tool.Write("Wow whata string but what do you know");
+		//tool.WriteNullTerminatedString("Wow whata string but what do you know");
+		//tool.close();
+		//std::cin.ignore(1000, '\n');
+
+		//std::cout << "Reading\n";
+		//tool.open("test2.wz", std::ios::binary | std::ios::in);
+		//std::cout << tool.ReadByte() << '\n';
+		//std::cout << tool.ReadShort() << '\n';
+		//std::cout << tool.ReadInt() << '\n';
+		//std::cout << tool.ReadLong() << '\n';
+		//std::cout << tool.ReadFloat() << '\n';
+		//std::cout << tool.ReadDouble() << '\n';
+		//std::cout << tool.ReadString(37) << '\n';
+		//std::cout << tool.ReadNullTerminatedString() << '\n';
+		//tool.close();
+		//std::cin.ignore(1000, '\n');
+
+
 		std::cin.ignore(1000, '\n');
 
 
