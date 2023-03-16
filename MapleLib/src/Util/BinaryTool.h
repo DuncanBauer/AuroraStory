@@ -6,10 +6,9 @@
 #include <ios>
 #include <string>
 
-
 namespace Util
 {
-	class MemoryMappedFile
+	class AURORA_MAPLE_API MemoryMappedFile
 	{
 		friend class BinaryTool;
 		
@@ -28,7 +27,7 @@ namespace Util
 #endif
 	};
 
-	class BinaryTool : public std::fstream
+	class AURORA_MAPLE_API BinaryTool : public std::fstream
 	{
 		friend class MemoryMappedFile;
 	
@@ -43,9 +42,12 @@ namespace Util
 
 			byte ReadByte();
 			ByteBuffer ReadBytes(int count);
-			int16_t ReadShort();
-			int32_t ReadInt();
-			int64_t ReadLong();
+			uint16_t ReadShort();
+			int16_t ReadSShort();
+			uint32_t ReadInt();
+			int32_t ReadSInt();
+			uint64_t ReadLong();
+			int64_t ReadSLong();
 			float ReadFloat();
 			double ReadDouble();
 			std::string ReadString();
@@ -63,11 +65,6 @@ namespace Util
 			void Write(std::string data, int length);
 			void WriteNullTerminatedString(std::string data);
 			void WriteUnicodeString(std::string data);
-
-			std::string EncryptString(std::string stringToEncrypt);
-			std::string EncryptNonUnicodeString(std::string stringToEncrypt);
-			std::string DecryptString(std::string stringToDecrypt);
-			std::string DecryptNonUnicodeString(std::string stringToDecrypt);
 
 
 
@@ -87,13 +84,13 @@ namespace Util
 			static std::string ReadNullTerminatedString(MemoryMappedFile* mmFile, int length);
 			static std::string ReadUnicodeString(MemoryMappedFile* mmFile, int length);
 
-			static void WriteByte(MemoryMappedFile* mmFile, byte data);
-			static void WriteShort(MemoryMappedFile* mmFile, int16_t data);
-			static void WriteInt(MemoryMappedFile* mmFile, int32_t data);
-			static void WriteLong(MemoryMappedFile* mmFile, int64_t data);
-			static void WriteFloat(MemoryMappedFile* mmFile, float data);
-			static void WriteDouble(MemoryMappedFile* mmFile, double data);
-			static void WriteString(MemoryMappedFile* mmFile, std::string data);
+			static void Write(MemoryMappedFile* mmFile, byte data);
+			static void Write(MemoryMappedFile* mmFile, int16_t data);
+			static void Write(MemoryMappedFile* mmFile, int32_t data);
+			static void Write(MemoryMappedFile* mmFile, int64_t data);
+			static void Write(MemoryMappedFile* mmFile, float data);
+			static void Write(MemoryMappedFile* mmFile, double data);
+			static void Write(MemoryMappedFile* mmFile, std::string data);
 			static void WriteNullTerminatedString(MemoryMappedFile* mmFile, std::string data);
 			static void WriteUnicodeString(MemoryMappedFile* mmFile, std::string data);
 	};

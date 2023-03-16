@@ -180,5 +180,46 @@ namespace Util
 				result.insert(result.end(), b.begin(), b.end());
 				return result;
 			}
+
+
+			std::string EncryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			{
+				std::string outputChars(stringToDecrypt.size(), '\0');
+				for (int i = 0; i < stringToDecrypt.size(); i++)
+				{
+					outputChars[i] = (char)(stringToDecrypt[i] ^ ((char)((wzKey[i * 2 + 1] << 8) + wzKey[i * 2])));
+				}
+				return outputChars;
+			}
+
+			std::string EncryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			{
+				std::string outputChars(stringToDecrypt.size(), '\0');
+				for (int i = 0; i < stringToDecrypt.size(); i++)
+				{
+					outputChars[i] = (char)(stringToDecrypt[i] ^ wzKey[i]);
+				}
+				return outputChars;
+			}
+
+			std::string DecryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			{
+				std::string outputString = "";
+				for (int i = 0; i < stringToDecrypt.size(); i++)
+				{
+					outputString += (char)(stringToDecrypt[i] ^ ((char)((wzKey[i * 2 + 1] << 8) + wzKey[i * 2])));
+				}
+				return outputString;
+			}
+
+			std::string DecryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			{
+				std::string outputString = "";
+				for (int i = 0; i < stringToDecrypt.size(); i++)
+				{
+					outputString += (char)(stringToDecrypt[i] ^ wzKey[i]);
+				}
+				return outputString;
+			}
 		};
 }

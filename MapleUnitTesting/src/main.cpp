@@ -44,7 +44,8 @@ int main(int argc, char** argv)
 		//std::cin.ignore(1000, '\n');
 
 
-		Util::BinaryTool tool("Etc.wz", std::ios::binary | std::ios::in);
+		Wz::WzFile string("String.wz", 83, Wz::WzMapleVersion::GMS);
+		Util::BinaryTool tool("String.wz", std::ios::binary | std::ios::in);
 		
 		// Read header
 		std::string Ident = tool.ReadString(4);
@@ -57,17 +58,25 @@ int main(int argc, char** argv)
 		std::cout << "FSTART: " << FStart << '\n';
 		std::cout << "COPYRIGHT: " << Copyright << '\n';
 
-		// File data?
+		// This is just to clear any buffer space between the header and the file data
 		std::cout << "Cursor Pos: " << tool.tellg() << '\n';
-		ByteBuffer buf = tool.ReadBytes((int)(FStart - tool.tellg()));
+		tool.ReadBytes((int)(FStart - tool.tellg()));
 
 		// Get file version
 		short file_version = tool.ReadShort();
 		std::cout << "FILE_VERSION: " << file_version << '\n';
 
-		std::cout << "DATA: " << '\n';
-		std::cout << buf.size() << '\n';
-		for (byte b : buf) std::cout << b << ' ';
+		// If the file version couldnt be retrieved for some reason
+		if (file_version == -1)
+		{
+			throw;
+		}
+		
+		string.GetVersionHash = string.GetVersionHash(string.GetVersion(), string.GetFileVersion());
+		reader.Hash = this.versionHash;
+		WzDirectory directory = new WzDirectory(reader, this.name, this.versionHash, this.WzIv, this);
+		directory.ParseDirectory();
+		this.wzDir = directory;
 
 		tool.close();
 

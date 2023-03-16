@@ -87,7 +87,6 @@ namespace Wz
 	{
 		delete m_Header;
 		delete m_Directory;
-		CloseWzFile();
 	}
 
 	WzFile& WzFile::operator=(const WzFile& file)
@@ -122,70 +121,6 @@ namespace Wz
 		m_Directory->m_Checksum = file.m_Directory->m_Checksum;
 	
 		return *this;
-	}
-
-	void WzFile::OpenWzFile(std::string filepath)
-	{
-		std::ifstream file(filepath, std::ios::binary | std::ios::ate);
-		std::streamsize size = file.tellg();
-		
-		#ifdef _WIN32
-			m_FileHandle = CreateFileA(filepath.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (m_FileHandle == INVALID_HANDLE_VALUE)
-			{
-				std::cout << m_FileHandle << '\n';
-				throw std::runtime_error("Failed to open file " + filepath);
-			}
-		
-			m_MappingHandle = CreateFileMappingA(m_FileHandle, NULL, PAGE_READONLY, 0, size, NULL);
-			if (!m_MappingHandle)
-			{
-				std::cout << m_MappingHandle << '\n';
-				throw std::runtime_error("Failed to create file mapping of file " + filepath);
-			}
-					
-			m_Base = MapViewOfFile(m_MappingHandle, FILE_MAP_READ, 0, 0, size);
-			if (!m_Base)
-			{
-				std::cout << m_Base << '\n';
-				throw std::runtime_error("Failed to map view of file " + filepath);
-			}
-		#else
-			m_FileHandle = open(filepath, O_RDONLY);
-			if (m_FileHandle == -1)
-			{
-				throw std::runtime_error("Failed to open file " + filepath);
-			}
-		
-			struct stat finfo;
-			if (fstat(m_FileHandle, &finfo) == -1)
-			{
-				throw std::runtime_error("Failed to obtain file information of file " + filepath);
-			}
-					
-			m_Size = finfo.st_size;
-			m_Base = mmap(NULL, m_Size, PROT_READ, MAP_SHARED, m_FileHandle, 0);
-			if (reinterpret_cast<intptr_t>(base) == -1)
-			{
-				throw std::runtime_error("Failed to create memory mapping of file " + filepath);
-			}
-		#endif
-
-		// Output the mapped data to std::cout
-		char* pData = static_cast<char*>(m_Base);
-		std::cout.write(pData, static_cast<std::streamsize>(GetFileSize(m_FileHandle, NULL)));
-	}
-
-	void WzFile::CloseWzFile()
-	{
-		#ifdef _WIN32
-			UnmapViewOfFile(m_Base);
-			CloseHandle(m_MappingHandle);
-			CloseHandle(m_FileHandle);
-		#else
-			munmap(const_cast<char*>(m_Base), m_Size);
-			close(m_Base);
-		#endif
 	}
 
 	void WzFile::ParseWzFile()

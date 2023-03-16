@@ -1,6 +1,7 @@
 #include "MapleLibPCH.h"
 
 #include "BinaryTool.h"
+#include "../Wz/WzKey.h"
 
 #include <iostream>
 #include <fstream>
@@ -125,28 +126,28 @@ namespace Util
 
 	int16_t BinaryTool::ReadShort(MemoryMappedFile* mmFile)
 	{
-		return ReadByte(mmFile) << 8 
-			 | ReadByte(mmFile);
+		return ReadByte(mmFile) << 8
+			| ReadByte(mmFile);
 	}
 
 	int32_t BinaryTool::ReadInt(MemoryMappedFile* mmFile)
 	{
 		return ReadByte(mmFile) << 24
-			 | ReadByte(mmFile) << 16
-			 | ReadByte(mmFile) << 8
-			 | ReadByte(mmFile);
+			| ReadByte(mmFile) << 16
+			| ReadByte(mmFile) << 8
+			| ReadByte(mmFile);
 	}
 
 	int64_t BinaryTool::ReadLong(MemoryMappedFile* mmFile)
 	{
-		return ((int64_t) ReadByte(mmFile)) << 56
-			 | ((int64_t) ReadByte(mmFile)) << 48
-			 | ((int64_t) ReadByte(mmFile)) << 40
-			 | ((int64_t) ReadByte(mmFile)) << 32
-			 | ((int64_t) ReadByte(mmFile)) << 24
-			 | ((int64_t) ReadByte(mmFile)) << 16
-			 | ((int64_t) ReadByte(mmFile)) << 8
-			 |  (int64_t) ReadByte(mmFile);
+		return ((int64_t)ReadByte(mmFile)) << 56
+			| ((int64_t)ReadByte(mmFile)) << 48
+			| ((int64_t)ReadByte(mmFile)) << 40
+			| ((int64_t)ReadByte(mmFile)) << 32
+			| ((int64_t)ReadByte(mmFile)) << 24
+			| ((int64_t)ReadByte(mmFile)) << 16
+			| ((int64_t)ReadByte(mmFile)) << 8
+			| (int64_t)ReadByte(mmFile);
 	}
 
 	float BinaryTool::ReadFloat(MemoryMappedFile* mmFile)
@@ -174,7 +175,7 @@ namespace Util
 		return std::string();
 	}
 
-	void BinaryTool::WriteByte(MemoryMappedFile* mmFile, byte data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, byte data)
 	{
 		if (mmFile)
 		{
@@ -186,37 +187,41 @@ namespace Util
 		}
 	}
 
-	void BinaryTool::WriteShort(MemoryMappedFile* mmFile, int16_t data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, int16_t data)
 	{
-		WriteByte(mmFile, data & 0xFF);
-		WriteByte(mmFile, (data >> 8) & 0xFF);
+		Write(mmFile, (byte)(data & 0xFF));
+		Write(mmFile, (byte)((data >> 8) & 0xFF));
 	}
 
-	void BinaryTool::WriteInt(MemoryMappedFile* mmFile, int32_t data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, int32_t data)
 	{
-		WriteByte(mmFile, data & 0xFF);
-		WriteByte(mmFile, (data >> 8) & 0xFF);
-		WriteByte(mmFile, (data >> 16) & 0xFF);
-		WriteByte(mmFile, (data >> 24) & 0xFF);
+		Write(mmFile, (byte)(data & 0xFF));
+		Write(mmFile, (byte)((data >> 8) & 0xFF));
+		Write(mmFile, (byte)((data >> 16) & 0xFF));
+		Write(mmFile, (byte)((data >> 24) & 0xFF));
 	}
 
-	void BinaryTool::WriteLong(MemoryMappedFile* mmFile, int64_t data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, int64_t data)
 	{
-		WriteByte(mmFile, data & 0xFF);
-		WriteByte(mmFile, (data >> 8) & 0xFF);
-		WriteByte(mmFile, (data >> 16) & 0xFF);
-		WriteByte(mmFile, (data >> 24) & 0xFF);
+		Write(mmFile, (byte)(data & 0xFF));
+		Write(mmFile, (byte)((data >> 8) & 0xFF));
+		Write(mmFile, (byte)((data >> 16) & 0xFF));
+		Write(mmFile, (byte)((data >> 24) & 0xFF));
+		Write(mmFile, (byte)((data >> 32) & 0xFF));
+		Write(mmFile, (byte)((data >> 40) & 0xFF));
+		Write(mmFile, (byte)((data >> 48) & 0xFF));
+		Write(mmFile, (byte)((data >> 56) & 0xFF));
 	}
 
-	void BinaryTool::WriteFloat(MemoryMappedFile* mmFile, float data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, float data)
 	{
 	}
 
-	void BinaryTool::WriteDouble(MemoryMappedFile* mmFile, double data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, double data)
 	{
 	}
 
-	void BinaryTool::WriteString(MemoryMappedFile* mmFile, std::string data)
+	void BinaryTool::Write(MemoryMappedFile* mmFile, std::string data)
 	{
 	}
 
@@ -251,7 +256,21 @@ namespace Util
 		return buff;
 	}
 
-	int16_t BinaryTool::ReadShort()
+	uint16_t BinaryTool::ReadShort()
+	{
+		uint16_t r1, r2;
+		uint16_t result = 0;
+
+		r1 = ReadByte();
+		r2 = ReadByte();
+
+		result |= r2 << 8;
+		result |= r1;
+
+		return result;
+	}
+
+	int16_t BinaryTool::ReadSShort()
 	{
 		int16_t r1, r2;
 		int16_t result = 0;
@@ -265,7 +284,25 @@ namespace Util
 		return result;
 	}
 
-	int32_t BinaryTool::ReadInt()
+	uint32_t BinaryTool::ReadInt()
+	{
+		uint32_t r1, r2, r3, r4;
+		uint32_t result = 0;
+
+		r1 = ReadByte();
+		r2 = ReadByte();
+		r3 = ReadByte();
+		r4 = ReadByte();
+
+		result |= r4 << 24;
+		result |= r3 << 16;
+		result |= r2 << 8;
+		result |= r1;
+
+		return result;
+	}
+
+	int32_t BinaryTool::ReadSInt()
 	{
 		int32_t r1, r2, r3, r4;
 		int32_t result = 0;
@@ -283,10 +320,37 @@ namespace Util
 		return result;
 	}
 
-	int64_t BinaryTool::ReadLong()
+	uint64_t BinaryTool::ReadLong()
+	{
+		uint64_t r1, r2, r3, r4,
+			r5, r6, r7, r8;
+		uint64_t result = 0;
+
+		r1 = ReadByte();
+		r2 = ReadByte();
+		r3 = ReadByte();
+		r4 = ReadByte();
+		r5 = ReadByte();
+		r6 = ReadByte();
+		r7 = ReadByte();
+		r8 = ReadByte();
+
+		result |= r8 << 56;
+		result |= r7 << 48;
+		result |= r6 << 40;
+		result |= r5 << 32;
+		result |= r4 << 24;
+		result |= r3 << 16;
+		result |= r2 << 8;
+		result |= r1;
+
+		return result;
+	}
+
+	int64_t BinaryTool::ReadSLong()
 	{
 		int64_t r1, r2, r3, r4,
-			    r5, r6, r7, r8;
+			r5, r6, r7, r8;
 		int64_t result = 0;
 
 		r1 = ReadByte();
@@ -340,7 +404,7 @@ namespace Util
 	std::string BinaryTool::ReadNullTerminatedString()
 	{
 		std::string data;
-		char nul= ' ';
+		char nul = ' ';
 		while (nul != '\0')
 		{
 			nul = ReadByte();
@@ -371,7 +435,7 @@ namespace Util
 	void BinaryTool::Write(int64_t data)
 	{
 		Write((byte)(data & 0xFF));
-		Write((byte)((data >> 8)  & 0xFF));
+		Write((byte)((data >> 8) & 0xFF));
 		Write((byte)((data >> 16) & 0xFF));
 		Write((byte)((data >> 24) & 0xFF));
 		Write((byte)((data >> 32) & 0xFF));
@@ -413,37 +477,5 @@ namespace Util
 			Write((byte)c);
 		}
 		Write((byte)'\0');
-	}
-
-	std::string BinaryTool::EncryptString(std::string stringToDecrypt)
-	{
-		std::string outputChars(stringToDecrypt.size(), '\0');
-		//for (int i = 0; i < stringToDecrypt.size(); i++)
-		//	outputChars[i] = (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
-		return outputChars;
-	}
-
-	std::string BinaryTool::EncryptNonUnicodeString(std::string stringToDecrypt)
-	{
-		std::string outputChars(stringToDecrypt.size(), '\0');
-		//for (int i = 0; i < stringToDecrypt.size(); i++)
-		//	outputChars[i] = (char)(stringToDecrypt[i] ^ WzKey[i]);
-		return outputChars;
-	}
-
-	std::string BinaryTool::DecryptString(std::string stringToDecrypt)
-	{
-		std::string outputString = "";
-		//for (int i = 0; i < stringToDecrypt.size(); i++)
-		//	outputString += (char)(stringToDecrypt[i] ^ ((char)((WzKey[i * 2 + 1] << 8) + WzKey[i * 2])));
-		return outputString;
-	}
-
-	std::string BinaryTool::DecryptNonUnicodeString(std::string stringToDecrypt)
-	{
-		std::string outputString = "";
-		//for (int i = 0; i < stringToDecrypt.size(); i++)
-		//	outputString += (char)(stringToDecrypt[i] ^ WzKey[i]);
-		return outputString;
 	}
 }

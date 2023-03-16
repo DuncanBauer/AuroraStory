@@ -22,8 +22,6 @@ namespace Wz
 
 			WzFile& operator=(const WzFile& file);
 
-			void OpenWzFile(std::string fileName);
-			void CloseWzFile();
 			void ParseWzFile();
 			virtual void ExportXML();
 			void ExportWz();
@@ -50,13 +48,5 @@ namespace Wz
 			WzHeader* m_Header = nullptr;
 			WzDirectory* m_Directory = nullptr;
 			void* m_Base = nullptr;
-
-		#ifdef _WIN32
-			void * m_FileHandle = nullptr;
-			void * m_MappingHandle = nullptr;
-		#else
-			int m_FileHandle = 0;
-			size_t m_Size = 0;
-		#endif
 	};
 }
