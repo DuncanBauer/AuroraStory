@@ -37,10 +37,12 @@ namespace Wz
 			WzDirectory* GetDirectory() { return m_Directory; }
 			ByteBuffer GetWzIV() { return m_WzIV; }
 
+			void SetHeader(WzHeader* header) { m_Header = header; }
+
 		private:
-			short m_Version = 0;
+			short m_Version = 0; // v62 / v83 / etc
 			unsigned int m_VersionHash = 0;
-			short m_FileVersion = 0;
+			short m_FileVersion = 0; // Some weird nexon/wizet value for their wz files
 			WzMapleVersion m_MapleVersion = WzMapleVersion::GMS; // GMS / MSEA / JMS / ETC
 			std::string m_FilePath;
 			ByteBuffer m_WzIV;

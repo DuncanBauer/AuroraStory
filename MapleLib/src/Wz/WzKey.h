@@ -21,6 +21,10 @@ namespace Wz
 				m_AESKey = other.m_AESKey;
 				m_Keys = other.m_Keys;
 				m_IV = other.m_IV;
+
+				std::cout << "WzKey Key: " << m_AESKey.data() << '\n';
+				std::cout << "WzKey Key size: " << m_AESKey.size() << '\n';
+
 			}
 
 			WzKey& operator=(const WzKey& other)
@@ -35,57 +39,65 @@ namespace Wz
 			{
 				if (m_Keys.empty() || m_Keys.size() <= index)
 				{
-					EnsureKeySize(index + 1);
+					//EnsureKeySize(index + 1);
 				}
 				return m_Keys[index];
 			}
 
-			void EnsureKeySize(int size)
+			//void EnsureKeySize(int size)
+			//{
+			//	if (m_Keys.size() > size)
+			//	{
+			//		return;
+			//	}
+
+			//	size = (int)ceil(1.0 * size / m_BatchSize) * m_BatchSize;
+			//	ByteBuffer newKeys(size);
+
+			//	if (Util::BitTool::ToInt32(m_IV, 0) == 0)
+			//	{
+			//		m_Keys = newKeys;
+			//		return;
+			//	}
+
+			//	int startIndex = 0;
+
+			//	try
+			//	{
+			//		if (!m_Keys.empty())
+			//		{
+			//			std::memcpy(newKeys.data(), m_Keys.data(), m_Keys.size());
+			//			startIndex = (int)(m_Keys.size());
+			//		}
+
+			//		CryptoPP::ECB_Mode<CryptoPP::Rijndael>::Encryption e;
+			//		e.SetKeyWithIV(m_AESKey.data(), m_AESKey.size(), m_IV.data());
+
+			//		size_t remaining = (size_t)size - startIndex;
+			//		byte buffer[16] = { 0 };
+
+			//		for (int i = 0; i < remaining; i += 16)
+			//		{
+			//			if (i == 0)
+			//			{
+			//				for (int j = 0; j < 16; j++)
+			//				{
+			//					buffer[j] = m_IV[j % 4];
+			//				}
+			//			}
+			//			e.ProcessData(newKeys.data(), buffer, newKeys.size());
+			//		}
+			//		m_Keys = newKeys;
+			//	}
+			//	catch (std::exception e)
+			//	{
+			//		std::cout << e.what() << '\n';
+			//	}
+			//}
+
+			static ByteBuffer GetIvFromZlz()
 			{
-				if (m_Keys.size() > size)
-				{
-					return;
-				}
-
-				size = (int)ceil(1.0 * size / m_BatchSize) * m_BatchSize;
-				ByteBuffer newKeys(size);
-
-				if (Util::BitTool::ToInt32(m_IV, 0) == 0)
-				{
-					m_Keys = newKeys;
-					return;
-				}
-
-				int startIndex = 0;
-
-				if (!m_Keys.empty())
-				{
-					std::memcpy(newKeys.data(), m_Keys.data(), m_Keys.size());
-					startIndex = (int)(m_Keys.size());
-				}
-
-				CryptoPP::ECB_Mode<CryptoPP::Rijndael>::Encryption e;
-				e.SetKeyWithIV(m_AESKey.data(), m_AESKey.size(), m_IV.data());
-
-				size_t remaining = (size_t)size - startIndex;
-				byte buffer[16] = { 0 };
-
-				for (int i = 0; i < remaining; i += 16)
-				{
-					if (i == 0)
-					{
-						for (int j = 0; j < 16; j++)
-						{
-							buffer[j] = m_IV[j % 4];
-						}
-					}
-					e.ProcessData(newKeys.data(), buffer, newKeys.size());
-				}
-				m_Keys = newKeys;
-			}
-
-			static ByteBuffer GetIvFromZlz(std::ifstream zlzStream)
-			{
+				std::ifstream zlzStream("ZLZ.dll");
 				ByteBuffer iv(4);
 				zlzStream.seekg(0x10040);
 				zlzStream.read((char*)(iv.data()), 4);
@@ -94,8 +106,9 @@ namespace Wz
 				return iv;
 			}
 
-			static ByteBuffer GetAesKeyFromZlz(std::ifstream zlzStream)
+			static ByteBuffer GetAesKeyFromZlz()
 			{
+				std::ifstream zlzStream("ZLZ.dll");
 				ByteBuffer aes(32);
 				zlzStream.seekg(0x10060);
 
@@ -118,10 +131,17 @@ namespace Wz
 				return WzKey(iv, ByteBuffer(Net::Crypto::Constants::GetTrimmedUserKey()));
 			}
 
-		private:
+			static WzKey GenerateGMSWzKey()
+			{
+				return WzKey(ByteBuffer(Net::Crypto::Constants::WZ_GMS_IV, 
+										Net::Crypto::Constants::WZ_GMS_IV + 4),
+							 ByteBuffer(Net::Crypto::Constants::GetTrimmedUserKey()));
+			}
+
 			ByteBuffer m_AESKey;
 			ByteBuffer m_Keys;
 			ByteBuffer m_IV;
 			int m_BatchSize = 4096;
+		private:
 	};
 }

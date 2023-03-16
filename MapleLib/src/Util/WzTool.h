@@ -5,6 +5,7 @@
 #include "../Wz/WzFile.h"
 #include "../Wz/WzDirectory.h"
 #include "../Wz/WzEnums.h"
+#include "BinaryTool.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -181,8 +182,7 @@ namespace Util
 				return result;
 			}
 
-
-			std::string EncryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			static std::string EncryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
 			{
 				std::string outputChars(stringToDecrypt.size(), '\0');
 				for (int i = 0; i < stringToDecrypt.size(); i++)
@@ -192,7 +192,7 @@ namespace Util
 				return outputChars;
 			}
 
-			std::string EncryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			static std::string EncryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
 			{
 				std::string outputChars(stringToDecrypt.size(), '\0');
 				for (int i = 0; i < stringToDecrypt.size(); i++)
@@ -202,7 +202,7 @@ namespace Util
 				return outputChars;
 			}
 
-			std::string DecryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			static std::string DecryptString(std::string stringToDecrypt, Wz::WzKey wzKey)
 			{
 				std::string outputString = "";
 				for (int i = 0; i < stringToDecrypt.size(); i++)
@@ -212,7 +212,7 @@ namespace Util
 				return outputString;
 			}
 
-			std::string DecryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
+			static std::string DecryptNonUnicodeString(std::string stringToDecrypt, Wz::WzKey wzKey)
 			{
 				std::string outputString = "";
 				for (int i = 0; i < stringToDecrypt.size(); i++)
@@ -220,6 +220,20 @@ namespace Util
 					outputString += (char)(stringToDecrypt[i] ^ wzKey[i]);
 				}
 				return outputString;
+			}
+
+			static uint32_t ReadOffset(BinaryTool* tool, Wz::WzFile* file)
+			{
+				uint32_t offset = (uint32_t)tool->tellg();
+				offset = (offset - file->GetHeader()->m_FileStart)^ std::numeric_limits<uint32_t>::max();
+				offset *= file->GetVersionHash();
+				offset -= Net::Crypto::Constants::WZ_OFFSET;
+				offset = BitTool::RollLeft(offset, (byte)(offset & 0x1F));
+
+				uint32_t encryptedOffset = tool->ReadInt();
+				offset ^= encryptedOffset;
+				offset += file->GetHeader()->m_FileStart * 2;
+				return offset;
 			}
 		};
 }

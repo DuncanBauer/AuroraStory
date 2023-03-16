@@ -175,7 +175,7 @@ namespace Net
             static const size_t WZ_OFFSET = 0x581C3F6D; // For WZ files
 
             static const byte WZ_GMS_IV[] = { 0x4D, 0x23, 0xC7, 0x2B }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
-            static const byte WZ_MSEA_IV[] = { 0x4D, 0x23, 0xC7, 0x2B }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
+            static const byte WZ_MSEA_IV[] = { 0xB9, 0x7D, 0x63, 0xE9 }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
             static const byte DEFAULT_AES_KEY_VALUE[] = {
                 0xC6, 0x50, 0x53, 0xF2, 0xA8, 0x42, 0x9D, 0x7F, 0x77, 0x09, 0x1D, 0x26, 0x42, 0x53, 0x88, 0x7C
             };
@@ -191,16 +191,13 @@ namespace Net
                 0x33, 0x00, 0x00, 0x00, 0x55, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00,
                 0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
             };
-            static const byte TRIMMED_DEFAULT_MAPLESTORY_USER_KEY[] = {
-                0x13, 0x08, 0x06, 0xB4, 0x1B, 0x0F, 0x33, 0x52
-            };
 
             static ByteBuffer GetTrimmedUserKey()
             {
-                ByteBuffer key;
+                ByteBuffer key(32);
                 for (size_t i = 0; i < 128; i += 16)
                 {
-                    key.push_back(DEFAULT_MAPLESTORY_USER_KEY[i]);
+                    key[i / 4] = DEFAULT_MAPLESTORY_USER_KEY[i];
                 }
                 return key;
             }

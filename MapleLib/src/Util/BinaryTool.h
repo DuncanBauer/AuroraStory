@@ -2,6 +2,8 @@
 
 #include "Maple.h"
 
+#include "Wz/WzKey.h"
+
 #include <fstream>
 #include <ios>
 #include <string>
@@ -41,16 +43,18 @@ namespace Util
 			BinaryTool& operator>>(T& data);
 
 			byte ReadByte();
+			signed char ReadSByte();
 			ByteBuffer ReadBytes(int count);
 			uint16_t ReadShort();
 			int16_t ReadSShort();
 			uint32_t ReadInt();
 			int32_t ReadSInt();
+			int32_t ReadCompressedInt();
 			uint64_t ReadLong();
 			int64_t ReadSLong();
 			float ReadFloat();
 			double ReadDouble();
-			std::string ReadString();
+			std::string ReadString(Wz::WzKey* wzKey);
 			std::string ReadString(int length);
 			std::string ReadNullTerminatedString();
 			std::string ReadUnicodeString(int length);

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <sstream>
 
 #ifdef _WIN32
@@ -244,6 +245,14 @@ namespace Util
 		return result;
 	}
 
+	signed char BinaryTool::ReadSByte()
+	{
+		char result;
+		read(&result, 1);
+
+		return result;
+	}
+
 	ByteBuffer BinaryTool::ReadBytes(int count)
 	{
 		ByteBuffer buff(count);
@@ -320,6 +329,16 @@ namespace Util
 		return result;
 	}
 
+	int32_t BinaryTool::ReadCompressedInt()
+	{
+		signed char c = ReadSByte();
+		if (c == std::numeric_limits<signed char>::lowest())
+		{
+			return ReadInt();
+		}
+		return c;
+	}
+
 	uint64_t BinaryTool::ReadLong()
 	{
 		uint64_t r1, r2, r3, r4,
@@ -388,10 +407,68 @@ namespace Util
 		return data;
 	}
 
-	std::string BinaryTool::ReadString()
+	std::string BinaryTool::ReadString(Wz::WzKey* wzKey)
 	{
-		std::string data;
-		return data;
+		signed char smallLength = ReadSByte();
+
+		if (smallLength == 0)
+		{
+			return "";
+		}
+
+		int length;
+		std::stringstream retString;
+		if (smallLength > 0) // Unicode
+		{
+			unsigned short mask = 0xAAAA;
+			if (smallLength == (std::numeric_limits<signed char>::max)())
+			{
+				length = ReadInt();
+			}
+			else
+			{
+				length = (int)smallLength;
+			}
+			if (length <= 0)
+			{
+				return "";
+			}
+
+			for (int i = 0; i < length; i++)
+			{
+				uint16_t encryptedChar = ReadShort();
+				encryptedChar ^= mask;
+				encryptedChar ^= (uint16_t)(((*wzKey)[i * 2 + 1] << 8) + (*wzKey)[i * 2]);
+				retString << ((char)encryptedChar);
+				mask++;
+			}
+		}
+		else
+		{ // ASCII
+			byte mask = 0xAA;
+			if (smallLength == (std::numeric_limits<signed char>::max)())
+			{
+				length = ReadInt();
+			}
+			else
+			{
+				length = (int)(-smallLength);
+			}
+			if (length <= 0)
+			{
+				return "";
+			}
+
+			for (int i = 0; i < length; i++)
+			{
+				byte encryptedChar = ReadByte();
+				encryptedChar ^= mask;
+				encryptedChar ^= (byte)(*wzKey)[i];
+				retString << (char)encryptedChar;
+				mask++;
+			}
+		}
+		return retString.str();
 	}
 
 	std::string BinaryTool::ReadString(int length)

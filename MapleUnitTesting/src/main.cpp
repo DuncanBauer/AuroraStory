@@ -2,6 +2,7 @@
 
 #include "Maple.h"
 #include "Wz/WzFile.h"
+#include "Util/WzTool.h"
 
 #include "Util/BinaryTool.h"
 
@@ -24,61 +25,126 @@ int main(int argc, char** argv)
 	Wz::WzFile reactor;
 	Wz::WzFile skill;
 	Wz::WzFile sound;
-	Wz::WzFile string;
+	Wz::WzFile string("String.wz", 83, Wz::WzMapleVersion::GMS);
 	Wz::WzFile tamingmob;
 	Wz::WzFile ui;
 
 	try
 	{
-		//Util::MemoryMappedFile* mmFile = Util::BinaryTool::MapFile("test.txt");
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
-		//std::cout << Util::BinaryTool::ReadShort(mmFile) << '\n';
-		//std::cin.ignore(1000, '\n');
-
-
-		Wz::WzFile string("String.wz", 83, Wz::WzMapleVersion::GMS);
 		Util::BinaryTool tool("String.wz", std::ios::binary | std::ios::in);
 		
 		// Read header
-		std::string Ident = tool.ReadString(4);
-		long FSize = tool.ReadLong();
-		int FStart = tool.ReadInt();
-		std::string Copyright = tool.ReadNullTerminatedString();
-		
-		std::cout << "IDENT: " << Ident << '\n';
-		std::cout << "FSIZE: " << FSize << '\n';
-		std::cout << "FSTART: " << FStart << '\n';
-		std::cout << "COPYRIGHT: " << Copyright << '\n';
+		Wz::WzHeader* header = new Wz::WzHeader();
+		header->m_Ident = tool.ReadString(4);
+		header->m_FileSize = tool.ReadLong();
+		header->m_FileStart = tool.ReadInt();
+		header->m_Copyright = tool.ReadNullTerminatedString();
+		string.SetHeader(header);
+		std::cout << "IDENT: " << header->m_Ident << '\n';
+		std::cout << "FSIZE: " << header->m_FileSize << '\n';
+		std::cout << "FSTART: " << header->m_FileStart << '\n';
+		std::cout << "COPYRIGHT: " << header->m_Copyright << '\n';
 
 		// This is just to clear any buffer space between the header and the file data
 		std::cout << "Cursor Pos: " << tool.tellg() << '\n';
-		tool.ReadBytes((int)(FStart - tool.tellg()));
+		tool.ReadBytes((int)(header->m_FileStart - tool.tellg()));
 
 		// Get file version
-		short file_version = tool.ReadShort();
-		std::cout << "FILE_VERSION: " << file_version << '\n';
+		short fileVersion = tool.ReadShort();
+		std::cout << "FILE_VERSION: " << fileVersion << '\n';
 
 		// If the file version couldnt be retrieved for some reason
-		if (file_version == -1)
+		// we need to try to find it ourselfs
+		if (fileVersion == -1)
 		{
 			throw;
 		}
-		
+
+		// parse directorys
+		// 
 		//this.versionHash = GetVersionHash(version, fileVersion);
 		//reader.Hash = this.versionHash;
 		//WzDirectory directory = new WzDirectory(reader, this.name, this.versionHash, this.WzIv, this);
 		//directory.ParseDirectory();
 		//this.wzDir = directory;
 
+		Wz::WzKey* wzKey = new Wz::WzKey(Wz::WzKey::GenerateGMSWzKey());
+
+		std::cout << "IV: ";
+		for (int i = 0; i < wzKey->m_IV.size(); i++)
+		{
+			std::cout << wzKey->m_IV[i] << ' ';
+		}
+		std::cout << '\n';
+
+		std::cout << "AES KEY: ";
+		for (int i = 0; i < wzKey->m_AESKey.size(); i++)
+		{
+			std::cout << wzKey->m_AESKey[i] << ' ';
+		}
+		std::cout << '\n';
+		std::cout << "AES KEY SIZE: " << wzKey->m_AESKey.size() << '\n';
+		std::cin.ignore(1000, '\n');
+		
+		int32_t entryCount = tool.ReadCompressedInt();
+		std::cout << "ENTRY_COUNT: " << entryCount << '\n';
+		std::cin.ignore(1000, '\n');
+
+		for (int i = 0; i < entryCount; i++)
+		{
+			byte type = tool.ReadByte();
+			std::string fname = "";
+			int32_t fsize, checksum = 0;
+			uint32_t offset = 0;
+			uint64_t rememberPos = 0;
+
+			if (type == 1)
+			{
+				int32_t unknownInt = tool.ReadInt();
+				int16_t unknownShort = tool.ReadShort();
+				uint32_t offset = Util::WzTool::ReadOffset(&tool, &string);
+			
+				std::cout << "UNKNOWN_INT: " << unknownInt << '\n';
+				std::cout << "UNKNOWN_SHORT: " << unknownShort << '\n';
+				std::cout << "OFFSET: " << offset << '\n';
+			
+				continue;
+			}
+			else if (type == 2)
+			{
+				int stringOffset = tool.ReadInt();
+				rememberPos = tool.tellg();
+				tool.seekg(string.GetHeader()->m_FileStart + stringOffset);
+				type = tool.ReadByte();
+				fname = tool.ReadString(wzKey);
+
+				std::cout << "FNAME: " << fname << '\n';
+				std::cout << "TYPE: " << type << '\n';
+			}
+			else if (type == 3 || type == 4)
+			{
+				fname = tool.ReadString(wzKey);
+				rememberPos = tool.tellg();
+
+				std::cout << "FNAME: " << fname << '\n';
+			}
+			else
+			{
+				tool.seekg(rememberPos);
+				fsize = tool.ReadCompressedInt();
+				checksum = tool.ReadCompressedInt();
+				offset = Util::WzTool::ReadOffset(&tool, &string);
+
+				std::cout << "FSIZE: " << fsize << '\n';
+				std::cout << "CHECKSUM: " << checksum << '\n';
+				std::cout << "OFFSET: " << offset << '\n';
+			}
+		}
+
 		tool.close();
+		std::cin.ignore(1000, '\n');
+
+
 
 
 
@@ -95,21 +161,6 @@ int main(int argc, char** argv)
 		//tool.close();
 		//std::cin.ignore(1000, '\n');
 
-		//std::cout << "Reading\n";
-		//tool.open("test2.wz", std::ios::binary | std::ios::in);
-		//std::cout << tool.ReadByte() << '\n';
-		//std::cout << tool.ReadShort() << '\n';
-		//std::cout << tool.ReadInt() << '\n';
-		//std::cout << tool.ReadLong() << '\n';
-		//std::cout << tool.ReadFloat() << '\n';
-		//std::cout << tool.ReadDouble() << '\n';
-		//std::cout << tool.ReadString(37) << '\n';
-		//std::cout << tool.ReadNullTerminatedString() << '\n';
-		//tool.close();
-		//std::cin.ignore(1000, '\n');
-
-
-		std::cin.ignore(1000, '\n');
 
 
 
@@ -121,38 +172,12 @@ int main(int argc, char** argv)
 		//Util::BinaryTool::WriteLong(mmFile2, 1980109119);
 		//std::cin.ignore(1000, '\n');
 
-
-
-
-
-
-
-
-
-
 		//Util::MemoryMappedFile* mmFile = Util::BinaryTool::MapFile("Base.wz");
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cin.ignore(1000, '\n');
-
-		//character.OpenWzFile("Character.wz");
-		//effect.OpenWzFile("Effect.wz");
-		//etc.OpenWzFile("Etc.wz");
-		//item.OpenWzFile("Item.wz");
-		//list.OpenWzFile("List.wz");
-		//map.OpenWzFile("Map.wz");
-		//mob.OpenWzFile("Mob.wz");
-		//morph.OpenWzFile("Morph.wz");
-		//npc.OpenWzFile("Npc.wz");
-		//quest.OpenWzFile("Quest.wz");
-		//reactor.OpenWzFile("Reactor.wz");
-		//skill.OpenWzFile("Skill.wz");
-		//sound.OpenWzFile("Sound.wz");
-		//string.OpenWzFile("String.wz");
-		//tamingmob.OpenWzFile("TamingMob.wz");
-		//ui.OpenWzFile("UI.wz");
 	}
 	catch (std::exception e)
 	{
