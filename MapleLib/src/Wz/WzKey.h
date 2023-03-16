@@ -40,16 +40,6 @@ namespace Wz
 				return m_Keys[index];
 			}
 
-			int ToInt32(ByteBuffer bytes, int startIndex)
-			{
-				int value = 0;
-				for (int i = 0; i < 4; i++)
-				{
-					value |= static_cast<int>(bytes[(size_t)startIndex + i]) << (i * 8);
-				}
-				return value;
-			}
-
 			void EnsureKeySize(int size)
 			{
 				if (m_Keys.size() > size)
@@ -60,7 +50,7 @@ namespace Wz
 				size = (int)ceil(1.0 * size / m_BatchSize) * m_BatchSize;
 				ByteBuffer newKeys(size);
 
-				if (ToInt32(m_IV, 0) == 0)
+				if (Util::BitTool::ToInt32(m_IV, 0) == 0)
 				{
 					m_Keys = newKeys;
 					return;
@@ -97,6 +87,8 @@ namespace Wz
 			static ByteBuffer GetIvFromZlz(std::ifstream zlzStream)
 			{
 				ByteBuffer iv(4);
+				zlzStream.seekg(0x10040);
+				zlzStream.read((char*)(iv.data()), 4);
 			//	zlzStream.Seek(0x10040, SeekOrigin.Begin);
 			//	zlzStream.Read(iv, 0, 4);
 				return iv;
@@ -105,6 +97,13 @@ namespace Wz
 			static ByteBuffer GetAesKeyFromZlz(std::ifstream zlzStream)
 			{
 				ByteBuffer aes(32);
+				zlzStream.seekg(0x10060);
+
+				for (int i = 0; i < 8; i++)
+				{
+					zlzStream.read((char*)(aes.data()), 4);
+					zlzStream.seekg(0x10060 + (i * 12));
+				}
 			//	zlzStream.Seek(0x10060, SeekOrigin.Begin);
 			//	for (int i = 0; i < 8; i++)
 			//	{

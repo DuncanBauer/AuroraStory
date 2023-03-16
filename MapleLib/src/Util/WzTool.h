@@ -18,16 +18,6 @@ namespace Util
 		public:
 			static std::map<std::string, int> StringCache;
 
-			static unsigned int RotateLeft(unsigned int x, byte n)
-			{
-				return (unsigned int)(((x) << (n)) | ((x) >> (32 - (n))));
-			}
-
-			static unsigned int RotateRight(unsigned int x, byte n)
-			{
-				return (unsigned int)(((x) >> (n)) | ((x) << (32 - (n))));
-			}
-
 			static int GetCompressedIntLength(int i)
 			{
 				if (i > 127 || i < -127)

@@ -415,7 +415,7 @@ namespace Util
 		Write((byte)'\0');
 	}
 
-	std::string EncryptString(std::string stringToDecrypt)
+	std::string BinaryTool::EncryptString(std::string stringToDecrypt)
 	{
 		std::string outputChars(stringToDecrypt.size(), '\0');
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
@@ -423,7 +423,7 @@ namespace Util
 		return outputChars;
 	}
 
-	std::string EncryptNonUnicodeString(std::string stringToDecrypt)
+	std::string BinaryTool::EncryptNonUnicodeString(std::string stringToDecrypt)
 	{
 		std::string outputChars(stringToDecrypt.size(), '\0');
 		//for (int i = 0; i < stringToDecrypt.size(); i++)
