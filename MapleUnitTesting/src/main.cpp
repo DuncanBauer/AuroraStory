@@ -72,11 +72,11 @@ int main(int argc, char** argv)
 			throw;
 		}
 		
-		string.GetVersionHash = string.GetVersionHash(string.GetVersion(), string.GetFileVersion());
-		reader.Hash = this.versionHash;
-		WzDirectory directory = new WzDirectory(reader, this.name, this.versionHash, this.WzIv, this);
-		directory.ParseDirectory();
-		this.wzDir = directory;
+		//this.versionHash = GetVersionHash(version, fileVersion);
+		//reader.Hash = this.versionHash;
+		//WzDirectory directory = new WzDirectory(reader, this.name, this.versionHash, this.WzIv, this);
+		//directory.ParseDirectory();
+		//this.wzDir = directory;
 
 		tool.close();
 
