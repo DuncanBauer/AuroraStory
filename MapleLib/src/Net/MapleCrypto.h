@@ -2,6 +2,7 @@
 
 // Project headers
 #include "Maple.h"
+#include "../Util/BitTool.h"
 
 // C++ headers
 #include <string>
@@ -169,7 +170,6 @@ namespace Net
 
     namespace Crypto
     {
-
         namespace Constants
         {
             static const size_t WZ_OFFSET = 0x581C3F6D; // For WZ files
@@ -347,11 +347,11 @@ namespace Net
                         for (j = length; j > 0; j--)
                         {
                             c = data[length - j];
-                            c = RollLeft(c, 3);
+                            c = Util::BitTool::RollLeft(c, 3);
                             c = (byte)(c + j);
                             c ^= a;
                             a = c;
-                            c = RollRight(a, j);
+                            c = Util::BitTool::RollRight(a, j);
                             c ^= 0xFF;
                             c += 0x48;
                             data[length - j] = c;
@@ -361,12 +361,12 @@ namespace Net
                         for (j = length; j > 0; --j)
                         {
                             c = data[j - 1];
-                            c = RollLeft(c, 4);
+                            c = Util::BitTool::RollLeft(c, 4);
                             c = (byte)(c + j);
                             c ^= a;
                             a = c;
                             c ^= 0x13;
-                            c = RollRight(c, 3);
+                            c = Util::BitTool::RollRight(c, 3);
                             data[j - 1] = c;
                         }
                     }
@@ -386,12 +386,12 @@ namespace Net
                         for (j = length; j > 0; --j)
                         {
                             c = data[j - 1];
-                            c = RollLeft(c, 3);
+                            c = Util::BitTool::RollLeft(c, 3);
                             c ^= 0x13;
                             a = c;
                             c ^= b;
                             c = (byte)(c - j);
-                            c = RollRight(c, 4);
+                            c = Util::BitTool::RollRight(c, 4);
                             b = a;
                             data[j - 1] = c;
                         }
@@ -403,11 +403,11 @@ namespace Net
                             c = data[length - j];
                             c -= 0x48;
                             c ^= 0xFF;
-                            c = RollLeft(c, j);
+                            c = Util::BitTool::RollLeft(c, j);
                             a = c;
                             c ^= b;
                             c = (c - j);
-                            c = RollRight(c, 3);
+                            c = Util::BitTool::RollRight(c, 3);
                             b = a;
                             data[length - j] = c;
                         }
@@ -415,19 +415,6 @@ namespace Net
                 }
 
             private:
-                // Bitwise operations
-                static byte RollLeft(byte val, int num)
-                {
-                    num &= 7;
-                    return static_cast<unsigned char>((val << num) | (val >> (8 - num)));
-                }
-                static byte RollRight(byte val, int num)
-                {
-                    num &= 7;
-                    return (val >> num) | (val << (8 - num));
-                    return static_cast<unsigned char>((val >> num) | (val << (8 - num)));
-                }
-
                 // Bytewise operations
                 static void shuffle(byte inputByte, ByteBuffer start)
                 {

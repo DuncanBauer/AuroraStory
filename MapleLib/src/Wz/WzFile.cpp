@@ -3,7 +3,7 @@
 #include "WzFile.h"
 #include "WzHeader.h"
 #include "WzDirectory.h"
-#include "WzTool.h"
+#include "../Util/WzTool.h"
 
 #ifdef _WIN32
 	#include <windows.h>
@@ -35,7 +35,7 @@ namespace Wz
 		m_FileVersion = gameVersion;
 		m_MapleVersion = mapleVersion;
 		
-		const byte* iv = WzTool::GetIvByMapleVersion(mapleVersion);
+		const byte* iv = Util::WzTool::GetIvByMapleVersion(mapleVersion);
 		ByteBuffer temp = { iv[0], iv[1], iv[2], iv[3] };
 		m_WzIV = temp;
 		m_Directory->m_WzIV = m_WzIV;

@@ -2,16 +2,16 @@
 
 #include "Maple.h"
 
-#include "WzFile.h"
-#include "WzDirectory.h"
-#include "WzEnums.h"
+#include "../Wz/WzFile.h"
+#include "../Wz/WzDirectory.h"
+#include "../Wz/WzEnums.h"
 
 #include <algorithm>
 #include <filesystem>
 #include <map>
 #include <string>
 
-namespace Wz
+namespace Util
 {
 	class WzTool
 	{
@@ -89,16 +89,16 @@ namespace Wz
 			//	}
 			//}
 
-			static const byte* GetIvByMapleVersion(WzMapleVersion ver)
+			static const byte* GetIvByMapleVersion(Wz::WzMapleVersion ver)
 			{
 				switch (ver)
 				{
-					case WzMapleVersion::EMS:
+					case Wz::WzMapleVersion::EMS:
 						return Net::Crypto::Constants::WZ_MSEA_IV;//?
-					case WzMapleVersion::GMS:
+					case Wz::WzMapleVersion::GMS:
 						return Net::Crypto::Constants::WZ_GMS_IV;
-					case WzMapleVersion::BMS:
-					case WzMapleVersion::CLASSIC:
+					case Wz::WzMapleVersion::BMS:
+					case Wz::WzMapleVersion::CLASSIC:
 					default:
 						return new byte[4];
 				}
@@ -113,16 +113,16 @@ namespace Wz
 				return result;
 			}
 
-			static double GetDecryptionSuccessRate(std::string wzPath, WzMapleVersion encVersion, short version)
+			static double GetDecryptionSuccessRate(std::string wzPath, Wz::WzMapleVersion encVersion, short version)
 			{
-				WzFile* wzf;
+				Wz::WzFile* wzf;
 				if (version)
 				{
-					wzf = new WzFile(wzPath, encVersion);
+					wzf = new Wz::WzFile(wzPath, encVersion);
 				}
 				else
 				{
-					wzf = new WzFile(wzPath, (short)version, encVersion);
+					wzf = new Wz::WzFile(wzPath, (short)version, encVersion);
 				}
 			
 				wzf->ParseWzFile();
@@ -133,13 +133,13 @@ namespace Wz
 			
 				int recognizedChars = 0;
 				int totalChars = 0;
-				for(WzDirectory wzdir: wzf->GetDirectory()->GetSubDirs())
+				for(Wz::WzDirectory wzdir: wzf->GetDirectory()->GetSubDirs())
 				{
 					recognizedChars += GetRecognizedCharacters(wzdir.GetName());
 					totalChars += (int)(wzdir.GetName().size());
 				}
 
-				for(WzImage wzimg: wzf->GetDirectory()->GetImages())
+				for(Wz::WzImage wzimg: wzf->GetDirectory()->GetImages())
 				{
 					recognizedChars += GetRecognizedCharacters(wzimg.GetName());
 					totalChars += (int)(wzimg.GetName().size());
@@ -147,26 +147,26 @@ namespace Wz
 				return (double)recognizedChars / (double)totalChars;
 			}
 
-			static WzMapleVersion DetectMapleVersion(std::string wzFilePath, short fileVersion)
+			static Wz::WzMapleVersion DetectMapleVersion(std::string wzFilePath, short fileVersion)
 			{
 				std::map<Wz::WzMapleVersion, double> mapleVersionSuccessRates;
 				short version = 0;
-				mapleVersionSuccessRates.emplace(WzMapleVersion::GMS, GetDecryptionSuccessRate(wzFilePath, WzMapleVersion::GMS, version));
-				mapleVersionSuccessRates.emplace(WzMapleVersion::EMS, GetDecryptionSuccessRate(wzFilePath, WzMapleVersion::EMS, version));
-				mapleVersionSuccessRates.emplace(WzMapleVersion::BMS, GetDecryptionSuccessRate(wzFilePath, WzMapleVersion::BMS, version));
+				mapleVersionSuccessRates.emplace(Wz::WzMapleVersion::GMS, GetDecryptionSuccessRate(wzFilePath, Wz::WzMapleVersion::GMS, version));
+				mapleVersionSuccessRates.emplace(Wz::WzMapleVersion::EMS, GetDecryptionSuccessRate(wzFilePath, Wz::WzMapleVersion::EMS, version));
+				mapleVersionSuccessRates.emplace(Wz::WzMapleVersion::BMS, GetDecryptionSuccessRate(wzFilePath, Wz::WzMapleVersion::BMS, version));
 		
 				fileVersion = (short)version;
-				WzMapleVersion mostSuitableVersion = WzMapleVersion::GMS;
+				Wz::WzMapleVersion mostSuitableVersion = Wz::WzMapleVersion::GMS;
 				double maxSuccessRate = 0;
 				for(auto const& mapleVersionEntry: mapleVersionSuccessRates)
 					if (mapleVersionEntry.second> maxSuccessRate)
 					{
-						mostSuitableVersion = (WzMapleVersion)mapleVersionEntry.first;
+						mostSuitableVersion = (Wz::WzMapleVersion)mapleVersionEntry.first;
 						maxSuccessRate = (double)mapleVersionEntry.second;
 					}
 				if (maxSuccessRate < 0.7 && std::filesystem::exists(wzFilePath + "ZLZ.dll"))
 				{
-					return WzMapleVersion::GETFROMZLZ;
+					return Wz::WzMapleVersion::GETFROMZLZ;
 				}
 				else
 				{

@@ -5,6 +5,8 @@
 
 namespace Wz
 {
+	using ByteBuffer = std::vector<unsigned char>;
+
 	class WzDirectory;
 
 	class AURORA_MAPLE_API WzFile : public WzObject
@@ -41,7 +43,7 @@ namespace Wz
 			short m_Version = 0;
 			unsigned int m_VersionHash = 0;
 			short m_FileVersion = 0;
-			WzMapleVersion m_MapleVersion = WzMapleVersion::GMS;
+			WzMapleVersion m_MapleVersion = WzMapleVersion::GMS; // GMS / MSEA / JMS / ETC
 			std::string m_FilePath;
 			ByteBuffer m_WzIV;
 
