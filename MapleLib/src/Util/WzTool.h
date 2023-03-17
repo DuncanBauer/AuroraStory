@@ -85,9 +85,9 @@ namespace Util
 				switch (ver)
 				{
 					case Wz::WzMapleVersion::EMS:
-						return Net::Crypto::Constants::WZ_MSEA_IV;//?
+						return Constants::WZ_MSEA_IV;//?
 					case Wz::WzMapleVersion::GMS:
-						return Net::Crypto::Constants::WZ_GMS_IV;
+						return Constants::WZ_GMS_IV;
 					case Wz::WzMapleVersion::BMS:
 					case Wz::WzMapleVersion::CLASSIC:
 					default:
@@ -227,7 +227,7 @@ namespace Util
 				uint32_t offset = (uint32_t)tool->tellg();
 				offset = (offset - file->GetHeader()->m_FileStart)^ std::numeric_limits<uint32_t>::max();
 				offset *= file->GetVersionHash();
-				offset -= Net::Crypto::Constants::WZ_OFFSET;
+				offset -= Constants::WZ_FILE_OFFSET;
 				offset = BitTool::RollLeft(offset, (byte)(offset & 0x1F));
 
 				uint32_t encryptedOffset = tool->ReadInt();

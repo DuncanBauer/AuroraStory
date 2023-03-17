@@ -128,14 +128,14 @@ namespace Wz
 
 			static WzKey GenerateWzKey(ByteBuffer iv)
 			{
-				return WzKey(iv, ByteBuffer(Net::Crypto::Constants::GetTrimmedUserKey()));
+				return WzKey(iv, ByteBuffer(Constants::GetTrimmedUserKey()));
 			}
 
 			static WzKey GenerateGMSWzKey()
 			{
-				return WzKey(ByteBuffer(Net::Crypto::Constants::WZ_GMS_IV, 
-										Net::Crypto::Constants::WZ_GMS_IV + 4),
-							 ByteBuffer(Net::Crypto::Constants::GetTrimmedUserKey()));
+				return WzKey(ByteBuffer(Constants::WZ_GMS_IV, 
+										Constants::WZ_GMS_IV + 4),
+							 ByteBuffer(Constants::GetTrimmedUserKey()));
 			}
 
 			ByteBuffer m_AESKey;

@@ -9,28 +9,39 @@
 int main(int argc, char** argv)
 {
 	std::cout << "MapleUnitTesting\n";
-	std::cout << "Testing WzLib\n";
-	std::cout << "Importing WzFiles\n";
-	Wz::WzFile base;
-	Wz::WzFile character;
-	Wz::WzFile effect;
-	Wz::WzFile etc;
-	Wz::WzFile item;
-	Wz::WzFile list;
-	Wz::WzFile map;
-	Wz::WzFile mob;
-	Wz::WzFile morph;
-	Wz::WzFile npc;
-	Wz::WzFile quest;
-	Wz::WzFile reactor;
-	Wz::WzFile skill;
-	Wz::WzFile sound;
-	Wz::WzFile string("String.wz", 83, Wz::WzMapleVersion::GMS);
-	Wz::WzFile tamingmob;
-	Wz::WzFile ui;
-
 	try
 	{
+
+
+
+
+
+
+
+
+
+
+/*
+		std::cout << "Testing WzLib\n";
+		std::cout << "Importing WzFiles\n";
+		Wz::WzFile base;
+		Wz::WzFile character;
+		Wz::WzFile effect;
+		Wz::WzFile etc;
+		Wz::WzFile item;
+		Wz::WzFile list;
+		Wz::WzFile map;
+		Wz::WzFile mob;
+		Wz::WzFile morph;
+		Wz::WzFile npc;
+		Wz::WzFile quest;
+		Wz::WzFile reactor;
+		Wz::WzFile skill;
+		Wz::WzFile sound;
+		Wz::WzFile string("String.wz", 83, Wz::WzMapleVersion::GMS);
+		Wz::WzFile tamingmob;
+		Wz::WzFile ui;
+
 		Util::BinaryTool tool("String.wz", std::ios::binary | std::ios::in);
 		
 		// Read header
@@ -178,6 +189,7 @@ int main(int argc, char** argv)
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cout << Util::BinaryTool::ReadByte(mmFile) << '\n';
 		//std::cin.ignore(1000, '\n');
+*/
 	}
 	catch (std::exception e)
 	{
