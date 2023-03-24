@@ -4,10 +4,13 @@
 
 #include "../Net/MapleCrypto.h"
 
-#include <cryptopp/aes.h>
-#include <cryptopp/cryptlib.h>
-#include <cryptopp/modes.h>
-#include <cryptopp/osrng.h>
+#include <plusaes/plusaes.hpp>
+//#include <cryptopp/aes.h>
+//#include <cryptopp/cryptlib.h>
+//#include <cryptopp/modes.h>
+//#include <cryptopp/osrng.h>
+
+#include <iostream>
 
 namespace Wz
 {
@@ -97,10 +100,10 @@ namespace Wz
 
 			static ByteBuffer GetIvFromZlz()
 			{
-				std::ifstream zlzStream("ZLZ.dll");
+				//std::ifstream zlzStream("ZLZ.dll");
 				ByteBuffer iv(4);
-				zlzStream.seekg(0x10040);
-				zlzStream.read((char*)(iv.data()), 4);
+				//zlzStream.seekg(0x10040);
+				//zlzStream.read((char*)(iv.data()), 4);
 			//	zlzStream.Seek(0x10040, SeekOrigin.Begin);
 			//	zlzStream.Read(iv, 0, 4);
 				return iv;
@@ -108,15 +111,15 @@ namespace Wz
 
 			static ByteBuffer GetAesKeyFromZlz()
 			{
-				std::ifstream zlzStream("ZLZ.dll");
+				//std::ifstream zlzStream("ZLZ.dll");
 				ByteBuffer aes(32);
-				zlzStream.seekg(0x10060);
+				//zlzStream.seekg(0x10060);
 
-				for (int i = 0; i < 8; i++)
-				{
-					zlzStream.read((char*)(aes.data()), 4);
-					zlzStream.seekg(0x10060 + (i * 12));
-				}
+				//for (int i = 0; i < 8; i++)
+				//{
+				//	zlzStream.read((char*)(aes.data()), 4);
+				//	zlzStream.seekg(0x10060 + (i * 12));
+				//}
 			//	zlzStream.Seek(0x10060, SeekOrigin.Begin);
 			//	for (int i = 0; i < 8; i++)
 			//	{

@@ -24,6 +24,7 @@
 
 #include "TCPConnection.h"
 #include "Net/MapleCrypto.h"
+#include "Net/MapleAES.h"
 #include "PacketParser.h"
 
 class MapleClient : public TCPConnection
@@ -45,18 +46,18 @@ class MapleClient : public TCPConnection
          ****************/
         void start()
         {
-            byte* recvIV = this->recvCipher->getIV();
-            byte* sendIV = this->sendCipher->getIV();
+            ByteBuffer recvIV = this->recvCipher->getIV();
+            ByteBuffer sendIV = this->sendCipher->getIV();
 
             // This is the packet for the v83 MapleStory Global(NA) handshake
-            byte* buff;
-            PacketParser::writeShort(&buff, 0x0E);
-            PacketParser::writeShort(&buff, 83);
-            PacketParser::writeShort(&buff, 1);
-            PacketParser::writeByte(&buff, 49);
-            PacketParser::writeByte(&buff, &recvIV);
-            PacketParser::writeByte(&buff, &sendIV);
-            PacketParser::writeByte(&buff, 8);
+            ByteBuffer buff;
+            PacketParser::writeShort(buff, 0x0E);
+            PacketParser::writeShort(buff, 83);
+            PacketParser::writeShort(buff, 1);
+            PacketParser::writeByte(buff, 49);
+            PacketParser::writeByte(buff, recvIV);
+            PacketParser::writeByte(buff, sendIV);
+            PacketParser::writeByte(buff, 8);
 
             this->pushOntoWriteQueue(std::string(buff.begin(), buff.end()));
             this->write();
@@ -97,11 +98,11 @@ class MapleClient : public TCPConnection
     private:
         MapleClient(boost::asio::io_context& _ioContext) : TCPConnection(_ioContext) 
         {
-            byte recvIV[] = {70, 114, 122,  82};
-            byte sendIV[] = {82,  48, 120, 115};
+            ByteBuffer recvIV = {70, 114, 122,  82};
+            ByteBuffer sendIV = {82,  48, 120, 115};
 
-            this->recvCipher = new Maple::Crypto::MapleCrypto((short)83, recvIV, false);
-            this->sendCipher = new Maple::Crypto::MapleCrypto((short)(0xFFFF - 83), sendIV, true);
+            this->recvCipher = new Net::Crypto::MapleAES(recvIV, (short)83);
+            this->sendCipher = new Net::Crypto::MapleAES(sendIV, (short)(0xFFFF - 83));
 
             this->setSocketActive(true);
         }
@@ -116,7 +117,7 @@ class MapleClient : public TCPConnection
                 std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + _bytes_transferred);
 
                 std::cout << "DATA: " << std::hex << '\n';
-                byte header[4] = { 0 };
+                ByteBuffer header = { 0 };
                 for(int i = 0; i < _bytes_transferred; ++i)
                 {
                     header[i] = (byte)str[i];
@@ -124,7 +125,7 @@ class MapleClient : public TCPConnection
                 }
                 std::cout << "\n_bytes_transferred: " << _bytes_transferred << '\n';
 
-                short packetLength = Maple::Crypto::MapleCrypto::getPacketLength(header);
+                short packetLength = Net::Crypto::MapleAES::getPacketLength(header);
                 if(packetLength < 2)
                 {
                     this->shutdown();
@@ -177,7 +178,7 @@ class MapleClient : public TCPConnection
                 std::cout << "\n\n";
 
                 std::cout << "(AESDECRYP) ";
-                this->recvCipher->crypt(&bb, bb.size());
+                this->recvCipher->crypt(bb);
                 for(int i = 0; i < bb.size(); ++i)
                 {
                     std::cout << (unsigned int)bb[i] << ' ';
@@ -185,7 +186,7 @@ class MapleClient : public TCPConnection
                 std::cout << "\n\n";
 
                 std::cout << "(DECRYPTED) ";
-                Maple::Crypto::MapleCrypto::MapleDecrypt(bb.data(), bb.size());
+                Net::Crypto::MapleDecrypt(bb);
                 for(int i = 0; i < bb.size(); ++i)
                 {
                     std::cout << (unsigned int)bb[i] << ' ';
@@ -195,9 +196,9 @@ class MapleClient : public TCPConnection
                 std::cout << std::dec;
                 if(bb.size() > 30)
                 {
-                    short version = PacketParser::readShort(&bb);
-                    std::string username = PacketParser::readMapleString(&bb);
-                    std::string password = PacketParser::readMapleString(&bb);
+                    short version = PacketParser::readShort(bb);
+                    std::string username = PacketParser::readMapleString(bb);
+                    std::string password = PacketParser::readMapleString(bb);
                     std::cout << "Version: "  << version << '\n';
                     std::cout << "Username: " << username << '\n';
                     std::cout << "Password: " << password << '\n';
@@ -244,8 +245,8 @@ class MapleClient : public TCPConnection
             }
         }
 
-        Maple::Crypto::MapleCrypto* recvCipher = nullptr;
-        Maple::Crypto::MapleCrypto* sendCipher = nullptr;
+        Net::Crypto::MapleAES* recvCipher = nullptr;
+        Net::Crypto::MapleAES* sendCipher = nullptr;
 };
 
 #endif

@@ -61,7 +61,7 @@ project "MapleLib"
 
 	links
 	{
-		"cryptlib",
+--		"cryptlib",
 		"liblz4_static"
 	}
 
@@ -112,6 +112,7 @@ project "MapleUnitTesting"
 	{
  		"%{IncludeDir.MapleLib}",
  		"%{IncludeDir.CryptoPP}",
+		"%{IncludeDir.aes}",
 	}
 
 	links
@@ -157,7 +158,7 @@ project "MapleServer"
 	{
 		"%{IncludeDir.MapleLib}",
 		"%{IncludeDir.Boost}",
---		"%{IncludeDir.CryptoPP}"
+		"%{IncludeDir.aes}",
 	}
 
 	links
