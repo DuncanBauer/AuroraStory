@@ -8,17 +8,17 @@
 #include <string>
 
 // Third party headers
-#pragma warning(push)
-#pragma warning(disable: 26439)
-#pragma warning(disable: 26451)
-#pragma warning(disable: 26495)
-#include <cryptopp/cryptlib.h>
-#include <cryptopp/rijndael.h>
-#include <cryptopp/modes.h>
-#include <cryptopp/osrng.h>
-#include <cryptopp/files.h>
-#include <cryptopp/hex.h>
-#pragma warning(pop)
+//#pragma warning(push)
+//#pragma warning(disable: 26439)
+//#pragma warning(disable: 26451)
+//#pragma warning(disable: 26495)
+//#include <cryptopp/cryptlib.h>
+//#include <cryptopp/rijndael.h>
+//#include <cryptopp/modes.h>
+//#include <cryptopp/osrng.h>
+//#include <cryptopp/files.h>
+//#include <cryptopp/hex.h>
+//#pragma warning(pop)
 
 namespace Net
 {
@@ -185,10 +185,12 @@ namespace Net
                 {
                   return m_IV;
                 }
+
                 void updateIV()
                 {
                   m_IV = getNewIV(m_IV);
                 }
+                
                 static ByteBuffer getNewIV(ByteBuffer _oldIv)
                 {
                     ByteBuffer start = { 0xf2, 0x53, 0x50, 0xc6 };
@@ -212,6 +214,7 @@ namespace Net
                     header[3] = (byte)((b - header[2]) / 0x100);
                     return header;
                 }
+                
                 ByteBuffer getHeaderToServer(int _size)
                 {
                     ByteBuffer header(4);
@@ -224,16 +227,19 @@ namespace Net
                     header[3] = (byte)(b / 0x100);
                     return header;
                 }
+                
                 static int getPacketLength(int _packetHeader)
                 {
                     int length = (_packetHeader >> 16) ^ (_packetHeader & 0xFFFF);
                     length = ((length << 8) & 0xFF00) | ((length >> 8) & 0xFF);
                     return length;
                 }
+                
                 static unsigned short getPacketLength(ByteBuffer buffer)
                 {
                     return ((*(unsigned short*)(buffer.data())) ^ (*(unsigned short*)(buffer.data() + 2)));
                 }
+                
                 bool checkPacketToServer(ByteBuffer _packet)
                 {
                     int a = _packet[0] ^ m_IV[2];
@@ -273,6 +279,7 @@ namespace Net
                     }
                     this->updateIV();
                 }
+                
                 static std::string AesCrypt(ByteBuffer iv, ByteBuffer data, bool cryptFlag)
                 {
                     return AesCrypt(iv, Constants::GetTrimmedUserKey(), data, cryptFlag);
@@ -316,6 +323,7 @@ namespace Net
                         }
                     }
                 }
+                
                 template<typename T>
                 static void MapleDecrypt(ByteBuffer data, T length)
                 {
@@ -395,6 +403,7 @@ namespace Net
                     start[2] = (byte)(c % 0x100);
                     start[3] = (byte)(c / 0x100);
                 }
+                
                 static void multiplyBytes(ByteBuffer input, ByteBuffer output, int count, int mult)
                 {
                     ByteBuffer retVal(count * mult);

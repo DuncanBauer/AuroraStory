@@ -73,6 +73,22 @@ namespace Util
 			}
 
 			// Bitwise Rotations
+			template<typename R>
+			static R RollLeft(R val, int num) {
+				int dataSize = sizeof(R) - 1;
+				num &= dataSize;
+				return static_cast<byte>(val << num | val >> (dataSize - num));
+			}
+
+			template<typename R>
+			static R RollRight(R val, int num) {
+				int dataSize = sizeof(R) - 1;
+				num &= dataSize;
+				return static_cast<byte>(val >> num | val << (dataSize - num));
+			}
+
+
+
 			static byte RollLeft(byte val, int num)
 			{
 				num &= 7; // Ensures number of bits shifted is less than 8

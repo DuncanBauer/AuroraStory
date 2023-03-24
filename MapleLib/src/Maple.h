@@ -33,7 +33,7 @@ namespace Constants
 {
     // Common
     static const byte WZ_GMS_IV[] = { 0x4D, 0x23, 0xC7, 0x2B }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
-    static const byte WZ_MSEA_IV[] = { 0xB9, 0x7D, 0x63, 0xE9 }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
+    static const byte WZ_MSEA_IV[] = { 0xB9, 0x7D, 0x63, 0xE9 }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83. Used for kms as well?
     static const byte DEFAULT_AES_KEY_VALUE[] = {
         0xC6, 0x50, 0x53, 0xF2, 0xA8, 0x42, 0x9D, 0x7F, 0x77, 0x09, 0x1D, 0x26, 0x42, 0x53, 0x88, 0x7C
     };
@@ -50,7 +50,7 @@ namespace Constants
         0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
     };
 
-    static ByteBuffer GetTrimmedUserKey();
+    //static ByteBuffer GetTrimmedUserKey();
     static ByteBuffer GetTrimmedUserKey()
     {
         ByteBuffer key(32);

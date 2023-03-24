@@ -23,7 +23,7 @@
 #include <memory>
 
 #include "TCPConnection.h"
-#include "Crypto/MapleCrypto.h"
+#include "Net/MapleCrypto.h"
 #include "PacketParser.h"
 
 class MapleClient : public TCPConnection
