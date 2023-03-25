@@ -63,7 +63,7 @@ namespace Net
             //static ByteBuffer AesCrypt(const ByteBuffer _iv, const ByteBuffer _key, const ByteBuffer data, bool cryptFlag)
             static void AesCrypt(const ByteBuffer _iv, const ByteBuffer _key, ByteBuffer& data)
             {
-                const unsigned long encrypted_size = plusaes::get_padded_encrypted_size(data.size());
+                const unsigned long encrypted_size = plusaes::get_padded_encrypted_size((unsigned long)data.size());
                 ByteBuffer encrypted(encrypted_size);
 
                 byte iv[16];
@@ -71,7 +71,7 @@ namespace Net
                     iv[i] = _iv[i];
                 }
 
-                plusaes::encrypt_cbc(data.data(), data.size(), &_key[0], _key.size(), &iv, &encrypted[0], encrypted.size(), true);
+                plusaes::decrypt_cbc(data.data(), (unsigned long)data.size(), &_key[0], (unsigned long)_key.size(), &iv, &encrypted[0], (unsigned long)encrypted.size(), 0);
                 data = encrypted;
             }
 
@@ -153,7 +153,7 @@ namespace Net
             // AES ENCRYPTION
             void crypt(ByteBuffer& _data)
             {
-                size_t remaining = _data.size();
+                int remaining = (int)_data.size();
                 int llength = 0x5b0;
                 int start = 0;
 

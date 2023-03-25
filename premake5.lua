@@ -21,7 +21,7 @@ LinkDir["lz4"] = "MapleLib/vendor/lz4/build/VS2022/liblz4/bin/x64_%{cfg.buildcfg
 project "MapleLib"
 	location "MapleLib"
 	kind "StaticLib"
-	staticruntime "on"
+	staticruntime "off"
 	language "C++"
 	cppdialect "C++20"
 	

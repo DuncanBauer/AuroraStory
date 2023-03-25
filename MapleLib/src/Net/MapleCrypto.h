@@ -16,8 +16,8 @@ namespace Net
         // MAPLE CUSTOM ENCRYPTION
         static void MapleEncrypt(ByteBuffer& data)
         {
-            size_t j;
-            size_t length = data.size();
+            int j;
+            int length = (int)data.size();
             byte a;
             byte c;
 
@@ -54,8 +54,8 @@ namespace Net
                 
         static void MapleDecrypt(ByteBuffer& data)
         {
-            size_t j;
-            size_t length = data.size();
+            int j;
+            int length = (int)data.size();
             byte a;
             byte b;
             byte c;

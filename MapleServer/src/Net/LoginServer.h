@@ -29,7 +29,7 @@ class LoginServer : public TCPServer
             std::shared_ptr<TCPConnection> newConnection = std::dynamic_pointer_cast<TCPConnection>(MapleClient::create(this->getIoContext()));
             this->getAcceptor().async_accept(newConnection->getSocket(),
                                              boost::bind(&LoginServer::handleAccept,
-                                               std::dynamic_pointer_cast<LoginServer>(shared_from_this()),
+                                             std::dynamic_pointer_cast<LoginServer>(shared_from_this()),
                                                          newConnection,
                                                          boost::asio::placeholders::error));
         }

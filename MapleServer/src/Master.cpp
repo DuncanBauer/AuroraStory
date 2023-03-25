@@ -1,24 +1,5 @@
-/*********************************************************************************
-* AuroraSource
-* Copyright(C) 2021 Duncan Bauer <duncanebauer@gmail.com>
-*
-* This program is free software : you can redistribute itand /or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program.If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************************/
-
 // Aurora Server
 #include "Master.h"
-// #include "Net/TCPServer.hpp"
 #include "Net/LoginServer.h"
 
 // C++
@@ -149,13 +130,8 @@ Master::Master()
 
 void Master::run() 
 {
-  //try {
-  //  Utils::Logger::log("STARTING SERVER");
-
-  //  boost::asio::io_context ioContext;
-  //  this->server = std::make_shared<LoginServer>(ioContext, 8484);
-
-  //  // Begin our main loop
+  try {
+    // Begin our main loop
   //  auto inputLoopLambda = [&]() {
   //    bool q = false;
   //    char cmd;
@@ -180,8 +156,14 @@ void Master::run()
   //    }
   //  };
   //  std::jthread inputThread(inputLoopLambda);
-  //  this->server->startAccept();
-  //  ioContext.run();
+
+    boost::asio::io_context ioContext;
+    std::shared_ptr<LoginServer> server = std::make_shared<LoginServer>(ioContext, 8484);
+    //std::shared_ptr<std::jthread> loginServerThread = std::make_shared<std::jthread>([&]() {
+        server->startAccept();
+    //});
+    //loginServerThread->detach();
+    ioContext.run();
 
     // // Check worlds isn't null, and set a reference to Master for each world
     // assert(this->worlds);
@@ -205,10 +187,10 @@ void Master::run()
     //  this->worlds->at(i)->start(ioContext, this->channelServerPort + (i * this->channelsPerWorld));
     // }
 
-    // loginServerThread.join();
-  //}
-  //catch (std::exception& e) {
-  //  std::cout << e.what() << '\n';
-  //  std::cin.ignore(1000, '\n');
-  //}
+    //loginServerThread->join();
+  }
+  catch (std::exception& e) {
+    std::cout << e.what() << '\n';
+    std::cin.ignore(1000, '\n');
+  }
 }

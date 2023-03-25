@@ -48,6 +48,9 @@ class MapleClient : public TCPConnection
             ByteBuffer recvIV = this->recvCipher->getIV();
             ByteBuffer sendIV = this->sendCipher->getIV();
 
+            ByteBuffer ivRecv = { 70, 114, 122, 82 };
+            ByteBuffer ivSend = { 82, 48, 120, 115 };
+
             // This is the packet for the v83 MapleStory Global(NA) handshake
             ByteBuffer buff;
             Util::PacketParser::writeShort(buff, 0x0E);
@@ -103,18 +106,14 @@ class MapleClient : public TCPConnection
             return 0;
         }
 
-        /*****************
-         * Getters & Setters
-         ****************/
-
     private:
         MapleClient(boost::asio::io_context& _ioContext) : TCPConnection(_ioContext) 
         {
             ByteBuffer recvIV = {70, 114, 122,  82};
             ByteBuffer sendIV = {82,  48, 120, 115};
 
-            this->recvCipher = new Net::Crypto::MapleAES(recvIV, (short)83);
             this->sendCipher = new Net::Crypto::MapleAES(sendIV, (short)(0xFFFF - 83));
+            this->recvCipher = new Net::Crypto::MapleAES(recvIV, (short)83);
 
             this->setSocketActive(true);
         }
@@ -129,13 +128,13 @@ class MapleClient : public TCPConnection
                 std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + _bytes_transferred);
 
                 std::cout << "DATA: " << std::hex << '\n';
-                ByteBuffer header = { 0 };
+                ByteBuffer header;
                 for(int i = 0; i < _bytes_transferred; ++i)
                 {
-                    header[i] = (byte)str[i];
+                    header.push_back((byte)str[i]);
                     std::cout << (unsigned int)str[i] << ' ';
                 }
-                std::cout << "\n_bytes_transferred: " << _bytes_transferred << '\n';
+                std::cout << "\n_bytes_transferred: " << std::dec << _bytes_transferred << std::hex << '\n';
 
                 short packetLength = Net::Crypto::MapleAES::getPacketLength(header);
                 if(packetLength < 2)
@@ -144,7 +143,7 @@ class MapleClient : public TCPConnection
                     return;
                 }
 
-                std::cout << "Packet Length: " << packetLength << '\n';
+                std::cout << "Packet Length: " << std::dec << packetLength << std::hex << '\n';
                 this->readBuffer.consume(4);
                 boost::asio::async_read(this->getSocket(),
                                         this->getReadBuffer(),
@@ -209,11 +208,7 @@ class MapleClient : public TCPConnection
                 if(bb.size() > 30)
                 {
                     short version = Util::PacketParser::readShort(bb);
-                    std::string username = Util::PacketParser::readMapleString(bb);
-                    std::string password = Util::PacketParser::readMapleString(bb);
                     std::cout << "Version: "  << version << '\n';
-                    std::cout << "Username: " << username << '\n';
-                    std::cout << "Password: " << password << '\n';
                 }
                 std::cout << str << '\n';
 
