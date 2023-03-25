@@ -71,7 +71,7 @@ namespace Net
                     iv[i] = _iv[i];
                 }
 
-                plusaes::decrypt_cbc(data.data(), (unsigned long)data.size(), &_key[0], (unsigned long)_key.size(), &iv, &encrypted[0], (unsigned long)encrypted.size(), 0);
+                plusaes::encrypt_cbc(data.data(), (unsigned long)data.size(), &_key[0], (unsigned long)_key.size(), &iv, &encrypted[0], (unsigned long)encrypted.size(), false);
                 data = encrypted;
             }
 
