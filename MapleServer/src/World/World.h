@@ -27,25 +27,25 @@
 
 struct WorldData
 {
-  size_t channelCount = 1;
+  int channelCount = 1;
 
-  size_t expRate = 1;
-  size_t mesoRate = 1;
-  size_t dropRate = 1;
+  int expRate = 1;
+  int mesoRate = 1;
+  int dropRate = 1;
 
-  size_t pqExpRate = 1;
-  size_t pqMesoRate = 1;
-  size_t pqDropRate = 1;
+  int pqExpRate = 1;
+  int pqMesoRate = 1;
+  int pqDropRate = 1;
 
-  size_t questExpRate = 1;
-  size_t questMesoRate = 1;
-  size_t questDropRate = 1;
+  int questExpRate = 1;
+  int questMesoRate = 1;
+  int questDropRate = 1;
 
-  size_t bossExpRate = 1;
-  size_t bossMesoRate = 1;
-  size_t bossDropRate = 1;
+  int bossExpRate = 1;
+  int bossMesoRate = 1;
+  int bossDropRate = 1;
 
-  size_t petExpRate = 1;
+  int petExpRate = 1;
 };
 
 class Master;

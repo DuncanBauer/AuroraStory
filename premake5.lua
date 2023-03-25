@@ -10,10 +10,9 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include dirs relative to root folder
 IncludeDir = {}
-IncludeDir["Boost"]    = "C:/boost/boost_1_81_0"
+IncludeDir["Boost"] = "C:/boost/boost_1_81_0"
 IncludeDir["aes"] = "MapleLib/vendor/plusaes/include"
-IncludeDir["lz4"]      = "MapleLib/vendor/lz4/lib"
-
+IncludeDir["lz4"] = "MapleLib/vendor/lz4/lib"
 IncludeDir["MapleLib"]  = "MapleLib/src"
 
 LinkDir = {}
@@ -61,7 +60,6 @@ project "MapleLib"
 
 	links
 	{
---		"cryptlib",
 		"liblz4_static"
 	}
 
@@ -159,6 +157,7 @@ project "MapleServer"
 		"%{IncludeDir.MapleLib}",
 		"%{IncludeDir.Boost}",
 		"%{IncludeDir.aes}",
+		"%{IncludeDir.yaml_cpp}",
 	}
 
 	links

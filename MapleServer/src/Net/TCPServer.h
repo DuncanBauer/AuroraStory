@@ -34,7 +34,7 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
         TCPServer() = delete;
 
         // Parameterized constructors
-        TCPServer(boost::asio::io_context& _ioContext, size_t _port) : ioContext(_ioContext), acceptor(_ioContext, tcp::endpoint(tcp::v4(), _port)) 
+        TCPServer(boost::asio::io_context& _ioContext, int _port) : ioContext(_ioContext), acceptor(_ioContext, tcp::endpoint(tcp::v4(), _port)) 
         {
             this->connections = std::make_shared<std::vector<Connection>>();
         }
@@ -48,16 +48,7 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
         /****************
          * Server functions
          ***************/
-        void startAccept()
-        {
-            // // Async accept connection
-            // std::shared_ptr<TCPConnection> newConnection = TCPConnection::create(this->ioContext);
-            // this->acceptor.async_accept(newConnection->getSocket(),
-            //                             boost::bind(&TCPServer::handleAccept,
-            //                             shared_from_this(),
-            //                             newConnection,
-            //                             boost::asio::placeholders::error));
-        }
+        void startAccept() {}
 
         void shutdown()
         {
@@ -67,24 +58,7 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
             }
         }
 
-        void handleAccept(std::shared_ptr<TCPConnection> _newConnection, const boost::system::error_code& _error)
-        {
-            // std::cout << "Accepted client\n";
-            // // If theres an async error, close the connection
-            // if (!_error)
-            // {
-            //     // Push new connection onto our list of connections and start communications
-            //     this->connections->push_back(_newConnection);
-            //     _newConnection->start();
-
-            //     // Async accept new client
-            //     this->startAccept();
-            // }
-            // else
-            // {
-            //     std::cout << _error.message() << '\n';
-            // }
-        }
+        void handleAccept(std::shared_ptr<TCPConnection> _newConnection, const boost::system::error_code& _error) {}
 
         /*****************
          * Getters & Setters

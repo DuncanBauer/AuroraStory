@@ -17,11 +17,11 @@ namespace Net
         static void MapleEncrypt(ByteBuffer& data)
         {
             size_t j;
-            int length = data.size();
+            size_t length = data.size();
             byte a;
             byte c;
 
-            for (size_t i = 0; i < 3; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 a = 0;
                 for (j = length; j > 0; j--)
@@ -55,12 +55,12 @@ namespace Net
         static void MapleDecrypt(ByteBuffer& data)
         {
             size_t j;
-            int length = data.size();
+            size_t length = data.size();
             byte a;
             byte b;
             byte c;
                     
-            for (size_t i = 0; i < 3; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 a = 0;
                 b = 0;

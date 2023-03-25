@@ -1,25 +1,5 @@
-/*********************************************************************************
-* AuroraSource - A C++ MapleStory Server Emulator
-* Copyright(C) 2021 Duncan Bauer <duncanebauer@gmail.com>
-*
-* This program is free software : you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************************/
+#pragma once
 
-#ifndef LOGINSERVER_H
-#define LOGINSERVER_H
-
-// Dependencies
 // Aurora Server
 #include "ASIOCommon.h"
 #include "TCPServer.h"
@@ -35,7 +15,7 @@ class LoginServer : public TCPServer
         LoginServer() = delete;
 
         // Parameterized constructors
-        LoginServer(boost::asio::io_context& _ioContext, size_t _port) : TCPServer(_ioContext, _port) {}
+        LoginServer(boost::asio::io_context& _ioContext, int _port) : TCPServer(_ioContext, _port) {}
             
         // Destructor
         ~LoginServer() {}
@@ -72,11 +52,4 @@ class LoginServer : public TCPServer
                 std::cout << _error.message() << '\n';
             }
         }
-
-    private:
-        // boost::asio::io_context& ioContext;
-        // tcp::acceptor acceptor;
-        // Connections connections;
 };
-
-#endif

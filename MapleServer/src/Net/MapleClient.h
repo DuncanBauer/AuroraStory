@@ -25,7 +25,6 @@
 #include "TCPConnection.h"
 #include "Net/MapleCrypto.h"
 #include "Net/MapleAES.h"
-#include "PacketParser.h"
 
 class MapleClient : public TCPConnection
 {
@@ -51,13 +50,13 @@ class MapleClient : public TCPConnection
 
             // This is the packet for the v83 MapleStory Global(NA) handshake
             ByteBuffer buff;
-            PacketParser::writeShort(buff, 0x0E);
-            PacketParser::writeShort(buff, 83);
-            PacketParser::writeShort(buff, 1);
-            PacketParser::writeByte(buff, 49);
-            PacketParser::writeByte(buff, recvIV);
-            PacketParser::writeByte(buff, sendIV);
-            PacketParser::writeByte(buff, 8);
+            Util::PacketParser::writeShort(buff, 0x0E);
+            Util::PacketParser::writeShort(buff, 83);
+            Util::PacketParser::writeShort(buff, 1);
+            Util::PacketParser::writeByte(buff, 49);
+            Util::PacketParser::writeByte(buff, recvIV);
+            Util::PacketParser::writeByte(buff, sendIV);
+            Util::PacketParser::writeByte(buff, 8);
 
             this->pushOntoWriteQueue(std::string(buff.begin(), buff.end()));
             this->write();
@@ -89,6 +88,19 @@ class MapleClient : public TCPConnection
                                                      boost::asio::placeholders::error,
                                                      boost::asio::placeholders::bytes_transferred));
             }
+        }
+
+        size_t completionCondition(const boost::system::error_code& _error, size_t _bytes_transferred)
+        {
+            if (!_error)
+            {
+                if (_bytes_transferred >= 2)
+                {
+                    return 0;
+                }
+                return -1;
+            }
+            return 0;
         }
 
         /*****************
@@ -196,9 +208,9 @@ class MapleClient : public TCPConnection
                 std::cout << std::dec;
                 if(bb.size() > 30)
                 {
-                    short version = PacketParser::readShort(bb);
-                    std::string username = PacketParser::readMapleString(bb);
-                    std::string password = PacketParser::readMapleString(bb);
+                    short version = Util::PacketParser::readShort(bb);
+                    std::string username = Util::PacketParser::readMapleString(bb);
+                    std::string password = Util::PacketParser::readMapleString(bb);
                     std::cout << "Version: "  << version << '\n';
                     std::cout << "Username: " << username << '\n';
                     std::cout << "Password: " << password << '\n';

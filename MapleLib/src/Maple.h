@@ -16,7 +16,7 @@
 #endif
 #pragma endregion
 
-#define AURORA_MAPLE_LIB_VERSION     "0.0.1 ALPHA"
+#define AURORA_MAPLE_LIB_VERSION "0.0.1 ALPHA"
 #define AURORA_MAPLE_LIB_VERSION_NUM 00001
 
 // Includes
@@ -28,7 +28,6 @@ using ByteBuffer = std::vector<byte>;
 using vector2i = std::pair<uint32_t, uint32_t>;
 
 // Constants
-
 namespace Constants
 {
     // Common
@@ -38,7 +37,7 @@ namespace Constants
         0xC6, 0x50, 0x53, 0xF2, 0xA8, 0x42, 0x9D, 0x7F, 0x77, 0x09, 0x1D, 0x26, 0x42, 0x53, 0x88, 0x7C
     };
 
-    static const size_t USER_KEY_LENGTH = 128;
+    static const int USER_KEY_LENGTH = 128;
     static const byte DEFAULT_MAPLESTORY_USER_KEY[] = {
         0x13, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x5B, 0x00, 0x00, 0x00,
         0x08, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00,
@@ -54,7 +53,7 @@ namespace Constants
     static ByteBuffer GetTrimmedUserKey()
     {
         ByteBuffer key(32);
-        for (size_t i = 0; i < 128; i += 16)
+        for (int i = 0; i < 128; i += 16)
         {
             key[i / 4] = DEFAULT_MAPLESTORY_USER_KEY[i];
         }

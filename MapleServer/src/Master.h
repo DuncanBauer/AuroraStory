@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-// Boost
+// 3rd Party
 #include <boost/asio.hpp>
 
 // Forward Declarations
@@ -24,50 +24,47 @@ class Master : public std::enable_shared_from_this<Master>
     void run();
     std::shared_ptr<Master> getPtr() { return shared_from_this(); }
 
-    size_t getMapleVersion() const { return this->mapleVersion; }
-    size_t getWorldCount() const { return this->worldCount; }
-    size_t getMaxPlayers() const { return this->maxPlayers; }
-    bool getCanAutoRegister() const { return this->canAutoRegister; }
-    bool getIsPICEnabled() const { return this->isPICEnabled; }
-    bool getIsPINEnabled() const { return this->isPINEnabled; }
+    short getMapleVersion() const { return this->m_MapleVersion; }
+    int getWorldCount() const { return this->m_WorldCount; }
+    int getMaxPlayers() const { return this->m_MaxPlayers; }
+    bool getCanAutoRegister() const { return this->m_CanAutoRegister; }
+    bool getIsPICEnabled() const { return this->m_IsPICEnabled; }
+    bool getIsPINEnabled() const { return this->m_IsPINEnabled; }
 
-    std::string getMysqlIP() const { return this->mysqlIP; }
-    size_t getMysqlPort() const { return this->mysqlPort; }
-    std::string getMysqlUser() const { return this->mysqlUser; }
-    std::string getMysqlPass() const { return this->mysqlPass; }
-    std::string getMysqlSchema() const { return this->mysqlSchema; }
+    std::string getMysqlIP() const { return this->m_MysqlIP; }
+    int getMysqlPort() const { return this->m_MysqlPort; }
+    std::string getMysqlUser() const { return this->m_MysqlUser; }
+    std::string getMysqlPass() const { return this->m_MysqlPass; }
+    std::string getMysqlSchema() const { return this->m_MysqlSchema; }
 
-    std::shared_ptr<LoginServer> getLoginServer() const { return this->server; }
-    size_t getLoginServerPort() const { return this->loginServerPort; }
-    size_t getChannelsPerWorld() const { return this->channelsPerWorld; }
-    size_t getChannelServerPort() const { return this->channelServerPort; }
+    std::shared_ptr<LoginServer> getLoginServer() const { return this->pm_Server; }
+    int getLoginServerPort() const { return this->m_LoginServerPort; }
+    int getChannelServerPort() const { return this->m_ChannelServerPort; }
+    int getChannelsPerWorld() const { return this->m_ChannelsPerWorld; }
 
     Worlds getWorlds() const { return this->worlds; }
 
   private:
-    //Utils::Config config;
-
     // SERVER DATA
-    size_t mapleVersion;
-    size_t worldCount;
-    size_t maxPlayers;
-    bool canAutoRegister;
-    bool isPICEnabled;
-    bool isPINEnabled;
+    short m_MapleVersion;
+    int m_WorldCount;
+    int m_MaxPlayers;
+    bool m_CanAutoRegister;
+    bool m_IsPICEnabled;
+    bool m_IsPINEnabled;
 
     // MYSQL DATA
-    std::string mysqlIP;
-    size_t mysqlPort;
-    std::string mysqlUser;
-    std::string mysqlPass;
-    std::string mysqlSchema;
+    std::string m_MysqlIP;
+    int m_MysqlPort;
+    std::string m_MysqlUser;
+    std::string m_MysqlPass;
+    std::string m_MysqlSchema;
 
     // LOGIN SERVER DATA
-    std::shared_ptr<LoginServer> server;
-    size_t loginServerPort;
-
-    size_t channelsPerWorld;
-    size_t channelServerPort;
+    std::shared_ptr<LoginServer> pm_Server;
+    int m_LoginServerPort;
+    int m_ChannelServerPort;
+    int m_ChannelsPerWorld;
 
     Worlds worlds;
 };

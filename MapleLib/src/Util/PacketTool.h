@@ -63,7 +63,7 @@ namespace Util {
             writeByte(_buffer, (byte)((_data >> 56) & 0xFF));
         }
 
-        inline void writePos(ByteBuffer& _buffer, const size_t x, const size_t y) {
+        inline void writePos(ByteBuffer& _buffer, const int x, const int y) {
             writeShort(_buffer, x);
             writeShort(_buffer, y);
         }
@@ -75,7 +75,7 @@ namespace Util {
         }
 
         inline void writeMapleAsciiString(ByteBuffer& _buffer, const std::string _data) {
-            writeShort(_buffer, _data.size());
+            writeShort(_buffer, (short)_data.size());
             writeAsciiString(_buffer, _data);
         }
 

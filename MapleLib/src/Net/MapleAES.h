@@ -153,7 +153,7 @@ namespace Net
             // AES ENCRYPTION
             void crypt(ByteBuffer& _data)
             {
-                int remaining = _data.size();
+                size_t remaining = _data.size();
                 int llength = 0x5b0;
                 int start = 0;
 

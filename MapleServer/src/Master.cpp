@@ -26,18 +26,35 @@
 #include <iostream>
 #include <thread>
 
-// Boost
+// 3rd Party
 #include <boost/asio.hpp>
 #include <boost/asio/io_context.hpp>
 
 Master::Master()
 {
-  //// Read server config and initialize everything
-  //Utils::Logger::log("Loading Config");
-  //this->config.load();
+    m_MapleVersion = 83;
+    m_WorldCount = 1;
+    m_MaxPlayers = 500;
+    m_CanAutoRegister = false;
+    m_IsPICEnabled = false;
+    m_IsPINEnabled = false;
+
+    // MYSQL DATA
+    m_MysqlIP = "localhost";
+    m_MysqlPort = 3306;
+    m_MysqlUser = "";
+    m_MysqlPass = "";
+    m_MysqlSchema = "AuroraStory";
+
+    // LOGIN SERVER DATA
+    m_LoginServerPort = 8484;
+    m_ChannelServerPort = 7575;
+    m_ChannelsPerWorld = 3;
+
+
+    // Read server config and initialize everything
 
   //// Get server wide settings
-  //Utils::Logger::log("Loading Server Settings");
   //this->mapleVersion = std::stoi(this->config.getData()["MAPLE_VERSION"]);
   //this->worldCount = std::stoi(this->config.getData()["WORLD_COUNT"]);
   //this->channelsPerWorld = std::stoi(this->config.getData()["CHANNELS_PER_WORLD"]);

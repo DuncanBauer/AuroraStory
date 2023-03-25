@@ -4,3 +4,6 @@
 [submodule "MapleLib/vendor/plusaes"]
 	path = MapleLib/vendor/plusaes
 	url = https://github.com/kkAyataka/plusaes
+[submodule "MapleServer/vendor/yaml-cpp"]
+	path = MapleServer/vendor/yaml-cpp
+	url = https://github.com/DuncanBauer/yaml-cpp
