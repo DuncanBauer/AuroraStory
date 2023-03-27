@@ -1,5 +1,3 @@
-#include "MapleLibPCH.h"
-
 #include "WzImage.h"
 #include "Properties/WzImageProperty.h"
 

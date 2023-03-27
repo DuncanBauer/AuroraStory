@@ -1,5 +1,4 @@
-#ifndef ASIOCOMMON_H
-#define ASIOCOMMON_H
+#pragma once
 
 // C++
 #include <iostream>
@@ -16,12 +15,9 @@
 using boost::asio::ip::tcp;
 
 // Forward Declarations
-class TCPConnection;
+class MapleClient;
 
 // Aliases
 using byte = unsigned char;
-using ByteBuffer = std::vector<byte>;
-using Connection = std::shared_ptr<TCPConnection>; 
+using Connection = std::shared_ptr<MapleClient>; 
 using Connections = std::shared_ptr<std::vector<Connection>>;
-
-#endif

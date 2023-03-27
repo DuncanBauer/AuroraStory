@@ -11,17 +11,13 @@
 
 
 
-:: :: Compile yaml-cpp with CMake
-cd MapleServer/vendor/yaml-cpp
-if not exist build\ (
-    mkdir build
-)
-cd build
-cmake ..
-cmake --build . --target ALL_BUILD --config Debug
-cmake --build . --target ALL_BUILD --config Release
-cd ../../../../
+:: Compile cryptopp with MSBuild for Windows | Other platforms to come later
+cd MapleLib/vendor/cryptopp
 
+MSBuild cryptlib.vcxproj /p:Configuration=Debug /p:Platform=x64
+MSBuild cryptlib.vcxproj /p:Configuration=Release /p:Platform=x64
+
+cd ../../../
 
 
 

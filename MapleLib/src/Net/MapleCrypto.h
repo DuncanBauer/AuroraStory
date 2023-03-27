@@ -7,17 +7,17 @@
 // C++ headers
 
 // Third party headers
-#include <plusaes/plusaes.hpp>
 
 namespace Net
 {
     namespace Crypto
     {
         // MAPLE CUSTOM ENCRYPTION
-        static void MapleEncrypt(ByteBuffer& data)
+        //static void MapleEncrypt(MapleByteBuffer& data)
+        static void MapleEncrypt(unsigned char* data, int size)
         {
             int j;
-            int length = (int)data.size();
+            int length = size;
             byte a;
             byte c;
 
@@ -52,10 +52,11 @@ namespace Net
             }
         }
                 
-        static void MapleDecrypt(ByteBuffer& data)
+        //static void MapleDecrypt(MapleByteBuffer& data)
+        static void MapleDecrypt(unsigned char* data, int size)
         {
             int j;
-            int length = (int)data.size();
+            int length = size;
             byte a;
             byte b;
             byte c;

@@ -2,59 +2,59 @@
 
 #include "Maple.h"
 
-#include "MapleLib/src/Net/MapleCrypto.h"
-#include "MapleLib/src/Net/MapleAES.h"
+#include "Net/MapleCrypto.h"
+#include "Net/MapleAES.h"
 
 int main(int argc, char** argv)
 {
 	std::cout << "MapleUnitTesting\n";
 	try
 	{
-		ByteBuffer data = { 1,2,3,4,2,3,4,2,3,10 };
-		ByteBuffer iv   = { 1,2,3,4 };
+		//MapleByteBuffer data = { 1,2,3,4,2,3,4,2,3,10 };
+		//MapleByteBuffer iv   = { 1,2,3,4 };
 
-		Net::Crypto::MapleAES send = Net::Crypto::MapleAES(iv, (short)0xFF - 83);
-		Net::Crypto::MapleAES recv = Net::Crypto::MapleAES(iv, (short)83);
+		//Net::Crypto::MapleAES send = Net::Crypto::MapleAES(iv, (short)0xFF - 83);
+		//Net::Crypto::MapleAES recv = Net::Crypto::MapleAES(iv, (short)83);
 
-		std::cout << "RAW: ";
-		for (int i = 0; i < data.size(); i++) {
-			std::cout << (int)data[i] << " ";
-		}
-		std::cout << '\n';
-
-
-		std::cout << "CUSTOM ENCRYPTED: ";
-		Net::Crypto::MapleEncrypt(data);
-		for (int i = 0; i < data.size(); i++) {
-			std::cout << (int)data[i] << " ";
-		}
-		std::cout << '\n';
+		//std::cout << "RAW: ";
+		//for (int i = 0; i < data.size(); i++) {
+		//	std::cout << (int)data[i] << " ";
+		//}
+		//std::cout << '\n';
 
 
-		std::cout << "AES ENCRYPTED: ";
-		send.crypt(data);
-		for (int i = 0; i < data.size(); i++) {
-			std::cout << (int)data[i] << " ";
-		}
-		std::cout << '\n';
+		//std::cout << "CUSTOM ENCRYPTED: ";
+		//Net::Crypto::MapleEncrypt(data);
+		//for (int i = 0; i < data.size(); i++) {
+		//	std::cout << (int)data[i] << " ";
+		//}
+		//std::cout << '\n';
 
 
-		std::cout << "AES DECRYPTED: ";
-		recv.crypt(data);
-		for (int i = 0; i < data.size(); i++) {
-			std::cout << (int)data[i] << " ";
-		}
-		std::cout << '\n';
+		//std::cout << "AES ENCRYPTED: ";
+		//send.crypt(data);
+		//for (int i = 0; i < data.size(); i++) {
+		//	std::cout << (int)data[i] << " ";
+		//}
+		//std::cout << '\n';
 
 
-		std::cout << "CUSTOM DECRYPTED: ";
-		Net::Crypto::MapleDecrypt(data);
-		for (int i = 0; i < data.size(); i++) {
-			std::cout << (int)data[i] << " ";
-		}
-		std::cout << '\n';
+		//std::cout << "AES DECRYPTED: ";
+		//recv.crypt(data);
+		//for (int i = 0; i < data.size(); i++) {
+		//	std::cout << (int)data[i] << " ";
+		//}
+		//std::cout << '\n';
 
-		std::cin.ignore(1000, '\n');
+
+		//std::cout << "CUSTOM DECRYPTED: ";
+		//Net::Crypto::MapleDecrypt(data);
+		//for (int i = 0; i < data.size(); i++) {
+		//	std::cout << (int)data[i] << " ";
+		//}
+		//std::cout << '\n';
+
+		//std::cin.ignore(1000, '\n');
 
 /*
 		std::cout << "Testing WzLib\n";

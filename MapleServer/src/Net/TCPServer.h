@@ -1,28 +1,9 @@
-/*********************************************************************************
-* AuroraSource - A C++ MapleStory Server Emulator
-* Copyright(C) 2021 Duncan Bauer <duncanebauer@gmail.com>
-*
-* This program is free software : you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*********************************************************************************/
-
-#ifndef TCPSERVER_H
-#define TCPSERVER_H
+#pragma once
 
 // Dependencies
 // Aurora Server
 #include "ASIOCommon.h"
-#include "TCPConnection.h"
+#include "Net/MapleClient.h"
 
 class TCPServer : public std::enable_shared_from_this<TCPServer>
 {
@@ -58,7 +39,7 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
             }
         }
 
-        void handleAccept(std::shared_ptr<TCPConnection> _newConnection, const boost::system::error_code& _error) {}
+        void handleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error) {}
 
         /*****************
          * Getters & Setters
@@ -72,5 +53,3 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
         tcp::acceptor acceptor;
         Connections connections;
 };
-
-#endif

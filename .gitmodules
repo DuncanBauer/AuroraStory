@@ -1,9 +1,12 @@
 [submodule "MapleLib/vendor/lz4"]
 	path = MapleLib/vendor/lz4
 	url = https://github.com/lz4/lz4
-[submodule "MapleLib/vendor/plusaes"]
-	path = MapleLib/vendor/plusaes
-	url = https://github.com/kkAyataka/plusaes
 [submodule "MapleServer/vendor/yaml-cpp"]
 	path = MapleServer/vendor/yaml-cpp
 	url = https://github.com/DuncanBauer/yaml-cpp
+[submodule "cryptopp"]
+	path = cryptopp
+	url = https://github.com/weidai11/cryptopp
+[submodule "MapleLib/vendor/cryptopp"]
+	path = MapleLib/vendor/cryptopp
+	url = https://github.com/weidai11/cryptopp

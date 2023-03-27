@@ -4,7 +4,7 @@
 #include <vector>
 
 using byte = unsigned char;
-using ByteBuffer = std::vector<byte>;
+using MapleByteBuffer = std::vector<byte>;
 
 namespace Util
 {
@@ -12,7 +12,7 @@ namespace Util
 	{
 		public:
 			// Bitwise Conversions
-			static uint16_t ToUInt16(ByteBuffer bytes, int startIndex)
+			static uint16_t ToUInt16(MapleByteBuffer bytes, int startIndex)
 			{
 				uint16_t value = 0;
 				for (int i = startIndex; i < startIndex + 2; i++)
@@ -22,7 +22,7 @@ namespace Util
 				return value;
 			}
 
-			static int16_t ToInt16(ByteBuffer bytes, int startIndex)
+			static int16_t ToInt16(MapleByteBuffer bytes, int startIndex)
 			{
 				int16_t value = 0;
 				for (int i = startIndex; i < startIndex + 2; i++)
@@ -32,7 +32,7 @@ namespace Util
 				return value;
 			}
 
-			static uint32_t ToUInt32(ByteBuffer bytes, int startIndex)
+			static uint32_t ToUInt32(MapleByteBuffer bytes, int startIndex)
 			{
 				uint32_t value = 0;
 				for (int i = startIndex; i < startIndex + 4; i++)
@@ -42,7 +42,7 @@ namespace Util
 				return value;
 			}
 
-			static int32_t ToInt32(ByteBuffer bytes, int startIndex)
+			static int32_t ToInt32(MapleByteBuffer bytes, int startIndex)
 			{
 				int32_t value = 0;
 				for (int i = startIndex; i < startIndex + 4; i++)
@@ -52,7 +52,7 @@ namespace Util
 				return value;
 			}
 
-			static uint64_t ToUInt64(ByteBuffer bytes, int startIndex)
+			static uint64_t ToUInt64(MapleByteBuffer bytes, int startIndex)
 			{
 				uint64_t value = 0;
 				for (int i = startIndex; i < startIndex + 8; i++)
@@ -62,7 +62,7 @@ namespace Util
 				return value;
 			}
 
-			static int64_t ToInt64(ByteBuffer bytes, int startIndex)
+			static int64_t ToInt64(MapleByteBuffer bytes, int startIndex)
 			{
 				int64_t value = 0;
 				for (int i = startIndex; i < startIndex + 8; i++)

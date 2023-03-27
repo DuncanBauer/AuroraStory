@@ -4,7 +4,6 @@
 
 #include "../Net/MapleCrypto.h"
 
-#include <plusaes/plusaes.hpp>
 //#include <cryptopp/aes.h>
 //#include <cryptopp/cryptlib.h>
 //#include <cryptopp/modes.h>
@@ -18,7 +17,7 @@ namespace Wz
 	{
 		public:
 			WzKey() {}
-			WzKey(ByteBuffer iv, ByteBuffer aeskey) : m_IV(iv), m_AESKey(aeskey) {}
+			WzKey(MapleByteBuffer iv, MapleByteBuffer aeskey) : m_IV(iv), m_AESKey(aeskey) {}
 			WzKey(const WzKey& other)
 			{
 				m_AESKey = other.m_AESKey;
@@ -55,7 +54,7 @@ namespace Wz
 			//	}
 
 			//	size = (int)ceil(1.0 * size / m_BatchSize) * m_BatchSize;
-			//	ByteBuffer newKeys(size);
+			//	MapleByteBuffer newKeys(size);
 
 			//	if (Util::BitTool::ToInt32(m_IV, 0) == 0)
 			//	{
@@ -98,10 +97,10 @@ namespace Wz
 			//	}
 			//}
 
-			static ByteBuffer GetIvFromZlz()
+			static MapleByteBuffer GetIvFromZlz()
 			{
 				//std::ifstream zlzStream("ZLZ.dll");
-				ByteBuffer iv(4);
+				MapleByteBuffer iv(4);
 				//zlzStream.seekg(0x10040);
 				//zlzStream.read((char*)(iv.data()), 4);
 			//	zlzStream.Seek(0x10040, SeekOrigin.Begin);
@@ -109,10 +108,10 @@ namespace Wz
 				return iv;
 			}
 
-			static ByteBuffer GetAesKeyFromZlz()
+			static MapleByteBuffer GetAesKeyFromZlz()
 			{
 				//std::ifstream zlzStream("ZLZ.dll");
-				ByteBuffer aes(32);
+				MapleByteBuffer aes(32);
 				//zlzStream.seekg(0x10060);
 
 				//for (int i = 0; i < 8; i++)
@@ -129,21 +128,21 @@ namespace Wz
 				return aes;
 			}
 
-			static WzKey GenerateWzKey(ByteBuffer iv)
+			static WzKey GenerateWzKey(MapleByteBuffer iv)
 			{
-				return WzKey(iv, ByteBuffer(Constants::GetTrimmedUserKey()));
+				return WzKey(iv, MapleByteBuffer(Constants::GetTrimmedUserKey()));
 			}
 
 			static WzKey GenerateGMSWzKey()
 			{
-				return WzKey(ByteBuffer(Constants::WZ_GMS_IV, 
+				return WzKey(MapleByteBuffer(Constants::WZ_GMS_IV, 
 										Constants::WZ_GMS_IV + 4),
-							 ByteBuffer(Constants::GetTrimmedUserKey()));
+							 MapleByteBuffer(Constants::GetTrimmedUserKey()));
 			}
 
-			ByteBuffer m_AESKey;
-			ByteBuffer m_Keys;
-			ByteBuffer m_IV;
+			MapleByteBuffer m_AESKey;
+			MapleByteBuffer m_Keys;
+			MapleByteBuffer m_IV;
 			int m_BatchSize = 4096;
 		private:
 	};

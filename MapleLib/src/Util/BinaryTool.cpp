@@ -1,5 +1,3 @@
-#include "MapleLibPCH.h"
-
 #include "BinaryTool.h"
 #include "../Wz/WzKey.h"
 
@@ -253,9 +251,9 @@ namespace Util
 		return result;
 	}
 
-	ByteBuffer BinaryTool::ReadBytes(int count)
+	MapleByteBuffer BinaryTool::ReadBytes(int count)
 	{
-		ByteBuffer buff(count);
+		MapleByteBuffer buff(count);
 		char c;
 		for (int i = 0; i < count; i++)
 		{

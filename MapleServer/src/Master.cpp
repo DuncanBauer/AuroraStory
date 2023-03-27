@@ -2,6 +2,9 @@
 #include "Master.h"
 #include "Net/LoginServer.h"
 
+#include "aes.h"
+#include "Net/MapleAES.h"
+
 // C++
 #include <exception>
 #include <iostream>
@@ -13,6 +16,10 @@
 
 Master::Master()
 {
+    Net::Crypto::MapleAES* aes = new Net::Crypto::MapleAES({ 74,45,23,16 }, 83);
+    MapleByteBuffer bb;
+    aes->crypt(bb);
+
     m_MapleVersion = 83;
     m_WorldCount = 1;
     m_MaxPlayers = 500;

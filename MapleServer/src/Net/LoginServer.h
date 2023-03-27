@@ -26,7 +26,7 @@ class LoginServer : public TCPServer
         void startAccept()
         {
             // Async accept connection
-            std::shared_ptr<TCPConnection> newConnection = std::dynamic_pointer_cast<TCPConnection>(MapleClient::create(this->getIoContext()));
+            std::shared_ptr<MapleClient> newConnection = std::dynamic_pointer_cast<MapleClient>(MapleClient::create(this->getIoContext()));
             this->getAcceptor().async_accept(newConnection->getSocket(),
                                              boost::bind(&LoginServer::handleAccept,
                                              std::dynamic_pointer_cast<LoginServer>(shared_from_this()),
@@ -34,7 +34,7 @@ class LoginServer : public TCPServer
                                                          boost::asio::placeholders::error));
         }
 
-        void handleAccept(std::shared_ptr<TCPConnection> _newConnection, const boost::system::error_code& _error)
+        void handleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error)
         {
             std::cout << "Accepted client\n";
             // If theres an async error, close the connection

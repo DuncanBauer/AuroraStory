@@ -1,5 +1,3 @@
-#include "MapleLibPCH.h"
-
 #include "WzFile.h"
 #include "WzHeader.h"
 #include "WzDirectory.h"

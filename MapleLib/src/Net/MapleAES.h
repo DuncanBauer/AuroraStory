@@ -2,7 +2,7 @@
 
 #include "Maple.h"
 
-#include <plusaes/plusaes.hpp>
+#include "aes/aes.h"
 
 namespace Net
 {
@@ -11,11 +11,11 @@ namespace Net
 		class AURORA_MAPLE_API MapleAES
 		{
 		private:
-			ByteBuffer m_IV;
+			MapleByteBuffer m_IV;
 			short m_MapleVersion;
 
         private:
-            static void shuffle(byte inputByte, ByteBuffer& start)
+            static void shuffle(byte inputByte, MapleByteBuffer& start)
             {
                 byte a = start[1];
                 byte b = a;
@@ -50,39 +50,22 @@ namespace Net
                 start[3] = (byte)(c / 0x100);
             }
 
-            static void multiplyBytes(ByteBuffer input, ByteBuffer output, int count, int mult)
+            static void multiplyBytes(MapleByteBuffer input, MapleByteBuffer& output, int count, int mult)
             {
-                ByteBuffer retVal(count * mult);
+                MapleByteBuffer retVal(count * mult);
                 for (int x = 0; x < count * mult; x++)
                 {
                     output[x] = input[x % count];
                 }
             }
 
-            // AES ENCRYPTION
-            //static ByteBuffer AesCrypt(const ByteBuffer _iv, const ByteBuffer _key, const ByteBuffer data, bool cryptFlag)
-            static void AesCrypt(const ByteBuffer _iv, const ByteBuffer _key, ByteBuffer& data)
-            {
-                const unsigned long encrypted_size = plusaes::get_padded_encrypted_size((unsigned long)data.size());
-                ByteBuffer encrypted(encrypted_size);
-
-                byte iv[16];
-                for (int i = 0; i < _iv.size(); i++) {
-                    iv[i] = _iv[i];
-                }
-
-                plusaes::encrypt_cbc(data.data(), (unsigned long)data.size(), &_key[0], (unsigned long)_key.size(), &iv, &encrypted[0], (unsigned long)encrypted.size(), false);
-                data = encrypted;
-            }
-
-
 		public:
-			MapleAES(ByteBuffer iv, short mapleVersion) {
+			MapleAES(MapleByteBuffer iv, short mapleVersion) {
 				m_IV = iv;
 				m_MapleVersion = (short)(((mapleVersion >> 8) & 0xFF) | ((mapleVersion << 8) & 0xFF00));
 			}
 
-            ByteBuffer getIV()
+            MapleByteBuffer getIV()
             {
                 return m_IV;
             }
@@ -92,9 +75,9 @@ namespace Net
                 m_IV = getNewIV(m_IV);
             }
 
-            static ByteBuffer getNewIV(ByteBuffer _oldIv)
+            static MapleByteBuffer getNewIV(MapleByteBuffer _oldIv)
             {
-                ByteBuffer start = { 0xf2, 0x53, 0x50, 0xc6 };
+                MapleByteBuffer start = { 0xf2, 0x53, 0x50, 0xc6 };
                 for (int i = 0; i < 4; ++i)
                 {
                     shuffle(_oldIv[i], start);
@@ -103,9 +86,9 @@ namespace Net
             }
 
             // PACKET VERIFICATION
-            ByteBuffer getHeaderToClient(int _size)
+            MapleByteBuffer getHeaderToClient(int _size)
             {
-                ByteBuffer header(4);
+                MapleByteBuffer header(4);
                 int a = m_IV[3] * 0x100 + m_IV[2];
                 a ^= -(m_MapleVersion + 1);
                 int b = a ^ _size;
@@ -116,9 +99,9 @@ namespace Net
                 return header;
             }
 
-            ByteBuffer getHeaderToServer(int _size)
+            MapleByteBuffer getHeaderToServer(int _size)
             {
-                ByteBuffer header(4);
+                MapleByteBuffer header(4);
                 int a = m_IV[3] * 0x100 + m_IV[2];
                 a = a ^ m_MapleVersion;
                 int b = a ^ _size;
@@ -136,12 +119,12 @@ namespace Net
                 return length;
             }
 
-            static unsigned short getPacketLength(ByteBuffer buffer)
+            static unsigned short getPacketLength(unsigned char* buffer)
             {
-                return ((*(unsigned short*)(buffer.data())) ^ (*(unsigned short*)(buffer.data() + 2)));
+                return ((*(unsigned short*)(buffer)) ^ (*(unsigned short*)(buffer + 2)));
             }
 
-            bool checkPacketToServer(ByteBuffer _packet)
+            bool checkPacketToServer(MapleByteBuffer _packet)
             {
                 int a = _packet[0] ^ m_IV[2];
                 int b = m_MapleVersion;
@@ -151,39 +134,97 @@ namespace Net
             }
 
             // AES ENCRYPTION
-            void crypt(ByteBuffer& _data)
-            {
-                int remaining = (int)_data.size();
-                int llength = 0x5b0;
+            void crypt(MapleByteBuffer& _data) {
+                unsigned char temp_iv[16];
+                unsigned short pos = 0;
+                unsigned short t_pos = 1456;
+                unsigned short bytes_amount;
+                unsigned int size = _data.size();
+
+                aes_encrypt_ctx cx[1];
+                aes_init();
+
+                while (size > pos)
+                {
+                    memcpy(temp_iv, m_IV.data(), 16);
+                    aes_encrypt_key256(Constants::GetTrimmedUserKey().data(), cx);
+
+                    if (size > (pos + t_pos))
+                    {
+                        bytes_amount = t_pos;
+                    }
+                    else
+                    {
+                        bytes_amount = size - pos;
+                    }
+
+                    //aes_ofb_crypt(buffer + pos, buffer + pos, bytes_amount, temp_iv, cx);
+
+                    pos += t_pos;
+                    t_pos = 1460;
+                }
+            }
+
+            void crypt(unsigned char* _data, unsigned int size) {
+                int remaining = size;
+                int llength = 0x5B0;
                 int start = 0;
 
-                while (remaining > 0)
-                {
-                    ByteBuffer myIv(16);
-                    multiplyBytes(m_IV, myIv, 4, 4);
-                    if (remaining < llength)
-                    {
+                aes_encrypt_ctx cx[1];
+                aes_init();
+
+                while (remaining > 0) {
+                    MapleByteBuffer iv(16);
+                    multiplyBytes(m_IV, iv, 4, 4);
+                    
+                    if (remaining < llength) {
                         llength = remaining;
                     }
 
-                    for (int i = start; i < start + llength; ++i)
-                    {
-                        if ((i - start) % 16 == 0)
-                        {
-                            AesCrypt(m_IV, myIv);
+                    for (int x = start; x < (start + llength); x++) {
+                        if ((x - start) % 16 == 0) {
+                            MapleByteBuffer myIv = iv;
+
+                            aes_encrypt_key256(Constants::GetTrimmedUserKey().data(), cx);
+                            aes_ofb_crypt(myIv.data(), iv.data(), size, m_IV.data(), cx);
+
+
+                            //byte[] newIv = cipher.doFinal(myIv);
+                            //for (int j = 0; j < 16; j++) {
+                            //    iv[j] = newIv[j];
+                            //
+                            //}
                         }
-                        _data[i] ^= myIv[(i - start) % 16];
+                        _data[x] ^= iv[(x - start) % 16];
                     }
                     start += llength;
                     remaining -= llength;
-                    llength = 0x5b4;
+                    llength = 0x5B4;
                 }
-                this->updateIV();
-            }
 
-            static void AesCrypt(ByteBuffer iv, ByteBuffer& data)
-            {
-                AesCrypt(iv, Constants::GetTrimmedUserKey(), data);
+                updateIV();
+                //unsigned char temp_iv[16];
+                //unsigned short pos = 0;
+                //unsigned short t_pos = 1456;
+                //unsigned short bytes_amount;
+
+                //aes_encrypt_ctx cx[1];
+                //aes_init();
+
+                //while (size > pos) {
+                //    memcpy(temp_iv, m_IV.data(), 16);
+                //    aes_encrypt_key256(Constants::GetTrimmedUserKey().data(), cx);
+
+                //    if (size > (pos + t_pos))
+                //        bytes_amount = t_pos;
+                //    else
+                //        bytes_amount = size - pos;
+
+                //    aes_ofb_crypt(_data + pos, _data + pos, bytes_amount, temp_iv, cx);
+
+                //    pos += t_pos;
+                //    t_pos = 1460;
+                //}
             }
 		};
 	}

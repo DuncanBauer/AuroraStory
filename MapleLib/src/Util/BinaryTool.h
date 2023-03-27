@@ -44,7 +44,7 @@ namespace Util
 
 			byte ReadByte();
 			signed char ReadSByte();
-			ByteBuffer ReadBytes(int count);
+			MapleByteBuffer ReadBytes(int count);
 			uint16_t ReadShort();
 			int16_t ReadSShort();
 			uint32_t ReadInt();

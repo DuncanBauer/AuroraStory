@@ -24,7 +24,7 @@
 
 // Typedefs
 using byte = unsigned char;
-using ByteBuffer = std::vector<byte>;
+using MapleByteBuffer = std::vector<unsigned char>;
 using vector2i = std::pair<uint32_t, uint32_t>;
 
 // Constants
@@ -49,10 +49,10 @@ namespace Constants
         0x52, 0x00, 0x00, 0x00, 0xDE, 0x00, 0x00, 0x00, 0xC7, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00
     };
 
-    //static ByteBuffer GetTrimmedUserKey();
-    static ByteBuffer GetTrimmedUserKey()
+    //static MapleByteBuffer GetTrimmedUserKey();
+    static MapleByteBuffer GetTrimmedUserKey()
     {
-        ByteBuffer key(32);
+        MapleByteBuffer key(32);
         for (int i = 0; i < 128; i += 16)
         {
             key[i / 4] = DEFAULT_MAPLESTORY_USER_KEY[i];
