@@ -2,7 +2,6 @@
 
 #include "Maple.h"
 
-#include "Wz/WzKey.h"
 
 #include <fstream>
 #include <ios>
@@ -42,9 +41,9 @@ namespace Util
 			template<typename T>
 			BinaryTool& operator>>(T& data);
 
-			byte ReadByte();
+			unsigned char ReadByte();
 			signed char ReadSByte();
-			MapleByteBuffer ReadBytes(int count);
+			unsigned char* ReadBytes(int count);
 			uint16_t ReadShort();
 			int16_t ReadSShort();
 			uint32_t ReadInt();
@@ -54,12 +53,12 @@ namespace Util
 			int64_t ReadSLong();
 			float ReadFloat();
 			double ReadDouble();
-			std::string ReadString(Wz::WzKey* wzKey);
+			//std::string ReadString(Wz::WzKey* wzKey);
 			std::string ReadString(int length);
 			std::string ReadNullTerminatedString();
 			std::string ReadUnicodeString(int length);
 
-			void Write(byte data);
+			void Write(unsigned char data);
 			void Write(int16_t data);
 			void Write(int32_t data);
 			void Write(int64_t data);
@@ -78,7 +77,7 @@ namespace Util
 			static MemoryMappedFile* MapFile(std::string filepath);
 			static void UnmapFile(MemoryMappedFile* mmFile);
 
-			static byte ReadByte(MemoryMappedFile* mmFile);
+			static unsigned char ReadByte(MemoryMappedFile* mmFile);
 			static int16_t ReadShort(MemoryMappedFile* mmFile);
 			static int32_t ReadInt(MemoryMappedFile* mmFile);
 			static int64_t ReadLong(MemoryMappedFile* mmFile);
@@ -88,7 +87,7 @@ namespace Util
 			static std::string ReadNullTerminatedString(MemoryMappedFile* mmFile, int length);
 			static std::string ReadUnicodeString(MemoryMappedFile* mmFile, int length);
 
-			static void Write(MemoryMappedFile* mmFile, byte data);
+			static void Write(MemoryMappedFile* mmFile, unsigned char data);
 			static void Write(MemoryMappedFile* mmFile, int16_t data);
 			static void Write(MemoryMappedFile* mmFile, int32_t data);
 			static void Write(MemoryMappedFile* mmFile, int64_t data);

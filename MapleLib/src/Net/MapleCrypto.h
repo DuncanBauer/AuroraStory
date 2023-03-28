@@ -13,13 +13,12 @@ namespace Net
     namespace Crypto
     {
         // MAPLE CUSTOM ENCRYPTION
-        //static void MapleEncrypt(MapleByteBuffer& data)
         static void MapleEncrypt(unsigned char* data, int size)
         {
             int j;
             int length = size;
-            byte a;
-            byte c;
+            char a;
+            char c;
 
             for (int i = 0; i < 3; ++i)
             {
@@ -28,7 +27,7 @@ namespace Net
                 {
                     c = data[length - j];
                     c = Util::BitTool::RollLeft(c, 3);
-                    c = (byte)(c + j);
+                    c = (char)(c + j);
                     c ^= a;
                     a = c;
                     c = Util::BitTool::RollRight(a, j);
@@ -42,7 +41,7 @@ namespace Net
                 {
                     c = data[j - 1];
                     c = Util::BitTool::RollLeft(c, 4);
-                    c = (byte)(c + j);
+                    c = (char)(c + j);
                     c ^= a;
                     a = c;
                     c ^= 0x13;
@@ -51,15 +50,14 @@ namespace Net
                 }
             }
         }
-                
-        //static void MapleDecrypt(MapleByteBuffer& data)
+
         static void MapleDecrypt(unsigned char* data, int size)
         {
             int j;
             int length = size;
-            byte a;
-            byte b;
-            byte c;
+            char a;
+            char b;
+            char c;
                     
             for (int i = 0; i < 3; ++i)
             {
@@ -72,7 +70,7 @@ namespace Net
                     c ^= 0x13;
                     a = c;
                     c ^= b;
-                    c = (byte)(c - j);
+                    c = (char)(c - j);
                     c = Util::BitTool::RollRight(c, 4);
                     b = a;
                     data[j - 1] = c;

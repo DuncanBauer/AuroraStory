@@ -1,11 +1,10 @@
 #pragma once
 
 // Aurora Server
-#include <memory>
-
 #include "ASIOCommon.h"
 #include "Net/MapleCrypto.h"
 #include "Net/MapleAES.h"
+#include "Util/PacketTool.h"
 
 #include <memory>
 
@@ -13,42 +12,32 @@ class MapleClient : public std::enable_shared_from_this<MapleClient>
 {
     public:
         MapleClient() = delete;
-        static std::shared_ptr<MapleClient> create(boost::asio::io_context& _ioContext);
+        static std::shared_ptr<MapleClient> Create(boost::asio::io_context& _ioContext);
 
-        void start();
-        void shutdown();
+        void Start();
+        void Shutdown();
 
-        void read();
-        void write();
-        void pushOntoWriteQueue(std::string _str)
-        {
-            std::lock_guard<std::mutex> lock(this->m);
-            this->writeBufferQueue.push(_str);
-        }
+        void Read();
+        void Write();
 
-        tcp::socket& getSocket() { return this->socket; }
-        std::mutex& getMutex() { return this->m; }
+        tcp::socket& GetSocket() { return this->m_Socket; }
+        std::mutex& GetMutex() { return this->m_Mutex; }
 
-        bool isSocketActive() { return this->mSocketActive; }
-        void setSocketActive(bool _active) { this->mSocketActive = _active; }
-
-        std::unique_ptr<unsigned char>& getReadBuffer() { return this->readBuffer; }
-        std::queue<std::string>& getWriteBufferQueue() { return this->writeBufferQueue; }
+        std::unique_ptr<Util::PacketTool>& GetReadBuffer() { return this->m_ReadBuffer; }
+        std::unique_ptr<Util::PacketTool>& GetWriteBuffer() { return this->m_WriteBuffer; }
 
     private:
-        Net::Crypto::MapleAES* recvCipher = nullptr;
-        Net::Crypto::MapleAES* sendCipher = nullptr;
+        std::unique_ptr<Net::Crypto::MapleAES> m_RecvCipher;
+        std::unique_ptr<Net::Crypto::MapleAES> m_SendCipher;
 
-        std::unique_ptr<unsigned char> readBuffer;
-        std::queue<std::string> writeBufferQueue;
+        std::unique_ptr<Util::PacketTool> m_ReadBuffer;
+        std::unique_ptr<Util::PacketTool> m_WriteBuffer;
 
-        std::mutex m;
-        bool mSocketActive = false;
-        tcp::socket socket;
+        std::mutex m_Mutex;
+        tcp::socket m_Socket;
 
         MapleClient(boost::asio::io_context& _ioContext);
-
-        void handleReadHeader(const boost::system::error_code& _error, size_t _bytes_transferred);
-        void handleReadBody(const boost::system::error_code& _error, size_t _bytes_transferred);
-        void handleWrite(const boost::system::error_code& _error, size_t _bytes_transferred);
+        void HandleReadHeader(const boost::system::error_code& _error, size_t _bytes_transferred);
+        void HandleReadBody(const boost::system::error_code& _error, size_t _bytes_transferred);
+        void HandleWrite(const boost::system::error_code& _error, size_t _bytes_transferred);
 };

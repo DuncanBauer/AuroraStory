@@ -5,46 +5,51 @@
 
 #include "Util/PacketTool.h"
 
-std::shared_ptr<MapleClient> MapleClient::create(boost::asio::io_context& _ioContext) 
+std::shared_ptr<MapleClient> MapleClient::Create(boost::asio::io_context& _ioContext) 
 { 
     return std::shared_ptr<MapleClient>(new MapleClient(_ioContext)); 
 }
 
-MapleClient::MapleClient(boost::asio::io_context& _ioContext) : socket(_ioContext)
+MapleClient::MapleClient(boost::asio::io_context& _ioContext) : m_Socket(_ioContext)
 {
-    MapleByteBuffer recvIV = { 70, 114, 122,  82 };
-    MapleByteBuffer sendIV = { 82,  48, 120, 115 };
+    unsigned char recvIV[4] = {70, 114, 122,  82};
+    unsigned char sendIV[4] = {82,  48, 120, 115};
 
-    this->sendCipher = new Net::Crypto::MapleAES(sendIV, (short)(0xFFFF - 83));
-    this->recvCipher = new Net::Crypto::MapleAES(recvIV, (short)83);
+    this->m_SendCipher.reset(new Net::Crypto::MapleAES(sendIV, (short)(0xFFFF - 83)));
+    this->m_RecvCipher.reset(new Net::Crypto::MapleAES(recvIV, (short)83));
 
-    this->setSocketActive(true);
+    this->m_ReadBuffer.reset(new Util::PacketTool());
+    this->m_WriteBuffer.reset(new Util::PacketTool());
 }
 
-void MapleClient::start()
+void MapleClient::Start()
 {
-    MapleByteBuffer recvIV = this->recvCipher->getIV();
-    MapleByteBuffer sendIV = this->sendCipher->getIV();
-
-    MapleByteBuffer ivRecv = { 70, 114, 122, 82 };
-    MapleByteBuffer ivSend = { 82, 48, 120, 115 };
+    unsigned char* recvIV = this->m_RecvCipher->GetIV();
+    unsigned char* sendIV = this->m_SendCipher->GetIV();
 
     // This is the packet for the v83 MapleStory Global(NA) handshake
-    MapleByteBuffer buff;
-    Util::PacketParser::writeShort(buff, 0x0E);
-    Util::PacketParser::writeShort(buff, 83);
-    Util::PacketParser::writeShort(buff, 1);
-    Util::PacketParser::writeByte(buff, 49);
-    Util::PacketParser::writeByte(buff, recvIV);
-    Util::PacketParser::writeByte(buff, sendIV);
-    Util::PacketParser::writeByte(buff, 8);
+    Util::PacketTool tool;
+    m_WriteBuffer->write<short>(0x0E); // Size
+    m_WriteBuffer->write<short>(83); // Major version
+    m_WriteBuffer->write<std::string>("1"); // Minor version
+    m_WriteBuffer->write<unsigned char>(49);
+    m_WriteBuffer->write<char>(*(char*)recvIV);
+    m_WriteBuffer->write<char>(*(char*)sendIV);
+    m_WriteBuffer->write<unsigned char>(8); // Locale
 
-    this->pushOntoWriteQueue(std::string(buff.begin(), buff.end()));
-    this->write();
-    this->read();
+    //Util::PacketParser::writeShort(buff, 0x0E);
+    //Util::PacketParser::writeShort(buff, 83);
+    //Util::PacketParser::writeShort(buff, 1);
+    //Util::PacketParser::writeByte(buff, 49);
+    //Util::PacketParser::writeByte(buff, recvIV);
+    //Util::PacketParser::writeByte(buff, sendIV);
+    //Util::PacketParser::writeByte(buff, 8);
+
+    this->Write();
+    this->Read();
 }
 
-void MapleClient::shutdown()
+void MapleClient::Shutdown()
 {
     // Handles and ignores
     // `The I/O operation has been aborted because of either a thread exit or an application request` exception
@@ -52,9 +57,8 @@ void MapleClient::shutdown()
     try
     {
         // Shutdown read/write and the socket itself
-        this->socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
-        this->socket.close();
-        this->mSocketActive = false;
+        m_Socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+        m_Socket.close();
     }
     catch (std::exception _error)
     {
@@ -62,35 +66,32 @@ void MapleClient::shutdown()
     }
 }
 
-void MapleClient::read()
+void MapleClient::Read()
 {
-    readBuffer.reset(new unsigned char[4]());
+    m_ReadBuffer.reset(new Util::PacketTool());
 
     std::cout << "Read\n";
-    boost::asio::async_read(getSocket(),
-        boost::asio::buffer(readBuffer.get(), 4),
-        boost::bind(&MapleClient::handleReadHeader,
-                    shared_from_this(),
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
+    boost::asio::async_read(GetSocket(),
+                            boost::asio::buffer(m_ReadBuffer->GetBuffer(), 4),
+                            boost::bind(&MapleClient::HandleReadHeader,
+                                        shared_from_this(),
+                                        boost::asio::placeholders::error,
+                                        boost::asio::placeholders::bytes_transferred));
 }
 
-void MapleClient::write()
+void MapleClient::Write()
 {
     // Async write
     std::cout << "Write\n";
-    if (this->writeBufferQueue.size() > 0 && this->isSocketActive())
-    {
-        boost::asio::async_write(this->getSocket(),
-            boost::asio::buffer(this->writeBufferQueue.front()),
-            boost::bind(&MapleClient::handleWrite,
-                        shared_from_this(),
-                        boost::asio::placeholders::error,
-                        boost::asio::placeholders::bytes_transferred));
-    }
+    boost::asio::async_write(this->GetSocket(),
+                            boost::asio::buffer(m_WriteBuffer->GetBuffer(), m_WriteBuffer->GetLength()),
+                            boost::bind(&MapleClient::HandleWrite,
+                                        shared_from_this(),
+                                        boost::asio::placeholders::error,
+                                        boost::asio::placeholders::bytes_transferred));
 }
 
-void MapleClient::handleReadHeader(const boost::system::error_code& _error, size_t _bytes_transferred)
+void MapleClient::HandleReadHeader(const boost::system::error_code& _error, size_t _bytes_transferred)
 {
     std::cout << "handleReadHeader\n";
     // If theres an async error, close the connection
@@ -98,32 +99,32 @@ void MapleClient::handleReadHeader(const boost::system::error_code& _error, size
     {
         std::cout << "\n_bytes_transferred: " << std::dec << _bytes_transferred << std::hex << '\n';
 
-        short packetLength = Net::Crypto::MapleAES::getPacketLength(readBuffer.get());
+        short packetLength = Net::Crypto::MapleAES::GetPacketLength(m_ReadBuffer->GetBuffer());
         if (packetLength < 2)
         {
-            this->shutdown();
+            this->Shutdown();
             return;
         }
 
         // receive the data
-        readBuffer.reset(new unsigned char[packetLength]());
+        //m_ReadBuffer.reset();
 
         std::cout << "Packet Length: " << std::dec << packetLength << std::hex << '\n';
-        boost::asio::async_read(this->getSocket(),
-            boost::asio::buffer(readBuffer.get(), packetLength),
-            boost::bind(&MapleClient::handleReadBody,
-                        shared_from_this(),
-                        boost::asio::placeholders::error,
-                        boost::asio::placeholders::bytes_transferred));
+        boost::asio::async_read(GetSocket(),
+                                boost::asio::buffer(m_ReadBuffer->GetBuffer(), packetLength),
+                                boost::bind(&MapleClient::HandleReadBody,
+                                            shared_from_this(),
+                                            boost::asio::placeholders::error,
+                                            boost::asio::placeholders::bytes_transferred));
     }
     else
     {
         std::cout << "MapleClient::handleRead error: " << _error.message() << '\n';
-        this->shutdown();
+        this->Shutdown();
     }
 }
 
-void MapleClient::handleReadBody(const boost::system::error_code& _error, size_t _bytes_transferred)
+void MapleClient::HandleReadBody(const boost::system::error_code& _error, size_t _bytes_transferred)
 {
     std::cout << "handleReadBody\n";
     // If theres an async error, close the connection
@@ -136,62 +137,50 @@ void MapleClient::handleReadBody(const boost::system::error_code& _error, size_t
         std::cout << std::hex;
         for (int i = 0; i < _bytes_transferred; ++i)
         {
-            std::cout << std::setw(2) << (unsigned int)readBuffer.get()[i] << ' ';
+            std::cout << std::setw(2) << (unsigned int)m_ReadBuffer->GetBuffer()[i] << ' ';
         }
         std::cout << "\n\n";
 
-        this->recvCipher->crypt(readBuffer.get(), _bytes_transferred);
+        this->m_RecvCipher->Crypt(m_ReadBuffer->GetBuffer(), _bytes_transferred);
 
         for (int i = 0; i < _bytes_transferred; ++i)
         {
-            std::cout << std::setw(2) << (unsigned int)readBuffer.get()[i] << ' ';
+            std::cout << std::setw(2) << (unsigned int)m_ReadBuffer->GetBuffer()[i] << ' ';
         }
         std::cout << "\n\n";
 
-        Net::Crypto::MapleDecrypt(readBuffer.get(), _bytes_transferred);
+        Net::Crypto::MapleDecrypt(m_ReadBuffer->GetBuffer(), _bytes_transferred);
 
         for (int i = 0; i < _bytes_transferred; ++i)
         {
-            std::cout << std::setw(2) << (unsigned int)readBuffer.get()[i] << ' ';
+            std::cout << std::setw(2) << (unsigned int)m_ReadBuffer->GetBuffer()[i] << ' ';
         }
         std::cout << "\n\n";
         std::cout << std::dec;
 
-        // Clear the read buffer
-        this->read();
+        this->Read();
     }
     else
     {
         std::cout << "MapleClient::handleRead error: " << _error.message() << '\n';
-        this->shutdown();
+        this->Shutdown();
     }
 }
 
-void MapleClient::handleWrite(const boost::system::error_code& _error, size_t _bytes_transferred)
+void MapleClient::HandleWrite(const boost::system::error_code& _error, size_t _bytes_transferred)
 {
     // If theres an async error, close the connection
     if (!_error)
     {
-        // Pop the written packet from the write buffer
-        std::string str(this->writeBufferQueue.front());
-        this->writeBufferQueue.pop();
-
-        // Keep this for testing/examples
-        std::cout << "Bytes written: ";
-        for (int i = 0; i < _bytes_transferred; ++i)
-        {
-            std::cout << std::hex << (unsigned int)str[i] << ' ';
-        }
-        std::cout << "\n\n";
-
-        if (this->writeBufferQueue.size() > 0)
-        {
-            this->write();
-        }
+        // Clear write buffer
+        for(int i = 0; i < m_WriteBuffer->GetLength(); ++i)
+            std::cout << std::hex << (int)m_WriteBuffer->GetBuffer()[i] << " ";
+        std::cout << '\n';
+        m_WriteBuffer.reset(new Util::PacketTool());
     }
     else
     {
         std::cout << "MapleClient::handleWrite error: " << _error.message() << '\n';
-        this->shutdown();
+        this->Shutdown();
     }
 }

@@ -11,14 +11,14 @@ namespace Net
 		class AURORA_MAPLE_API MapleAES
 		{
 		private:
-			MapleByteBuffer m_IV;
+			unsigned char* m_IV;
 			short m_MapleVersion;
 
         private:
-            static void shuffle(byte inputByte, MapleByteBuffer& start)
+            static void Shuffle(char inputByte, unsigned char* start)
             {
-                byte a = start[1];
-                byte b = a;
+                char a = start[1];
+                char b = a;
                 unsigned int c, d;
                 b = Constants::BYTE_SHUFFLE[b];
                 b -= inputByte;
@@ -42,89 +42,90 @@ namespace Net
                 c >>= 0x1D;
                 d <<= 0x03;
                 c |= d;
-                start[0] = (byte)(c % 0x100);
+                start[0] = (char)(c % 0x100);
                 c /= 0x100;
-                start[1] = (byte)(c % 0x100);
+                start[1] = (char)(c % 0x100);
                 c /= 0x100;
-                start[2] = (byte)(c % 0x100);
-                start[3] = (byte)(c / 0x100);
+                start[2] = (char)(c % 0x100);
+                start[3] = (char)(c / 0x100);
             }
 
-            static void multiplyBytes(MapleByteBuffer input, MapleByteBuffer& output, int count, int mult)
+            static unsigned char* MultiplyBytes(unsigned char* input, int count, int mult)
             {
-                MapleByteBuffer retVal(count * mult);
+                unsigned char* retVal = new unsigned char[count * mult];
                 for (int x = 0; x < count * mult; x++)
                 {
-                    output[x] = input[x % count];
+                    retVal[x] = input[x % count];
                 }
+                return retVal;
             }
 
 		public:
-			MapleAES(MapleByteBuffer iv, short mapleVersion) {
+			MapleAES(unsigned char* iv, short mapleVersion) {
 				m_IV = iv;
 				m_MapleVersion = (short)(((mapleVersion >> 8) & 0xFF) | ((mapleVersion << 8) & 0xFF00));
 			}
 
-            MapleByteBuffer getIV()
+            unsigned char* GetIV()
             {
                 return m_IV;
             }
 
-            void updateIV()
+            void UpdateIV()
             {
-                m_IV = getNewIV(m_IV);
+                m_IV = GetNewIV(m_IV);
             }
 
-            static MapleByteBuffer getNewIV(MapleByteBuffer _oldIv)
+            static unsigned char* GetNewIV(unsigned char* _oldIv)
             {
-                MapleByteBuffer start = { 0xf2, 0x53, 0x50, 0xc6 };
+                unsigned char* start = new unsigned char[4]{ 0xf2, 0x53, 0x50, 0xc6 };
                 for (int i = 0; i < 4; ++i)
                 {
-                    shuffle(_oldIv[i], start);
+                    Shuffle(_oldIv[i], start);
                 }
                 return start;
             }
 
             // PACKET VERIFICATION
-            MapleByteBuffer getHeaderToClient(int _size)
+            unsigned char* GetHeaderToClient(int _size)
             {
-                MapleByteBuffer header(4);
+                unsigned char* header = new unsigned char[4];
                 int a = m_IV[3] * 0x100 + m_IV[2];
                 a ^= -(m_MapleVersion + 1);
                 int b = a ^ _size;
-                header[0] = (byte)(a % 0x100);
-                header[1] = (byte)((a - header[0]) / 0x100);
-                header[2] = (byte)(b ^ 0x100);
-                header[3] = (byte)((b - header[2]) / 0x100);
+                header[0] = (char)(a % 0x100);
+                header[1] = (char)((a - header[0]) / 0x100);
+                header[2] = (char)(b ^ 0x100);
+                header[3] = (char)((b - header[2]) / 0x100);
                 return header;
             }
 
-            MapleByteBuffer getHeaderToServer(int _size)
+            unsigned char* GetHeaderToServer(int _size)
             {
-                MapleByteBuffer header(4);
+                unsigned char* header = new unsigned char[4];
                 int a = m_IV[3] * 0x100 + m_IV[2];
                 a = a ^ m_MapleVersion;
                 int b = a ^ _size;
-                header[0] = (byte)(a % 0x100);
-                header[1] = (byte)(a / 0x100);
-                header[2] = (byte)(b % 0x100);
-                header[3] = (byte)(b / 0x100);
+                header[0] = (char)(a % 0x100);
+                header[1] = (char)(a / 0x100);
+                header[2] = (char)(b % 0x100);
+                header[3] = (char)(b / 0x100);
                 return header;
             }
 
-            static int getPacketLength(int _packetHeader)
+            static int GetPacketLength(int _packetHeader)
             {
                 int length = (_packetHeader >> 16) ^ (_packetHeader & 0xFFFF);
                 length = ((length << 8) & 0xFF00) | ((length >> 8) & 0xFF);
                 return length;
             }
 
-            static unsigned short getPacketLength(unsigned char* buffer)
+            static unsigned short GetPacketLength(unsigned char* buffer)
             {
                 return ((*(unsigned short*)(buffer)) ^ (*(unsigned short*)(buffer + 2)));
             }
 
-            bool checkPacketToServer(MapleByteBuffer _packet)
+            bool CheckPacketToServer(unsigned char* _packet)
             {
                 int a = _packet[0] ^ m_IV[2];
                 int b = m_MapleVersion;
@@ -134,20 +135,19 @@ namespace Net
             }
 
             // AES ENCRYPTION
-            void crypt(MapleByteBuffer& _data) {
+            void Crypt(unsigned char* _data, size_t size) {
                 unsigned char temp_iv[16];
-                unsigned short pos = 0;
-                unsigned short t_pos = 1456;
-                unsigned short bytes_amount;
-                unsigned int size = _data.size();
+                size_t pos = 0;
+                size_t t_pos = 1456;
+                size_t bytes_amount;
 
                 aes_encrypt_ctx cx[1];
                 aes_init();
 
                 while (size > pos)
                 {
-                    memcpy(temp_iv, m_IV.data(), 16);
-                    aes_encrypt_key256(Constants::GetTrimmedUserKey().data(), cx);
+                    memcpy(temp_iv, m_IV, 16);
+                    aes_encrypt_key256(Constants::GetTrimmedUserKey(), cx);
 
                     if (size > (pos + t_pos))
                     {
@@ -165,44 +165,35 @@ namespace Net
                 }
             }
 
-            void crypt(unsigned char* _data, unsigned int size) {
+            void Crypt(unsigned char* _data, unsigned int size) {
                 int remaining = size;
                 int llength = 0x5B0;
                 int start = 0;
 
-                aes_encrypt_ctx cx[1];
-                aes_init();
+                aes_encrypt_ctx ctx;
 
                 while (remaining > 0) {
-                    MapleByteBuffer iv(16);
-                    multiplyBytes(m_IV, iv, 4, 4);
-                    
+                    unsigned char* myIv = MultiplyBytes(m_IV, 4, 4);
+
                     if (remaining < llength) {
                         llength = remaining;
                     }
 
                     for (int x = start; x < (start + llength); x++) {
                         if ((x - start) % 16 == 0) {
-                            MapleByteBuffer myIv = iv;
-
-                            aes_encrypt_key256(Constants::GetTrimmedUserKey().data(), cx);
-                            aes_ofb_crypt(myIv.data(), iv.data(), size, m_IV.data(), cx);
-
-
-                            //byte[] newIv = cipher.doFinal(myIv);
-                            //for (int j = 0; j < 16; j++) {
-                            //    iv[j] = newIv[j];
-                            //
-                            //}
+                            unsigned char newIv[16];
+                            aes_encrypt(myIv, newIv, &ctx);
+                            std::memcpy(myIv, newIv, 16);
                         }
-                        _data[x] ^= iv[(x - start) % 16];
+                        _data[x] ^= myIv[(x - start) % 16];
                     }
+
                     start += llength;
                     remaining -= llength;
                     llength = 0x5B4;
                 }
 
-                updateIV();
+                UpdateIV();
                 //unsigned char temp_iv[16];
                 //unsigned short pos = 0;
                 //unsigned short t_pos = 1456;

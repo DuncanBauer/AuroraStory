@@ -23,29 +23,29 @@ class LoginServer : public TCPServer
         /****************
          * Server functions
          ***************/
-        void startAccept()
+        void StartAccept()
         {
             // Async accept connection
-            std::shared_ptr<MapleClient> newConnection = std::dynamic_pointer_cast<MapleClient>(MapleClient::create(this->getIoContext()));
-            this->getAcceptor().async_accept(newConnection->getSocket(),
-                                             boost::bind(&LoginServer::handleAccept,
-                                             std::dynamic_pointer_cast<LoginServer>(shared_from_this()),
-                                                         newConnection,
-                                                         boost::asio::placeholders::error));
+            std::shared_ptr<MapleClient> newConnection = MapleClient::Create(this->GetIoContext());
+            GetAcceptor().async_accept(newConnection->GetSocket(),
+                                       boost::bind(&LoginServer::HandleAccept,
+                                                   std::dynamic_pointer_cast<LoginServer>(shared_from_this()),
+                                                   newConnection,
+                                                   boost::asio::placeholders::error));
         }
 
-        void handleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error)
+        void HandleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error)
         {
             std::cout << "Accepted client\n";
             // If theres an async error, close the connection
             if (!_error)
             {
                 // Push new connection onto our list of connections and start communications
-                this->getConnections()->push_back(_newConnection);
-                std::dynamic_pointer_cast<MapleClient>(_newConnection)->start();
+                GetConnections()->push_back(_newConnection);
+                _newConnection->Start();
 
                 // Async accept new client
-                this->startAccept();
+                StartAccept();
             }
             else
             {

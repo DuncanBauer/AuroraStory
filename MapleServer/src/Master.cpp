@@ -16,10 +16,6 @@
 
 Master::Master()
 {
-    Net::Crypto::MapleAES* aes = new Net::Crypto::MapleAES({ 74,45,23,16 }, 83);
-    MapleByteBuffer bb;
-    aes->crypt(bb);
-
     m_MapleVersion = 83;
     m_WorldCount = 1;
     m_MaxPlayers = 500;
@@ -30,7 +26,7 @@ Master::Master()
     // MYSQL DATA
     m_MysqlIP = "localhost";
     m_MysqlPort = 3306;
-    m_MysqlUser = "";
+    m_MysqlUser = "root";
     m_MysqlPass = "";
     m_MysqlSchema = "AuroraStory";
 
@@ -167,7 +163,7 @@ void Master::run()
     boost::asio::io_context ioContext;
     std::shared_ptr<LoginServer> server = std::make_shared<LoginServer>(ioContext, 8484);
     //std::shared_ptr<std::jthread> loginServerThread = std::make_shared<std::jthread>([&]() {
-        server->startAccept();
+        server->StartAccept();
     //});
     //loginServerThread->detach();
     ioContext.run();

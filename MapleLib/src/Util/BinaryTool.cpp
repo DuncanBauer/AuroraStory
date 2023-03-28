@@ -1,5 +1,4 @@
 #include "BinaryTool.h"
-#include "../Wz/WzKey.h"
 
 #include <iostream>
 #include <fstream>
@@ -235,7 +234,7 @@ namespace Util
 
 
 
-	byte BinaryTool::ReadByte()
+	unsigned char BinaryTool::ReadByte()
 	{
 		char result;
 		read(&result, 1);
@@ -251,14 +250,14 @@ namespace Util
 		return result;
 	}
 
-	MapleByteBuffer BinaryTool::ReadBytes(int count)
+	unsigned char* BinaryTool::ReadBytes(int count)
 	{
-		MapleByteBuffer buff(count);
+		unsigned char* buff = new unsigned char[count];
 		char c;
 		for (int i = 0; i < count; i++)
 		{
 			read(&c, 1);
-			buff.push_back(c);
+			buff[i] = c;
 		}
 		return buff;
 	}
@@ -405,69 +404,69 @@ namespace Util
 		return data;
 	}
 
-	std::string BinaryTool::ReadString(Wz::WzKey* wzKey)
-	{
-		signed char smallLength = ReadSByte();
+	//std::string BinaryTool::ReadString(Wz::WzKey* wzKey)
+	//{
+	//	signed char smallLength = ReadSByte();
 
-		if (smallLength == 0)
-		{
-			return "";
-		}
+	//	if (smallLength == 0)
+	//	{
+	//		return "";
+	//	}
 
-		int length;
-		std::stringstream retString;
-		if (smallLength > 0) // Unicode
-		{
-			unsigned short mask = 0xAAAA;
-			if (smallLength == (std::numeric_limits<signed char>::max)())
-			{
-				length = ReadInt();
-			}
-			else
-			{
-				length = (int)smallLength;
-			}
-			if (length <= 0)
-			{
-				return "";
-			}
+	//	int length;
+	//	std::stringstream retString;
+	//	if (smallLength > 0) // Unicode
+	//	{
+	//		unsigned short mask = 0xAAAA;
+	//		if (smallLength == (std::numeric_limits<signed char>::max)())
+	//		{
+	//			length = ReadInt();
+	//		}
+	//		else
+	//		{
+	//			length = (int)smallLength;
+	//		}
+	//		if (length <= 0)
+	//		{
+	//			return "";
+	//		}
 
-			for (int i = 0; i < length; i++)
-			{
-				uint16_t encryptedChar = ReadShort();
-				encryptedChar ^= mask;
-				encryptedChar ^= (uint16_t)(((*wzKey)[i * 2 + 1] << 8) + (*wzKey)[i * 2]);
-				retString << ((char)encryptedChar);
-				mask++;
-			}
-		}
-		else
-		{ // ASCII
-			byte mask = 0xAA;
-			if (smallLength == (std::numeric_limits<signed char>::max)())
-			{
-				length = ReadInt();
-			}
-			else
-			{
-				length = (int)(-smallLength);
-			}
-			if (length <= 0)
-			{
-				return "";
-			}
+	//		for (int i = 0; i < length; i++)
+	//		{
+	//			uint16_t encryptedChar = ReadShort();
+	//			encryptedChar ^= mask;
+	//			encryptedChar ^= (uint16_t)(((*wzKey)[i * 2 + 1] << 8) + (*wzKey)[i * 2]);
+	//			retString << ((char)encryptedChar);
+	//			mask++;
+	//		}
+	//	}
+	//	else
+	//	{ // ASCII
+	//		byte mask = 0xAA;
+	//		if (smallLength == (std::numeric_limits<signed char>::max)())
+	//		{
+	//			length = ReadInt();
+	//		}
+	//		else
+	//		{
+	//			length = (int)(-smallLength);
+	//		}
+	//		if (length <= 0)
+	//		{
+	//			return "";
+	//		}
 
-			for (int i = 0; i < length; i++)
-			{
-				byte encryptedChar = ReadByte();
-				encryptedChar ^= mask;
-				encryptedChar ^= (byte)(*wzKey)[i];
-				retString << (char)encryptedChar;
-				mask++;
-			}
-		}
-		return retString.str();
-	}
+	//		for (int i = 0; i < length; i++)
+	//		{
+	//			byte encryptedChar = ReadByte();
+	//			encryptedChar ^= mask;
+	//			encryptedChar ^= (byte)(*wzKey)[i];
+	//			retString << (char)encryptedChar;
+	//			mask++;
+	//		}
+	//	}
+	//	return retString.str();
+	//}
 
 	std::string BinaryTool::ReadString(int length)
 	{

@@ -23,22 +23,19 @@
 #include <vector>
 
 // Typedefs
-using byte = unsigned char;
-using MapleByteBuffer = std::vector<unsigned char>;
-using vector2i = std::pair<uint32_t, uint32_t>;
 
 // Constants
 namespace Constants
 {
     // Common
-    static const byte WZ_GMS_IV[] = { 0x4D, 0x23, 0xC7, 0x2B }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
-    static const byte WZ_MSEA_IV[] = { 0xB9, 0x7D, 0x63, 0xE9 }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83. Used for kms as well?
-    static const byte DEFAULT_AES_KEY_VALUE[] = {
+    static const unsigned char WZ_GMS_IV[] = { 0x4D, 0x23, 0xC7, 0x2B }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83
+    static const unsigned char WZ_MSEA_IV[] = { 0xB9, 0x7D, 0x63, 0xE9 }; // For WZ files and game connection i believe. will likely have to search for others. not sure if this once is v83. Used for kms as well?
+    static const unsigned char DEFAULT_AES_KEY_VALUE[] = {
         0xC6, 0x50, 0x53, 0xF2, 0xA8, 0x42, 0x9D, 0x7F, 0x77, 0x09, 0x1D, 0x26, 0x42, 0x53, 0x88, 0x7C
     };
 
     static const int USER_KEY_LENGTH = 128;
-    static const byte DEFAULT_MAPLESTORY_USER_KEY[] = {
+    static const unsigned char DEFAULT_MAPLESTORY_USER_KEY[] = {
         0x13, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00, 0x2A, 0x00, 0x00, 0x00, 0x5B, 0x00, 0x00, 0x00,
         0x08, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00,
         0x06, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x00, 0x00,
@@ -50,18 +47,18 @@ namespace Constants
     };
 
     //static MapleByteBuffer GetTrimmedUserKey();
-    static MapleByteBuffer GetTrimmedUserKey()
+    static unsigned char* GetTrimmedUserKey()
     {
-        MapleByteBuffer key(32);
+        unsigned char* trimmedKey = new unsigned char[32];
         for (int i = 0; i < 128; i += 16)
         {
-            key[i / 4] = DEFAULT_MAPLESTORY_USER_KEY[i];
+            trimmedKey[i / 4] = DEFAULT_MAPLESTORY_USER_KEY[i];
         }
-        return key;
+        return trimmedKey;
     }
 
     // NET ONLY
-    static const byte BYTE_SHUFFLE[] = {
+    static const unsigned char BYTE_SHUFFLE[] = {
         0xEC, 0x3F, 0x77, 0xA4, 0x45, 0xD0, 0x71, 0xBF, 0xB7, 0x98, 0x20, 0xFC, 0x4B, 0xE9, 0xB3, 0xE1,
         0x5C, 0x22, 0xF7, 0x0C, 0x44, 0x1B, 0x81, 0xBD, 0x63, 0x8D, 0xD4, 0xC3, 0xF2, 0x10, 0x19, 0xE0,
         0xFB, 0xA1, 0x6E, 0x66, 0xEA, 0xAE, 0xD6, 0xCE, 0x06, 0x18, 0x4E, 0xEB, 0x78, 0x95, 0xDB, 0xBA,

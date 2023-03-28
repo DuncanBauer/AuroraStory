@@ -15,41 +15,38 @@ class TCPServer : public std::enable_shared_from_this<TCPServer>
         TCPServer() = delete;
 
         // Parameterized constructors
-        TCPServer(boost::asio::io_context& _ioContext, int _port) : ioContext(_ioContext), acceptor(_ioContext, tcp::endpoint(tcp::v4(), _port)) 
-        {
-            this->connections = std::make_shared<std::vector<Connection>>();
+        TCPServer(boost::asio::io_context& _ioContext, int _port) : m_IoContext(_ioContext), m_Acceptor(_ioContext, tcp::endpoint(tcp::v4(), _port)) {
+            m_Connections = std::make_shared<std::vector<Connection>>();
         }
             
         // Destructor
-        virtual ~TCPServer() 
-        {
-            this->shutdown();
+        virtual ~TCPServer() {
+            this->Shutdown();
         }
         
         /****************
          * Server functions
          ***************/
-        void startAccept() {}
+        void StartAccept() {}
 
-        void shutdown()
-        {
-            for(Connection c: *(this->connections))
+        void Shutdown() {
+            for(Connection c: *(this->m_Connections))
             {
-                c->shutdown();
+                c->Shutdown();
             }
         }
 
-        void handleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error) {}
+        void HandleAccept(std::shared_ptr<MapleClient> _newConnection, const boost::system::error_code& _error) {}
 
         /*****************
          * Getters & Setters
          ****************/
-        boost::asio::io_context& getIoContext() { return this->ioContext; }
-        tcp::acceptor& getAcceptor() { return this->acceptor; }
-        Connections& getConnections() { return this->connections; }
+        boost::asio::io_context& GetIoContext() { return m_IoContext; }
+        tcp::acceptor& GetAcceptor() { return m_Acceptor; }
+        Connections& GetConnections() { return m_Connections; }
 
     private:
-        boost::asio::io_context& ioContext;
-        tcp::acceptor acceptor;
-        Connections connections;
+        boost::asio::io_context& m_IoContext;
+        tcp::acceptor m_Acceptor;
+        Connections m_Connections;
 };
