@@ -8,23 +8,22 @@
 namespace Util {
     class PacketTool {
         private:
-            unsigned char* m_Buffer;
+            unsigned char* m_Buffer = nullptr;
             size_t m_BufferLength;
             size_t m_CurrLength;
             size_t m_ReadPos;
-            size_t m_IncreasePacketBufferSize = 100;
 
         public:
             PacketTool() {
-                m_BufferLength = 0;
+                m_Buffer = new unsigned char[Constants::INCREASE_PACKET_BUFFER_SIZE];
+                m_BufferLength = Constants::INCREASE_PACKET_BUFFER_SIZE;
                 m_CurrLength = 0;
                 m_ReadPos = 0;
-                m_Buffer = new unsigned char[m_IncreasePacketBufferSize];
             }
 
             ~PacketTool() {
                 if (m_Buffer) {
-                    delete m_Buffer;
+                    delete[] m_Buffer;
                 }
             }
 
@@ -38,18 +37,17 @@ namespace Util {
 
             // template function specialisation for writing bytes based on the numeric types
             template<typename T>
-            void write(T value)
-            {
+            void write(T value) {
                 // adjust buffer
                 if (m_CurrLength + sizeof(T) >= m_BufferLength)
                 {
-                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + m_IncreasePacketBufferSize);
+                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + Constants::INCREASE_PACKET_BUFFER_SIZE);
                     if (temp != NULL) {
                         m_Buffer = temp;
-                        m_BufferLength += m_IncreasePacketBufferSize;
+                        m_BufferLength += Constants::INCREASE_PACKET_BUFFER_SIZE;
                     }
                 }
-
+                std::cout << "WRITE<T>: " << std::dec << value << std::hex << '\n';
                 *(T*)(m_Buffer + m_CurrLength) = value;
                 m_CurrLength += sizeof(T);
             }
@@ -61,10 +59,10 @@ namespace Util {
                 // adjust buffer
                 if (m_CurrLength + sizeof(bool) >= m_BufferLength)
                 {
-                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + m_IncreasePacketBufferSize);
+                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + Constants::INCREASE_PACKET_BUFFER_SIZE);
                     if (temp != NULL) {
                         m_Buffer = temp;
-                        m_BufferLength += m_IncreasePacketBufferSize;
+                        m_BufferLength += Constants::INCREASE_PACKET_BUFFER_SIZE;
                     }
                 }
 
@@ -81,10 +79,10 @@ namespace Util {
                 // adjust buffer
                 if (m_CurrLength + len >= m_BufferLength)
                 {
-                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + m_IncreasePacketBufferSize);
+                    unsigned char* temp = (unsigned char*)realloc(m_Buffer, m_BufferLength + Constants::INCREASE_PACKET_BUFFER_SIZE);
                     if (temp != NULL) {
                         m_Buffer = temp;
-                        m_BufferLength += m_IncreasePacketBufferSize;
+                        m_BufferLength += Constants::INCREASE_PACKET_BUFFER_SIZE;
                     }
                 }
 
@@ -135,7 +133,20 @@ namespace Util {
                 return s;
             }
 
-
+            void GetHandshake(unsigned char* recvIV, unsigned char* sendIV) {
+                //write<short>(m_PacketHandshakeServerLength + static_cast<short>(m_GameMinorVersion.length()));
+                //write<short>(m_GameVersion);
+                //write<std::string>(m_GameMinorVersion);
+                //write<int>(*(int*)recvIV);
+                //write<int>(*(int*)sendIV);
+                //write<signed char>(8);
+                write<short>(14);
+                write<short>(83);
+                write<std::string>("1");
+                write<int>(*(int*)recvIV);
+                write<int>(*(int*)sendIV);
+                write<signed char>(8);
+            }
 
 
 

@@ -17,6 +17,8 @@ using boost::asio::ip::tcp;
 // Forward Declarations
 class MapleClient;
 
+// Constants
+
 // Aliases
 using byte = unsigned char;
 using Connection = std::shared_ptr<MapleClient>; 

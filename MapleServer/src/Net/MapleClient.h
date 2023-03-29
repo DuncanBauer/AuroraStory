@@ -3,7 +3,6 @@
 // Aurora Server
 #include "ASIOCommon.h"
 #include "Net/MapleCrypto.h"
-#include "Net/MapleAES.h"
 #include "Util/PacketTool.h"
 
 #include <memory>
@@ -23,15 +22,19 @@ class MapleClient : public std::enable_shared_from_this<MapleClient>
         tcp::socket& GetSocket() { return this->m_Socket; }
         std::mutex& GetMutex() { return this->m_Mutex; }
 
-        std::unique_ptr<Util::PacketTool>& GetReadBuffer() { return this->m_ReadBuffer; }
-        std::unique_ptr<Util::PacketTool>& GetWriteBuffer() { return this->m_WriteBuffer; }
+        unsigned char* GetReadBuffer() { return this->m_ReadBuffer; }
+        unsigned char* GetWriteBuffer() { return this->m_WriteBuffer; }
 
     private:
-        std::unique_ptr<Net::Crypto::MapleAES> m_RecvCipher;
-        std::unique_ptr<Net::Crypto::MapleAES> m_SendCipher;
+        unsigned char* m_RecvIV;
+        unsigned char* m_SendIV;
 
-        std::unique_ptr<Util::PacketTool> m_ReadBuffer;
-        std::unique_ptr<Util::PacketTool> m_WriteBuffer;
+        unsigned char* m_ReadBuffer;
+        unsigned char* m_WriteBuffer;
+
+        int m_BufferLength = 100;
+        int m_CurrLength = 0;
+        int m_ReadPos = 0;
 
         std::mutex m_Mutex;
         tcp::socket m_Socket;
