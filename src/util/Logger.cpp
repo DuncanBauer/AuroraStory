@@ -2,7 +2,7 @@
 
 namespace util
 {
-    std::shared_ptr<spdlog::logger> Logger::m_logger;
+    std::shared_ptr<spdlog::logger> Logger::m_serverLogger;
 
     void Logger::init()
     {
@@ -13,14 +13,9 @@ namespace util
         logSinks[0]->set_pattern("%^[%T] %n: %v%$");
         logSinks[1]->set_pattern("[%T] [%l] %n: %v");
 
-        m_logger = std::make_shared<spdlog::logger>("SERVER", begin(logSinks), end(logSinks));
-        spdlog::register_logger(m_logger);
-        m_logger->set_level(spdlog::level::trace);
-        m_logger->flush_on(spdlog::level::trace);
-    }
-
-    std::shared_ptr<spdlog::logger>& Logger::getLogger()
-    {
-        return m_logger;
+        m_serverLogger = std::make_shared<spdlog::logger>("SERVER", begin(logSinks), end(logSinks));
+        spdlog::register_logger(m_serverLogger);
+        m_serverLogger->set_level(spdlog::level::trace);
+        m_serverLogger->flush_on(spdlog::level::trace);
     }
 }

@@ -1,21 +1,21 @@
 #pragma once
 
 #include "db/MongoDbHandler.h"
-#include "RecvOps.h"
-#include "PacketHandler.h"
-#include "TCPServerInterface.h"
+#include "net/packets/RecvOps.h"
+#include "net/packets/PacketHandler.h"
+#include "net/asio/TCPServerInterface.h"
 
 namespace net
 {
-    class TCPServer : public TCPServerInterface
+    class LoginServer : public TCPServerInterface
     {
-        typedef void(*fnPointer)(clientConnection, Packet&); // function pointer type
+        typedef void(*fnPointer)(Packet&); // function pointer type
         typedef std::unordered_map<byte, fnPointer> PacketHandlers;
 
     public:
-        TCPServer(uint16_t port);
+        LoginServer(asio::io_context& io_context, uint16_t port);
 
-        ~TCPServer();
+        ~LoginServer();
 
         MongoDbHandler& getDbHandler();
 
@@ -24,7 +24,7 @@ namespace net
 
         void onClientDisconnect(clientConnection client) override;
 
-        void onMessage(clientConnection client, Packet& packet) override;
+        void onMessage(Packet& packet) override;
 
     private:
         PacketHandlers m_packetHandlers;

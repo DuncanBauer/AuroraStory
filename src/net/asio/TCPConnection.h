@@ -2,7 +2,7 @@
 
 #include "asio.hpp"
 
-#include "TCPNet.h"
+#include "net/asio/TCPNet.h"
 #include "util/Logger.h"
 #include "util/ThreadSafeQueue.h"
 
@@ -15,13 +15,8 @@ namespace net
     class TCPConnection : public std::enable_shared_from_this<TCPConnection>
     {
     public:
-        enum class Owner
-        {
-            Server,
-            Client
-        };
 
-        TCPConnection(Owner parent, asio::io_context& ioContext, tcp::socket socket, util::ThreadSafeQueue<OwnedPacket>& incomingPackets);
+        TCPConnection(asio::io_context& ioContext, tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
 
         ~TCPConnection();
 
@@ -30,16 +25,13 @@ namespace net
         // Connect to client
         void connectToClient(TCPServerInterface* server, uint32_t uid = 0);
 
-        // Connect to server
-        void connectToServer(const tcp::resolver::results_type& endpoints);
-
-        // Disconnect from the client/server
+        // Disconnect from the client
         void disconnect();
 
         // Check if the connection is still up
         bool isConnected();
 
-        // Send a written packet to the client/server
+        // Send a written packet to the client
         void send(const Packet& packet);
 
         // Read an incoming packet header
@@ -59,7 +51,6 @@ namespace net
 
     private:
         uint32_t m_id = 0;
-        Owner m_owner = Owner::Server;
 
         // Unique socket to remote connection
         tcp::socket m_socket;
@@ -71,7 +62,7 @@ namespace net
         Packet m_tempIncomingPacket;
 
         // Holds messages coming from the remote connection(s)
-        util::ThreadSafeQueue<OwnedPacket>& m_incomingPackets;
+        util::ThreadSafeQueue<Packet>& m_incomingPackets;
 
         // Holds messages to be sent to the remote connection
         util::ThreadSafeQueue<Packet> m_outgoingPackets;

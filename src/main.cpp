@@ -1,7 +1,12 @@
-#include "net/LoginServer.h"
+#include <iostream>
+
+#include "util/Logger.h"
+#include "net/world/World.h"
 
 int main(int argc, char** argv)
 {
-    net::LoginServer loginServer(8484);
-    loginServer.start();
+    util::Logger::init();
+
+    net::World world;
+    world.run();
 }

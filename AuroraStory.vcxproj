@@ -174,21 +174,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\net\channel\ChannelServer.h" />
+    <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\net\crypto\CryptoConstants.h" />
-    <ClInclude Include="src\net\crypto\MapleAESOFB.h" />
-    <ClInclude Include="src\net\crypto\MapleCustomEncryption.h" />
-    <ClInclude Include="src\net\PacketHandler.h" />
+    <ClInclude Include="src\net\crypto\Crypto.h" />
+    <ClInclude Include="src\net\packets\PacketHandler.h" />
     <ClInclude Include="src\db\MongoDbHandler.h" />
-    <ClInclude Include="src\net\LoginServer.h" />
-    <ClInclude Include="src\net\RecvOps.h" />
-    <ClInclude Include="src\net\SendOps.h" />
-    <ClInclude Include="src\net\TCPConnection.h" />
-    <ClInclude Include="src\net\TCPNet.h" />
-    <ClInclude Include="src\net\TCPServer.h" />
-    <ClInclude Include="src\net\TCPServerInterface.h" />
+    <ClInclude Include="src\net\packets\RecvOps.h" />
+    <ClInclude Include="src\net\packets\SendOps.h" />
+    <ClInclude Include="src\net\asio\TCPConnection.h" />
+    <ClInclude Include="src\net\asio\TCPNet.h" />
+    <ClInclude Include="src\net\login\LoginServer.h" />
+    <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\util\Logger.h" />
-    <ClInclude Include="src\net\PacketTool.h" />
+    <ClInclude Include="src\net\packets\PacketTool.h" />
     <ClInclude Include="src\util\ThreadSafeQueue.h" />
     <ClInclude Include="vendor\aes\aes.h" />
     <ClInclude Include="vendor\aes\aes_ni.h" />
@@ -196,18 +196,18 @@
     <ClInclude Include="vendor\aes\aestab.h" />
     <ClInclude Include="vendor\aes\brg_endian.h" />
     <ClInclude Include="vendor\aes\brg_types.h" />
+    <ClInclude Include="src\net\world\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\net\crypto\MapleAESOFB.cpp" />
-    <ClCompile Include="src\net\crypto\MapleCustomEncryption.cpp" />
-    <ClCompile Include="src\net\LoginServer.cpp" />
-    <ClCompile Include="src\net\PacketHandler.cpp" />
+    <ClCompile Include="src\net\channel\ChannelServer.cpp" />
+    <ClCompile Include="src\net\crypto\Crypto.cpp" />
+    <ClCompile Include="src\net\packets\PacketHandler.cpp" />
     <ClCompile Include="src\db\MongoDbHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\net\PacketTool.cpp" />
-    <ClCompile Include="src\net\TCPConnection.cpp" />
-    <ClCompile Include="src\net\TCPServer.cpp" />
-    <ClCompile Include="src\net\TCPServerInterface.cpp" />
+    <ClCompile Include="src\net\packets\PacketTool.cpp" />
+    <ClCompile Include="src\net\asio\TCPConnection.cpp" />
+    <ClCompile Include="src\net\login\LoginServer.cpp" />
+    <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\util\Logger.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
@@ -215,6 +215,7 @@
     <ClCompile Include="vendor\aes\aescrypt.c" />
     <ClCompile Include="vendor\aes\aeskey.c" />
     <ClCompile Include="vendor\aes\aestab.c" />
+    <ClCompile Include="src\net\world\World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

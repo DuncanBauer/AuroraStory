@@ -1,10 +1,9 @@
 #include "TCPConnection.h"
 
-
 namespace net
 {
-    TCPConnection::TCPConnection(Owner parent, asio::io_context& ioContext, tcp::socket socket, util::ThreadSafeQueue<OwnedPacket>& incomingPackets)
-        : m_owner(parent), m_ioContext(ioContext), m_socket(std::move(socket)), m_incomingPackets(incomingPackets)
+    TCPConnection::TCPConnection(asio::io_context& ioContext, tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
+        : m_ioContext(ioContext), m_socket(std::move(socket)), m_incomingPackets(incomingPackets)
     {}
 
     TCPConnection::~TCPConnection()
@@ -20,8 +19,6 @@ namespace net
     // Connect to client
     void TCPConnection::connectToClient(TCPServerInterface* server, uint32_t uid)
     {
-        if (m_owner == Owner::Server)
-        {
             if (m_socket.is_open())
             {
                 m_id = uid;
@@ -35,24 +32,6 @@ namespace net
                 // Next, wait asynchronously for validation data to be returned from the client
                 //readValidation(server);
             }
-        }
-    }
-
-    // Connect to server
-    void TCPConnection::connectToServer(const tcp::resolver::results_type& endpoints)
-    {
-        if (m_owner == Owner::Client)
-        {
-            // Request asio attempts to connect to an endpoint
-            asio::async_connect(m_socket, endpoints,
-                [this](std::error_code ec, tcp::endpoint endpoints)
-                {
-                    if (!ec)
-                    // On connection, server will send packet to validate client
-                    //readValidation();
-                        readHeader();
-                });
-        }
     }
 
     // Disconnect from the client/server
@@ -78,13 +57,13 @@ namespace net
                 // If the queue has a message in it, then assume that it is in the process of asynchronously being written.
                 bool writingMessage = !m_outgoingPackets.empty();
 
-        // Either way add the message to the queue to be output.
-        m_outgoingPackets.push_back(packet);
+                // Either way add the message to the queue to be output.
+                m_outgoingPackets.push_back(packet);
 
-        // If no messages were available to be written, then start the process of writing the
-        // message at the front of the queue.
-        if (!writingMessage)
-            writeHeader();
+                // If no messages were available to be written, then start the process of writing the
+                // message at the front of the queue.
+                if (!writingMessage)
+                    writeHeader();
             });
     }
 
@@ -147,11 +126,7 @@ namespace net
     // Adds incoming packets to the packet queue for processing
     void TCPConnection::addToIncomingPacketQueue()
     {
-        // Convert to an OwnedPacket and add it to the queue
-        if (m_owner == Owner::Server)
-            m_incomingPackets.push_back({ this->shared_from_this(), m_tempIncomingPacket });
-        else
-            m_incomingPackets.push_back({ nullptr, m_tempIncomingPacket });
+        m_incomingPackets.push_back({ m_tempIncomingPacket });
 
         // Ready asio to read next packet header
         readHeader();

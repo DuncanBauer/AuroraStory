@@ -9,7 +9,7 @@ namespace net
     class TCPServerInterface
     {
     public:
-        TCPServerInterface(uint16_t port);
+        TCPServerInterface(asio::io_context& io_context, uint16_t port);
 
         virtual ~TCPServerInterface();
 
@@ -40,19 +40,17 @@ namespace net
         virtual void onClientDisconnect(std::shared_ptr<TCPConnection> client);
 
         // Called when a message is received
-        virtual void onMessage(std::shared_ptr<TCPConnection> client, Packet& packet);
+        virtual void onMessage(Packet& packet);
 
     private:
         // Order of declaration matters regardless of whether i want it to be
-        asio::io_context m_ioContext;
-
-        std::thread m_threadContext;
+        asio::io_context& m_ioContext;
 
         // Handles incoming connection attemps
         tcp::acceptor m_acceptor;
 
         // ThreadSafeQueue for incoming packets
-        util::ThreadSafeQueue<OwnedPacket> m_incomingPackets;
+        util::ThreadSafeQueue<Packet> m_incomingPackets;
 
         // Queue for connections
         std::deque<std::shared_ptr<TCPConnection>> m_connections;

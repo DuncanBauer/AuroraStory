@@ -2,7 +2,7 @@
 
 namespace net
 {
-    TCPServerInterface::TCPServerInterface(uint16_t port) : m_acceptor(m_ioContext, tcp::endpoint(tcp::v4(), port))
+    TCPServerInterface::TCPServerInterface(asio::io_context& io_context, uint16_t port) : m_ioContext(io_context), m_acceptor(m_ioContext, tcp::endpoint(tcp::v4(), port))
     {}
 
     TCPServerInterface::~TCPServerInterface()
@@ -15,15 +15,7 @@ namespace net
     {
         try
         {
-            // Issue a task to the asio context - This is important
-            // as it will prime the context with "work", and stop it
-            // from exiting immediately. Since this is a server, we 
-            // want it primed ready to handle clients trying to
-            // connect.
             listenForClientConnection();
-
-            // Launch the asio context in its own thread
-            m_threadContext = std::thread([this]() { m_ioContext.run(); });
         }
         catch (std::exception& e)
         {
@@ -39,13 +31,6 @@ namespace net
     // Stops the server
     void TCPServerInterface::stop()
     {
-        // Stop asio context
-        m_ioContext.stop();
-
-        // End asio thread
-        if (m_threadContext.joinable())
-            m_threadContext.join();
-
         // Output to console
         SERVER_INFO("[SERVER] Stopped!");
     }
@@ -64,7 +49,6 @@ namespace net
 
                     // Create new connection to handle client
                     std::shared_ptr <TCPConnection> conn = std::make_shared<TCPConnection>(
-                        TCPConnection::Owner::Server,
                         m_ioContext,
                         std::move(socket),
                         m_incomingPackets);
@@ -168,7 +152,7 @@ namespace net
                 auto packet = m_incomingPackets.pop_front();
 
                 // Handle packet
-                onMessage(packet.owner, packet.packet);
+                onMessage(packet);
 
                 packetCount++;
             }
@@ -186,6 +170,6 @@ namespace net
     {}
 
     // Called when a message is received
-    void TCPServerInterface::onMessage(std::shared_ptr<TCPConnection> client, Packet& packet)
+    void TCPServerInterface::onMessage(Packet& packet)
     {}
 }
