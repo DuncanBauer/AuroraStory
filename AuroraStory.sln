@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuroraStory", "AuroraStory.vcxproj", "{90A99020-FC5E-0916-8553-03EDF107001A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Unix = Debug|Unix
+		Debug|Windows = Debug|Windows
+		Release|Unix = Release|Unix
+		Release|Windows = Release|Windows
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Unix.Build.0 = Debug Unix|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Windows.Build.0 = Debug Windows|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Unix.ActiveCfg = Release Unix|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Unix.Build.0 = Release Unix|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Windows.ActiveCfg = Release Windows|x64
+		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Windows.Build.0 = Release Windows|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
