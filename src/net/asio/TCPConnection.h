@@ -1,7 +1,8 @@
 #pragma once
 
-#include "asio.hpp"
+#include <memory>
 
+#include "asio.hpp"
 #include "net/asio/TCPNet.h"
 #include "util/Logger.h"
 #include "util/ThreadSafeQueue.h"
@@ -16,55 +17,34 @@ namespace net
     {
     public:
 
-        TCPConnection(asio::io_context& ioContext, tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
-
+        TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
         ~TCPConnection();
 
-        uint32_t getID() const;
-
-        // Connect to client
-        void connectToClient(TCPServerInterface* server, uint32_t uid = 0);
-
-        // Disconnect from the client
+        void connect(TCPServerInterface* server, uint32_t uid = 0);
         void disconnect();
-
-        // Check if the connection is still up
         bool isConnected();
+        tcp::socket& getSocket();
 
-        // Send a written packet to the client
-        void send(const Packet& packet);
-
-        // Read an incoming packet header
+        /*void receive();
         void readHeader();
+        void readBody();*/
 
-        // Read an incoming packet body
-        void readBody();
+        void readHeader();
+        void readHeaderHandler(const std::error_code& ec, std::size_t bytes_transferred);
+        void readBodyHandler(const std::error_code& ec, std::size_t bytes_transferred);
 
-        // Adds incoming packets to the packet queue for processing
-        void addToIncomingPacketQueue();
-
-        // Write a packet header
+        void send(const Packet& packet);
         void writeHeader();
-
-        // Write a packet body
         void writeBody();
 
+    protected:
+        std::vector<byte> m_ivRecv;
+        std::vector<byte> m_ivSend;
+
     private:
-        uint32_t m_id = 0;
-
-        // Unique socket to remote connection
-        tcp::socket m_socket;
-
-        // This context is shared with the asio instance
-        asio::io_context& m_ioContext;
-
-        // Incoming messages are async so we store the partially assembled message here
-        Packet m_tempIncomingPacket;
-
-        // Holds messages coming from the remote connection(s)
-        util::ThreadSafeQueue<Packet>& m_incomingPackets;
-
-        // Holds messages to be sent to the remote connection
-        util::ThreadSafeQueue<Packet> m_outgoingPackets;
+        tcp::socket m_socket;                             // Unique socket to remote connection
+        std::shared_ptr<Packet> m_tempIncomingPacket;                      // Incoming messages are async so we store the partially assembled message here
+        util::ThreadSafeQueue<Packet>& m_incomingPackets; // Holds messages coming from the remote connection(s)
+        util::ThreadSafeQueue<Packet> m_outgoingPackets;  // Holds messages to be sent to the remote connection
     };
 }

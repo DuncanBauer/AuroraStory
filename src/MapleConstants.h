@@ -3,15 +3,10 @@
 #include <string>
 
 constexpr std::size_t k_packetHandshakeServerLength = 13; // the size of the handshake packet
-constexpr short k_gameVersion = 62; // mayor game version
-const std::string k_gameMinorVersion = "1"; // minor game version, if 0, then the string is empty
+constexpr short k_gameVersion = 62; // major game version
+const std::string k_gameMinorVersion = ""; // minor game version, if 0, then the string is empty
+constexpr std::size_t k_ivBufferSize = 16;
+constexpr std::size_t k_headerSize = 4;
+constexpr unsigned char k_gmsLocale = 8;
 
-namespace GameLocales
-{
-	const signed char kGlobalMapleStory = 8;
-}
-
-constexpr unsigned char kGameLocale = GameLocales::kGlobalMapleStory;
-
-// standard install path would be: "C:\\Nexon\\MapleStory\\"
-const std::string kGameFilePath = "C:/Nexon/Maplestory/";
+const std::string k_gameFilePath = "C:/Nexon/Maplestory/";

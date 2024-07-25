@@ -188,7 +188,7 @@
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\util\Logger.h" />
-    <ClInclude Include="src\net\packets\PacketTool.h" />
+    <ClInclude Include="src\net\packets\PacketCreator.h" />
     <ClInclude Include="src\util\ThreadSafeQueue.h" />
     <ClInclude Include="vendor\aes\aes.h" />
     <ClInclude Include="vendor\aes\aes_ni.h" />
@@ -201,10 +201,11 @@
   <ItemGroup>
     <ClCompile Include="src\net\channel\ChannelServer.cpp" />
     <ClCompile Include="src\net\crypto\Crypto.cpp" />
+    <ClCompile Include="src\net\packets\LoginPackets.cpp" />
     <ClCompile Include="src\net\packets\PacketHandler.cpp" />
     <ClCompile Include="src\db\MongoDbHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\net\packets\PacketTool.cpp" />
+    <ClCompile Include="src\net\packets\PacketCreator.cpp" />
     <ClCompile Include="src\net\asio\TCPConnection.cpp" />
     <ClCompile Include="src\net\login\LoginServer.cpp" />
     <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />

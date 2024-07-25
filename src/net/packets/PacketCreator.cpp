@@ -1,10 +1,35 @@
 #include "PacketCreator.h"
+#include <iostream>
+#include <iomanip>
 
 namespace net
 {
-    unsigned char PacketCreator::readByte()
+    std::vector<byte> PacketCreator::getPacketBuffer()
     {
-        unsigned char result = m_packetBuffer.front();
+        return m_packetBuffer;
+    }
+
+    void PacketCreator::clearPacketBuffer()
+    {
+        m_packetBuffer.clear();
+    }
+
+    void PacketCreator::outputPacketBuffer()
+    {
+        for (byte val : m_packetBuffer)
+        {
+            std::cout << std::hex
+                      << std::uppercase    // Print letters in uppercase (A-F)
+                      << std::setfill('0') // Fill with zeroes if necessary
+                      << std::setw(2)      // Set width to 2 characters (for a byte)<< val << ' ';
+                      << "0x" << (int)(val & 0xFF) << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    byte PacketCreator::readByte()
+    {
+        byte result = m_packetBuffer.front();
         m_packetBuffer.erase(m_packetBuffer.begin());
         return result;
     }
@@ -135,7 +160,12 @@ namespace net
         return data;
     }
 
-    void PacketCreator::writeByte(unsigned char data)
+    void PacketCreator::writeByte(byte data)
+    {
+        m_packetBuffer.push_back(data);
+    }
+
+    void PacketCreator::writeSByte(char data)
     {
         m_packetBuffer.push_back(data);
     }
@@ -194,8 +224,11 @@ namespace net
 
     void PacketCreator::writeString(std::string data)
     {
-        writeByte(static_cast<short>(data.size()));
-        for (unsigned char c : data)
-            writeByte(c);
+        if (data.size())
+        {
+            writeByte(static_cast<short>(data.size()));
+            for (byte c : data)
+                writeByte(c);
+        }
     }
 }

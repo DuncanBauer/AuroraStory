@@ -6,23 +6,23 @@
 
 namespace net
 {
-	unsigned char rotate_right(unsigned char val, unsigned short shifts)
+	byte rotateRight(byte val, unsigned short shifts)
 	{
 		shifts &= 7;
-		return static_cast<unsigned char>((val >> shifts) | (val << (8 - shifts)));
+		return static_cast<byte>((val >> shifts) | (val << (8 - shifts)));
 	}
 
-	unsigned char rotate_left(unsigned char val, unsigned short shifts)
+	byte rotateLeft(byte val, unsigned short shifts)
 	{
 		shifts &= 7;
-		return static_cast<unsigned char>((val << shifts) | (val >> (8 - shifts)));
+		return static_cast<byte>((val << shifts) | (val >> (8 - shifts)));
 	}
 
-	void shuffle_iv(unsigned char* iv)
+	void shuffleIv(byte* iv)
 	{
-		unsigned char new_iv[4] = { 0xF2, 0x53, 0x50, 0xC6 };
-		unsigned char input;
-		unsigned char value_input;
+		byte new_iv[4] = { 0xF2, 0x53, 0x50, 0xC6 };
+		byte input;
+		byte value_input;
 		unsigned int full_iv;
 		unsigned int shift;
 		int loop_counter = 0;
@@ -40,10 +40,10 @@ namespace net
 			full_iv = (new_iv[3] << 24) | (new_iv[2] << 16) | (new_iv[1] << 8) | new_iv[0];
 			shift = (full_iv >> 0x1D) | (full_iv << 0x03);
 
-			new_iv[0] = static_cast<unsigned char>(shift & 0xFFu);
-			new_iv[1] = static_cast<unsigned char>((shift >> 8) & 0xFFu);
-			new_iv[2] = static_cast<unsigned char>((shift >> 16) & 0xFFu);
-			new_iv[3] = static_cast<unsigned char>((shift >> 24) & 0xFFu);
+			new_iv[0] = static_cast<byte>(shift & 0xFFu);
+			new_iv[1] = static_cast<byte>((shift >> 8) & 0xFFu);
+			new_iv[2] = static_cast<byte>((shift >> 16) & 0xFFu);
+			new_iv[3] = static_cast<byte>((shift >> 24) & 0xFFu);
 		}
 
 		// set iv
@@ -53,9 +53,9 @@ namespace net
 		memcpy(iv + 12, new_iv, 4);
 	}
 
-	void aes_crypt(unsigned char* buffer, unsigned char* iv, unsigned short size)
+	void aesCrypt(byte* buffer, byte* iv, unsigned short size)
 	{
-		unsigned char temp_iv[16];
+		byte temp_iv[16];
 		unsigned short pos = 0;
 		unsigned short t_pos = 1456;
 		unsigned short bytes_amount;
@@ -85,14 +85,14 @@ namespace net
 		}
 	}
 
-	void decrypt(unsigned char* buffer, unsigned char* iv, unsigned short size)
+	void decrypt(byte* buffer, byte* iv, unsigned short size)
 	{
-		aes_crypt(buffer, iv, size);
-		shuffle_iv(iv);
+		aesCrypt(buffer, iv, size);
+		shuffleIv(iv);
 
-		unsigned char a;
-		unsigned char b;
-		unsigned char c;
+		byte a;
+		byte b;
+		byte c;
 		unsigned short temp_size;
 		int loop_counter = 0;
 
@@ -103,12 +103,12 @@ namespace net
 			for (temp_size = size; temp_size > 0; --temp_size)
 			{
 				c = buffer[temp_size - 1];
-				c = rotate_left(c, 3);
+				c = rotateLeft(c, 3);
 				c = c ^ 0x13;
 				a = c;
 				c = c ^ b;
-				c = static_cast<unsigned char>(c - temp_size);
-				c = rotate_right(c, 4);
+				c = static_cast<byte>(c - temp_size);
+				c = rotateRight(c, 4);
 				b = a;
 				buffer[temp_size - 1] = c;
 			}
@@ -119,21 +119,21 @@ namespace net
 				c = buffer[size - temp_size];
 				c = c - 0x48;
 				c = c ^ 0xFF;
-				c = rotate_left(c, temp_size);
+				c = rotateLeft(c, temp_size);
 				a = c;
 				c = c ^ b;
-				c = static_cast<unsigned char>(c - temp_size);
-				c = rotate_right(c, 3);
+				c = static_cast<byte>(c - temp_size);
+				c = rotateRight(c, 3);
 				b = a;
 				buffer[size - temp_size] = c;
 			}
 		}
 	}
 
-	void encrypt(unsigned char* buffer, unsigned char* iv, unsigned short size)
+	void encrypt(byte* buffer, byte* iv, unsigned short size)
 	{
-		unsigned char a;
-		unsigned char c;
+		byte a;
+		byte c;
 		unsigned short temp_size;
 		int loop_counter = 0;
 
@@ -143,11 +143,11 @@ namespace net
 			for (temp_size = size; temp_size > 0; --temp_size)
 			{
 				c = buffer[size - temp_size];
-				c = rotate_left(c, 3);
-				c = static_cast<unsigned char>(c + temp_size);
+				c = rotateLeft(c, 3);
+				c = static_cast<byte>(c + temp_size);
 				c = c ^ a;
 				a = c;
-				c = rotate_right(a, temp_size);
+				c = rotateRight(a, temp_size);
 				c = c ^ 0xFF;
 				c = c + 0x48;
 				buffer[size - temp_size] = c;
@@ -156,21 +156,21 @@ namespace net
 			for (temp_size = size; temp_size > 0; --temp_size)
 			{
 				c = buffer[temp_size - 1];
-				c = rotate_left(c, 4);
-				c = static_cast<unsigned char>(c + temp_size);
+				c = rotateLeft(c, 4);
+				c = static_cast<byte>(c + temp_size);
 				c = c ^ a;
 				a = c;
 				c = c ^ 0x13;
-				c = rotate_right(c, 3);
+				c = rotateRight(c, 3);
 				buffer[temp_size - 1] = c;
 			}
 		}
 
-		aes_crypt(buffer, iv, size);
-		shuffle_iv(iv);
+		aesCrypt(buffer, iv, size);
+		shuffleIv(iv);
 	}
 
-	void create_packet_header(unsigned char* buffer, unsigned char* iv, unsigned short size)
+	void createPacketHeader(byte* buffer, byte* iv, unsigned short size)
 	{
 		unsigned short version = (((iv[3] << 8) | iv[2]) ^ - (k_gameVersion + 1));
 		size = version ^ size;
@@ -182,7 +182,7 @@ namespace net
 		buffer[3] = (size >> 8) & 0xFF;
 	}
 
-	unsigned short get_packet_length(unsigned char* buffer)
+	unsigned short getPacketLength(byte* buffer)
 	{
 		return ((*(unsigned short*)(buffer)) ^ (*(unsigned short*)(buffer + 2)));
 	}

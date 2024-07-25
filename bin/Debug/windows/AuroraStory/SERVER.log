@@ -1,4 +1,11 @@
-[15:52:09] [info] SERVER: [SERVER] Started!
-[15:52:09] [info] SERVER: [SERVER] Started!
-[15:52:09] [info] SERVER: [SERVER] New Connection Error: The I/O operation has been aborted because of either a thread exit or an application request.
-[15:52:09] [info] SERVER: [SERVER] New Connection Error: The I/O operation has been aborted because of either a thread exit or an application request.
+[20:43:50] [info] SERVER: [SERVER] Started!
+[20:43:56] [info] SERVER: [SERVER] New Connection: 127.0.0.1:62833
+[20:43:56] [info] SERVER: [127.0.0.1] Connection Approved
+[20:43:56] [warning] SERVER: [127.0.0.1] Read Header Fail.
+[20:43:56] [warning] SERVER: An existing connection was forcibly closed by the remote host.
+[20:43:56] [info] SERVER: [SERVER] New Connection: 127.0.0.1:62834
+[20:43:56] [info] SERVER: [127.0.0.1] Connection Approved
+[20:43:56] [warning] SERVER: [127.0.0.1] Read Header Fail.
+[20:43:56] [warning] SERVER: An established connection was aborted by the software in your host machine.
+[20:43:56] [info] SERVER: [SERVER] New Connection: 127.0.0.1:62835
+[20:43:56] [info] SERVER: [127.0.0.1] Connection Approved

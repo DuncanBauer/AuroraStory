@@ -7,7 +7,13 @@ namespace net
     class PacketCreator
     {
     public:
-        unsigned char readByte();
+        std::vector<byte> getPacketBuffer();
+        void clearPacketBuffer();
+        void outputPacketBuffer();
+
+        void getHandshake(std::vector<byte> iv_recv, std::vector<byte> iv_send);
+
+        byte readByte();
         uint16_t readShort();
         int16_t readSignedShort();
         uint32_t readInt();
@@ -15,8 +21,10 @@ namespace net
         uint64_t readLong();
         int64_t readSignedLong();
         std::string readString(int length);
+        std::vector<byte> readVector(int length);
 
-        void writeByte(unsigned char data);
+        void writeByte(byte data);
+        void writeSByte(char data);
         void writeShort(uint16_t data);
         void writeSignedShort(int16_t data);
         void writeInt(uint32_t data);
@@ -26,6 +34,6 @@ namespace net
         void writeString(std::string data);
 
     private:
-        std::vector<unsigned char> m_packetBuffer;
+        std::vector<byte> m_packetBuffer;
     };
 }
