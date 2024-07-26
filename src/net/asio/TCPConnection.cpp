@@ -6,9 +6,11 @@
 
 namespace net
 {
-    TCPConnection::TCPConnection(tcp::socket socket) : m_socket(std::move(socket)),
-                                                       m_ivRecv(constant::k_ivBufferSize),
-                                                       m_ivSend(constant::k_ivBufferSize)
+    TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
+        : m_socket(std::move(socket)),
+          m_incomingPackets(incomingPackets),
+          m_ivRecv(constant::k_ivBufferSize),
+          m_ivSend(constant::k_ivBufferSize)
     {
     }
 

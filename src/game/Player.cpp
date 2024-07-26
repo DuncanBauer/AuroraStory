@@ -2,17 +2,13 @@
 
 namespace game
 {
-    Player::Player(tcp::socket socket) : TCPConnection(std::move(socket))
+    Player::Player(tcp::socket socket, util::ThreadSafeQueue<net::Packet>& incomingPackets) 
+        : TCPConnection(std::move(socket), incomingPackets)
     {
     }
     
     Player::~Player()
     {}
-
-    Player::handlePacket()
-    {
-
-    }
 
     int Player::login(const std::string& username, const std::string& password)
     {

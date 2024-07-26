@@ -16,7 +16,7 @@ namespace net
     class TCPConnection : public std::enable_shared_from_this<TCPConnection>
     {
     public:
-        TCPConnection(tcp::socket socket);
+        TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
         ~TCPConnection();
 
         void connect(TCPServerInterface* server, uint32_t uid = 0);
@@ -44,7 +44,7 @@ namespace net
     private:
         tcp::socket m_socket;                             // Unique socket to remote connection
         std::shared_ptr<Packet> m_tempIncomingPacket;     // Incoming messages are async so we store the partially assembled message here
-        util::ThreadSafeQueue<Packet> m_incomingPackets;  // Holds messages coming from the remote connection(s)
+        util::ThreadSafeQueue<Packet>& m_incomingPackets;  // Holds messages coming from the remote connection(s)
         util::ThreadSafeQueue<Packet> m_outgoingPackets;  // Holds messages to be sent to the remote connection
     };
 }

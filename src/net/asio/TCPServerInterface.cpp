@@ -43,7 +43,7 @@ namespace net
                 {
                     SERVER_INFO("[SERVER] New Connection: {}:{}", socket.remote_endpoint().address().to_string(), socket.remote_endpoint().port());
 
-                    std::shared_ptr<game::Player> conn = std::make_shared<game::Player>(std::move(socket));
+                    std::shared_ptr<game::Player> conn = std::make_shared<game::Player>(std::move(socket), m_incomingPackets);
 
                     onClientConnect(conn);
                     if (conn->isConnected())

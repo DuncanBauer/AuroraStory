@@ -5,7 +5,7 @@
 namespace game
 {
     using asio::ip::tcp;
- 
+
     struct PlayerStats
     {
 
@@ -14,10 +14,8 @@ namespace game
     class Player : public net::TCPConnection
     {
     public:
-        Player(tcp::socket socket);
+        Player(tcp::socket socket, util::ThreadSafeQueue<net::Packet>& incomingPackets);
         ~Player();
-
-        void handlePacket();
 
         int login(const std::string& username, const std::string& password);
         int logout();
