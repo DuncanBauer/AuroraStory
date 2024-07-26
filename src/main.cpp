@@ -1,8 +1,9 @@
 #include <iostream>
 
+#include "Master.h"
 #include "util/Logger.h"
-#include "net/world/World.h"
 #include "net/packets/PacketCreator.h"
+#include "util/HashPassword.h"
 
 int main(int argc, char** argv)
 {
@@ -23,10 +24,25 @@ int main(int argc, char** argv)
     //    << "0x" << (int)(val & 0xFF) << ' ';
     //std::cout << '\n';
 
+    // Initialize Logger
     util::Logger::init();
 
-    net::World world;
-    world.run();
+    Master master;
+
+    // Read config
+    std::cout << master.getConfig()["gameVersion"].as<std::string>() << '\n';
+
+    //std::string password = "duncan";
+    //std::string hashedPassword = util::generateHash(password);
+    //std::cout << "PASSWORD: " << password << '\n';
+    //std::cout << "HASHED PASSWORD: " << hashedPassword << '\n';
+
+    //if (util::verifyPassword(password, hashedPassword))
+    //    std::cout << "PASSWORD CORRECT\n";
+    //else
+    //    std::cout << "PASSWORD INCORRECT\n";
+
+    master.run();
 
     std::cin.get();
 }

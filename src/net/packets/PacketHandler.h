@@ -4,8 +4,9 @@
 
 namespace net
 {
-    namespace PacketHandler
+    class PacketHandler
     {
+    public:
         // GENERAL
        void handlePong(Packet& packet);
 
@@ -23,9 +24,9 @@ namespace net
        void handleViewAllChar(Packet& packet);
        void handlePickAllChar(Packet& packet);
        void handleCharSelect(Packet& packet);
-        //static void handleCheckCharName(Packet& packet);
-        //static void handleCreateChar(Packet& packet);
-        //static void handleDeleteChar(Packet& packet);
+       void handleCheckCharName(Packet& packet);
+       void handleCreateChar(Packet& packet);
+       void handleDeleteChar(Packet& packet);
        void handleClientStart(Packet& packet);
        void handleRelog(Packet& packet);
 

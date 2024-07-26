@@ -24,9 +24,9 @@ namespace constant
         constexpr short k_VIEW_ALL_CHAR = 0x0D;
         constexpr short k_PICK_ALL_CHAR = 0x0E;
         constexpr short k_CHAR_SELECT = 0x13;
-        //constexpr short k_CHECK_CHAR_NAME = CHAR_SELECT 2;
-        //constexpr short k_CREATE_CHAR = CHAR_SELECT 3;
-        //constexpr short k_DELETE_CHAR = CHAR_SELECT 4;
+        constexpr short k_CHECK_CHAR_NAME = 0x15;
+        constexpr short k_CREATE_CHAR = 0x16;
+        constexpr short k_DELETE_CHAR = 0x17;
         constexpr short k_CLIENT_START = 0x19;
         constexpr short k_RELOG = 0x1C;
 

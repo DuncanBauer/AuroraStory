@@ -1,4 +1,5 @@
 #include "TCPServerInterface.h"
+#include "game/Player.h"
 
 namespace net
 {
@@ -42,9 +43,7 @@ namespace net
                 {
                     SERVER_INFO("[SERVER] New Connection: {}:{}", socket.remote_endpoint().address().to_string(), socket.remote_endpoint().port());
 
-                    std::shared_ptr <TCPConnection> conn = std::make_shared<TCPConnection>(
-                        std::move(socket),
-                        m_incomingPackets);
+                    std::shared_ptr<game::Player> conn = std::make_shared<game::Player>(std::move(socket));
 
                     onClientConnect(conn);
                     if (conn->isConnected())

@@ -1,7 +1,7 @@
 #include <aes.h>
 
 #include "Crypto.h"
-#include "CryptoConstants.h"
+#include "constants/CryptoConstants.h"
 #include "constants/MapleConstants.h"
 
 namespace net
@@ -30,11 +30,11 @@ namespace net
 		for (; loop_counter < 4; loop_counter++)
 		{
 			input = iv[loop_counter];
-			value_input = k_shuffle[input];
+			value_input = constant::k_shuffle[input];
 
-			new_iv[0] += (k_shuffle[new_iv[1]] - input);
+			new_iv[0] += (constant::k_shuffle[new_iv[1]] - input);
 			new_iv[1] -= (new_iv[2] ^ value_input);
-			new_iv[2] ^= (k_shuffle[new_iv[3]] + input);
+			new_iv[2] ^= (constant::k_shuffle[new_iv[3]] + input);
 			new_iv[3] -= (new_iv[0] - value_input);
 
 			full_iv = (new_iv[3] << 24) | (new_iv[2] << 16) | (new_iv[1] << 8) | new_iv[0];
@@ -67,7 +67,7 @@ namespace net
 		{
 			memcpy(temp_iv, iv, 16);
 
-			aes_encrypt_key256(k_aesKey, cx);
+			aes_encrypt_key256(constant::k_aesKey, cx);
 
 			if (size > (pos + t_pos))
 			{

@@ -1,7 +1,23 @@
 #include "PacketCreator.h"
+#include "constants/MapleConstants.h"
 
 namespace net
 {
+    std::vector<byte> PacketCreator::getHandshake(std::vector<byte> iv_recv, std::vector<byte> iv_send)
+    {
+        std::vector<byte> packet;
+
+        writeShort(packet, 14);
+        writeShort(packet, constant::k_gameVersion);
+        writeShort(packet, constant::k_gameMinorVersion);
+        writeSByte(packet, 49);
+        writeInt(packet, *(int*)iv_recv.data());
+        writeInt(packet, *(int*)iv_send.data());
+        writeSByte(packet, constant::k_gmsLocale);
+
+        return packet;
+    }
+
     byte PacketCreator::readByte(std::vector<byte>& packet)
     {
         byte result = packet.front();
@@ -135,6 +151,11 @@ namespace net
         return data;
     }
 
+    std::string PacketCreator::readMapleString(std::vector<byte>& packet)
+    {
+        return readString(packet, readShort(packet));
+    }
+
     void PacketCreator::writeByte(std::vector<byte>& packet, byte data)
     {
         packet.push_back(data);
@@ -201,7 +222,7 @@ namespace net
     {
         if (data.size())
         {
-            writeByte(packet, static_cast<short>(data.size()));
+            writeShort(packet, static_cast<short>(data.size()));
             for (byte c : data)
                 writeByte(packet, c);
         }

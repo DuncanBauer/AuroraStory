@@ -4,11 +4,32 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\constants">
+      <UniqueIdentifier>{3977B3D6-A537-2F0D-6E72-788ADAF173E9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\db">
       <UniqueIdentifier>{424D661C-2EEF-90F2-17AA-A44603EB1743}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\net">
       <UniqueIdentifier>{E32030A9-4F00-AF44-5818-3A1BC47615A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\asio">
+      <UniqueIdentifier>{5ECE50A1-4A31-E045-F3B6-18FCDFF8ABC8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\channel">
+      <UniqueIdentifier>{2BE535D0-9770-A394-A081-26890C8CFF94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\crypto">
+      <UniqueIdentifier>{53F05E3D-3FBE-5243-2852-C36914BF2EA8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\login">
+      <UniqueIdentifier>{4B6D2FCC-B72D-AB02-8068-F47FECE7EFDE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\packets">
+      <UniqueIdentifier>{1D46B9A8-89D1-266D-92E2-A961FEEC826D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\world">
+      <UniqueIdentifier>{FAA9F6CC-666A-7203-2FA5-BB809B24B7DF}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\util">
       <UniqueIdentifier>{BA5238CF-A61F-93DA-CF38-8182BB64C868}</UniqueIdentifier>
@@ -21,28 +42,58 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\constants\MapleConstants.h">
+      <Filter>src\constants</Filter>
+    </ClInclude>
+    <ClInclude Include="src\constants\PacketConstant.h">
+      <Filter>src\constants</Filter>
+    </ClInclude>
     <ClInclude Include="src\db\MongoDbHandler.h">
       <Filter>src\db</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\LoginServer.h">
-      <Filter>src\net</Filter>
+    <ClInclude Include="src\net\asio\TCPConnection.h">
+      <Filter>src\net\asio</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\TCPConnection.h">
-      <Filter>src\net</Filter>
+    <ClInclude Include="src\net\asio\TCPNet.h">
+      <Filter>src\net\asio</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\TCPNet.h">
-      <Filter>src\net</Filter>
+    <ClInclude Include="src\net\asio\TCPServerInterface.h">
+      <Filter>src\net\asio</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\TCPServer.h">
-      <Filter>src\net</Filter>
+    <ClInclude Include="src\net\channel\ChannelServer.h">
+      <Filter>src\net\channel</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\TCPServerInterface.h">
-      <Filter>src\net</Filter>
+    <ClInclude Include="src\net\crypto\Crypto.h">
+      <Filter>src\net\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="src\net\crypto\CryptoConstants.h">
+      <Filter>src\net\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="src\net\login\LoginServer.h">
+      <Filter>src\net\login</Filter>
+    </ClInclude>
+    <ClInclude Include="src\net\packets\PacketCreator.h">
+      <Filter>src\net\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\net\packets\PacketHandler.h">
+      <Filter>src\net\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\net\world\World.h">
+      <Filter>src\net\world</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\util\ConfigTool.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\HashPassword.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\Logger.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\PacketTool.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\ThreadSafeQueue.h">
@@ -74,11 +125,41 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\LoginServer.cpp">
-      <Filter>src\net</Filter>
+    <ClCompile Include="src\net\asio\TCPConnection.cpp">
+      <Filter>src\net\asio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\asio\TCPServerInterface.cpp">
+      <Filter>src\net\asio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\channel\ChannelServer.cpp">
+      <Filter>src\net\channel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\crypto\Crypto.cpp">
+      <Filter>src\net\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\login\LoginServer.cpp">
+      <Filter>src\net\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\LoginPackets.cpp">
+      <Filter>src\net\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\PacketCreator.cpp">
+      <Filter>src\net\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\PacketHandler.cpp">
+      <Filter>src\net\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\world\World.cpp">
+      <Filter>src\net\world</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\ConfigTool.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\Logger.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="vendor\aes\aes_modes.c">
       <Filter>vendor\aes</Filter>

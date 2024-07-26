@@ -8,7 +8,7 @@ namespace net
         TCPServerInterface(io_context, port)
     {
         //Register Packet Handlers
-        m_packetHandlers[static_cast<byte>(constant::RecvOps::k_PONG)] = &PacketHandler::handlePong;
+        //m_packetHandlers[static_cast<byte>(constant::RecvOps::k_PONG)] = &PacketHandler::handlePong;
     }
 
     ChannelServer::~ChannelServer()

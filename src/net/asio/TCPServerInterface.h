@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TCPConnection.h"
-#include "db/MongoDbHandler.h"
 
 namespace net
 {
@@ -31,7 +30,6 @@ namespace net
 
     protected:
         PacketHandlers m_packetHandlers;
-        MongoDbHandler m_dbHandler;
 
     private:
         asio::io_context& m_ioContext;

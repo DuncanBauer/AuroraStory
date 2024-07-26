@@ -6,12 +6,11 @@
 
 namespace net
 {
-    TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
-        : m_socket(std::move(socket)),
-          m_incomingPackets(incomingPackets),
-          m_ivRecv(constant::k_ivBufferSize),
-          m_ivSend(constant::k_ivBufferSize)
-    {}
+    TCPConnection::TCPConnection(tcp::socket socket) : m_socket(std::move(socket)),
+                                                       m_ivRecv(constant::k_ivBufferSize),
+                                                       m_ivSend(constant::k_ivBufferSize)
+    {
+    }
 
     TCPConnection::~TCPConnection()
     {
@@ -116,9 +115,6 @@ namespace net
             std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
             std::cout << util::outputPacketString(*m_tempIncomingPacket.get()).str() << '\n';
 
-            // handle the packet
-            handlePacket(bytesAmount);
-
             // start an async read operation to receive the header of the next packet
             readPacket();
         }
@@ -185,9 +181,6 @@ namespace net
             disconnect();
         }
     }
-
-    void TCPConnection::handlePacket(int bytesAmount)
-    {}
 
     const tcp::socket& TCPConnection::getSocket() const
     {
