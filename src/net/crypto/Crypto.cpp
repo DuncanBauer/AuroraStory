@@ -2,7 +2,7 @@
 
 #include "Crypto.h"
 #include "CryptoConstants.h"
-#include "MapleConstants.h"
+#include "constants/MapleConstants.h"
 
 namespace net
 {
@@ -172,7 +172,7 @@ namespace net
 
 	void createPacketHeader(byte* buffer, byte* iv, unsigned short size)
 	{
-		unsigned short version = (((iv[3] << 8) | iv[2]) ^ - (k_gameVersion + 1));
+		unsigned short version = (((iv[3] << 8) | iv[2]) ^ - (constant::k_gameVersion + 1));
 		size = version ^ size;
 
 		buffer[0] = version & 0xFF;

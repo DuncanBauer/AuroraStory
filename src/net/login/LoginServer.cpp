@@ -1,5 +1,5 @@
 #include "LoginServer.h"
-#include "net/packets/PacketCreator.h"
+#include "constants/PacketConstant.h"
 
 namespace net
 {
@@ -7,7 +7,7 @@ namespace net
         TCPServerInterface(io_context, port)
     {
         //Register Packet Handlers
-        m_packetHandlers[static_cast<byte>(RecvOps::PONG)] = &PacketHandler::handlePong;
+        m_packetHandlers[static_cast<byte>(constant::RecvOps::k_PONG)] = &PacketHandler::handlePong;
     }
 
     LoginServer::~LoginServer()
@@ -15,13 +15,6 @@ namespace net
 
     void LoginServer::onClientConnect(clientConnection client)
     {
-        PacketCreator packetCreator;
-        packetCreator.getHandshake(m_ivRecv, m_ivSend);
-        std::vector<byte> packet = packetCreator.getPacketBuffer();
-        client->send(packet);
-    
-        packetCreator.outputPacketBuffer();
-        packetCreator.clearPacketBuffer();
     }
 
     void LoginServer::onClientDisconnect(clientConnection client)

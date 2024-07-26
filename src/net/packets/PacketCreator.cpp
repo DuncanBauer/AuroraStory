@@ -1,46 +1,21 @@
 #include "PacketCreator.h"
-#include <iostream>
-#include <iomanip>
 
 namespace net
 {
-    std::vector<byte> PacketCreator::getPacketBuffer()
+    byte PacketCreator::readByte(std::vector<byte>& packet)
     {
-        return m_packetBuffer;
-    }
-
-    void PacketCreator::clearPacketBuffer()
-    {
-        m_packetBuffer.clear();
-    }
-
-    void PacketCreator::outputPacketBuffer()
-    {
-        for (byte val : m_packetBuffer)
-        {
-            std::cout << std::hex
-                      << std::uppercase    // Print letters in uppercase (A-F)
-                      << std::setfill('0') // Fill with zeroes if necessary
-                      << std::setw(2)      // Set width to 2 characters (for a byte)<< val << ' ';
-                      << "0x" << (int)(val & 0xFF) << ' ';
-        }
-        std::cout << '\n';
-    }
-
-    byte PacketCreator::readByte()
-    {
-        byte result = m_packetBuffer.front();
-        m_packetBuffer.erase(m_packetBuffer.begin());
+        byte result = packet.front();
+        packet.erase(packet.begin());
         return result;
     }
 
-    uint16_t PacketCreator::readShort()
+    uint16_t PacketCreator::readShort(std::vector<byte>& packet)
     {
         uint16_t r1, r2;
         uint16_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
 
         result |= r2 << 8;
         result |= r1;
@@ -48,13 +23,13 @@ namespace net
         return result;
     }
 
-    int16_t PacketCreator::readSignedShort()
+    int16_t PacketCreator::readSignedShort(std::vector<byte>& packet)
     {
         int16_t r1, r2;
         int16_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
 
         result |= r2 << 8;
         result |= r1;
@@ -62,15 +37,15 @@ namespace net
         return result;
     }
 
-    uint32_t PacketCreator::readInt()
+    uint32_t PacketCreator::readInt(std::vector<byte>& packet)
     {
         uint32_t r1, r2, r3, r4;
         uint32_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
-        r3 = readByte();
-        r4 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
+        r3 = readByte(packet);
+        r4 = readByte(packet);
 
         result |= r4 << 24;
         result |= r3 << 16;
@@ -80,15 +55,15 @@ namespace net
         return result;
     }
 
-    int32_t PacketCreator::readSignedInt()
+    int32_t PacketCreator::readSignedInt(std::vector<byte>& packet)
     {
         int32_t r1, r2, r3, r4;
         int32_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
-        r3 = readByte();
-        r4 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
+        r3 = readByte(packet);
+        r4 = readByte(packet);
 
         result |= r4 << 24;
         result |= r3 << 16;
@@ -98,20 +73,20 @@ namespace net
         return result;
     }
 
-    uint64_t PacketCreator::readLong()
+    uint64_t PacketCreator::readLong(std::vector<byte>& packet)
     {
         uint64_t r1, r2, r3, r4,
             r5, r6, r7, r8;
         uint64_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
-        r3 = readByte();
-        r4 = readByte();
-        r5 = readByte();
-        r6 = readByte();
-        r7 = readByte();
-        r8 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
+        r3 = readByte(packet);
+        r4 = readByte(packet);
+        r5 = readByte(packet);
+        r6 = readByte(packet);
+        r7 = readByte(packet);
+        r8 = readByte(packet);
 
         result |= r8 << 56;
         result |= r7 << 48;
@@ -125,20 +100,20 @@ namespace net
         return result;
     }
 
-    int64_t PacketCreator::readSignedLong()
+    int64_t PacketCreator::readSignedLong(std::vector<byte>& packet)
     {
         int64_t r1, r2, r3, r4,
             r5, r6, r7, r8;
         int64_t result = 0;
 
-        r1 = readByte();
-        r2 = readByte();
-        r3 = readByte();
-        r4 = readByte();
-        r5 = readByte();
-        r6 = readByte();
-        r7 = readByte();
-        r8 = readByte();
+        r1 = readByte(packet);
+        r2 = readByte(packet);
+        r3 = readByte(packet);
+        r4 = readByte(packet);
+        r5 = readByte(packet);
+        r6 = readByte(packet);
+        r7 = readByte(packet);
+        r8 = readByte(packet);
 
         result |= r8 << 56;
         result |= r7 << 48;
@@ -152,83 +127,83 @@ namespace net
         return result;
     }
 
-    std::string PacketCreator::readString(int length)
+    std::string PacketCreator::readString(std::vector<byte>& packet, int length)
     {
         std::string data;
         for (int i = 0; i < length; i++)
-            data += readByte();
+            data += readByte(packet);
         return data;
     }
 
-    void PacketCreator::writeByte(byte data)
+    void PacketCreator::writeByte(std::vector<byte>& packet, byte data)
     {
-        m_packetBuffer.push_back(data);
+        packet.push_back(data);
     }
 
-    void PacketCreator::writeSByte(char data)
+    void PacketCreator::writeSByte(std::vector<byte>& packet, char data)
     {
-        m_packetBuffer.push_back(data);
+        packet.push_back(data);
     }
 
-    void PacketCreator::writeShort(uint16_t data)
+    void PacketCreator::writeShort(std::vector<byte>& packet, uint16_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
     }
 
-    void PacketCreator::writeSignedShort(int16_t data)
+    void PacketCreator::writeSignedShort(std::vector<byte>& packet, int16_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
     }
 
-    void PacketCreator::writeInt(uint32_t data)
+    void PacketCreator::writeInt(std::vector<byte>& packet, uint32_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
-        writeByte((data >> 16) & 0xFF);
-        writeByte((data >> 24) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
+        writeByte(packet, (data >> 16) & 0xFF);
+        writeByte(packet, (data >> 24) & 0xFF);
     }
 
-    void PacketCreator::writeSignedInt(int32_t data)
+    void PacketCreator::writeSignedInt(std::vector<byte>& packet, int32_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
-        writeByte((data >> 16) & 0xFF);
-        writeByte((data >> 24) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
+        writeByte(packet, (data >> 16) & 0xFF);
+        writeByte(packet, (data >> 24) & 0xFF);
     }
 
-    void PacketCreator::writeLong(uint64_t data)
+    void PacketCreator::writeLong(std::vector<byte>& packet, uint64_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
-        writeByte((data >> 16) & 0xFF);
-        writeByte((data >> 24) & 0xFF);
-        writeByte((data >> 32) & 0xFF);
-        writeByte((data >> 40) & 0xFF);
-        writeByte((data >> 48) & 0xFF);
-        writeByte((data >> 56) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
+        writeByte(packet, (data >> 16) & 0xFF);
+        writeByte(packet, (data >> 24) & 0xFF);
+        writeByte(packet, (data >> 32) & 0xFF);
+        writeByte(packet, (data >> 40) & 0xFF);
+        writeByte(packet, (data >> 48) & 0xFF);
+        writeByte(packet, (data >> 56) & 0xFF);
     }
 
-    void PacketCreator::writeSignedLong(int64_t data)
+    void PacketCreator::writeSignedLong(std::vector<byte>& packet, int64_t data)
     {
-        writeByte(data & 0xFF);
-        writeByte((data >> 8) & 0xFF);
-        writeByte((data >> 16) & 0xFF);
-        writeByte((data >> 24) & 0xFF);
-        writeByte((data >> 32) & 0xFF);
-        writeByte((data >> 40) & 0xFF);
-        writeByte((data >> 48) & 0xFF);
-        writeByte((data >> 56) & 0xFF);
+        writeByte(packet, data & 0xFF);
+        writeByte(packet, (data >> 8) & 0xFF);
+        writeByte(packet, (data >> 16) & 0xFF);
+        writeByte(packet, (data >> 24) & 0xFF);
+        writeByte(packet, (data >> 32) & 0xFF);
+        writeByte(packet, (data >> 40) & 0xFF);
+        writeByte(packet, (data >> 48) & 0xFF);
+        writeByte(packet, (data >> 56) & 0xFF);
     }
 
-    void PacketCreator::writeString(std::string data)
+    void PacketCreator::writeString(std::vector<byte>& packet, std::string data)
     {
         if (data.size())
         {
-            writeByte(static_cast<short>(data.size()));
+            writeByte(packet, static_cast<short>(data.size()));
             for (byte c : data)
-                writeByte(c);
+                writeByte(packet, c);
         }
     }
 }

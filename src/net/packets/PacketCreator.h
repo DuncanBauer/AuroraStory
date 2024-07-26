@@ -7,33 +7,25 @@ namespace net
     class PacketCreator
     {
     public:
-        std::vector<byte> getPacketBuffer();
-        void clearPacketBuffer();
-        void outputPacketBuffer();
+        std::vector<byte> getHandshake(std::vector<byte> iv_recv, std::vector<byte> iv_send);
 
-        void getHandshake(std::vector<byte> iv_recv, std::vector<byte> iv_send);
+        byte readByte(std::vector<byte>& packet);
+        uint16_t readShort(std::vector<byte>& packet);
+        int16_t readSignedShort(std::vector<byte>& packet);
+        uint32_t readInt(std::vector<byte>& packet);
+        int32_t readSignedInt(std::vector<byte>& packet);
+        uint64_t readLong(std::vector<byte>& packet);
+        int64_t readSignedLong(std::vector<byte>& packet);
+        std::string readString(std::vector<byte>& packet, int length);
 
-        byte readByte();
-        uint16_t readShort();
-        int16_t readSignedShort();
-        uint32_t readInt();
-        int32_t readSignedInt();
-        uint64_t readLong();
-        int64_t readSignedLong();
-        std::string readString(int length);
-        std::vector<byte> readVector(int length);
-
-        void writeByte(byte data);
-        void writeSByte(char data);
-        void writeShort(uint16_t data);
-        void writeSignedShort(int16_t data);
-        void writeInt(uint32_t data);
-        void writeSignedInt(int32_t data);
-        void writeLong(uint64_t data);
-        void writeSignedLong(int64_t data);
-        void writeString(std::string data);
-
-    private:
-        std::vector<byte> m_packetBuffer;
+        void writeByte(std::vector<byte>& packet, byte data);
+        void writeSByte(std::vector<byte>& packet, char data);
+        void writeShort(std::vector<byte>& packet, uint16_t data);
+        void writeSignedShort(std::vector<byte>& packet, int16_t data);
+        void writeInt(std::vector<byte>& packet, uint32_t data);
+        void writeSignedInt(std::vector<byte>& packet, int32_t data);
+        void writeLong(std::vector<byte>& packet, uint64_t data);
+        void writeSignedLong(std::vector<byte>& packet, int64_t data);
+        void writeString(std::vector<byte>& packet, std::string data);
     };
 }

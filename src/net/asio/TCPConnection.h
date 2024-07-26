@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "asio.hpp"
-#include "net/asio/TCPNet.h"
+#include "TCPNet.h"
 #include "util/Logger.h"
 #include "util/ThreadSafeQueue.h"
 
@@ -23,19 +23,23 @@ namespace net
         void connect(TCPServerInterface* server, uint32_t uid = 0);
         void disconnect();
         bool isConnected();
-        tcp::socket& getSocket();
-
-        /*void receive();
-        void readHeader();
-        void readBody();*/
-
-        void readHeader();
-        void readHeaderHandler(const std::error_code& ec, std::size_t bytes_transferred);
-        void readBodyHandler(const std::error_code& ec, std::size_t bytes_transferred);
 
         void send(const Packet& packet);
-        void writeHeader();
-        void writeBody();
+
+        const tcp::socket& getSocket() const;
+        const std::vector<byte>& getIvRecv() const;
+        const std::vector<byte>& getIvSend() const;
+
+    protected:
+        void handlePacket(int bytes_amount);
+
+    private:
+        void readPacket();
+        void readHeaderHandler(const std::error_code& ec, std::size_t bytes_transferred);
+        void readBodyHandler(const std::error_code& ec, std::size_t bytes_transferred);
+        
+        void writePacket();
+        void writeHandler(const std::error_code& ec, std::size_t bytes_transferred);
 
     protected:
         std::vector<byte> m_ivRecv;
@@ -43,7 +47,7 @@ namespace net
 
     private:
         tcp::socket m_socket;                             // Unique socket to remote connection
-        std::shared_ptr<Packet> m_tempIncomingPacket;                      // Incoming messages are async so we store the partially assembled message here
+        std::shared_ptr<Packet> m_tempIncomingPacket;     // Incoming messages are async so we store the partially assembled message here
         util::ThreadSafeQueue<Packet>& m_incomingPackets; // Holds messages coming from the remote connection(s)
         util::ThreadSafeQueue<Packet> m_outgoingPackets;  // Holds messages to be sent to the remote connection
     };

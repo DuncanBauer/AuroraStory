@@ -1,6 +1,5 @@
 #pragma once
 
-#include "net/packets/RecvOps.h"
 #include "net/packets/PacketHandler.h"
 #include "net/asio/TCPServerInterface.h"
 

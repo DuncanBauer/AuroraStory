@@ -1,14 +1,16 @@
 #include "TCPConnection.h"
+#include "constants/MapleConstants.h"
 #include "net/crypto/Crypto.h"
-#include "MapleConstants.h"
+#include "net/packets/PacketCreator.h"
+#include "util/PacketTool.h"
 
 namespace net
 {
     TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
         : m_socket(std::move(socket)),
           m_incomingPackets(incomingPackets),
-          m_ivRecv(k_ivBufferSize),
-          m_ivSend(k_ivBufferSize)
+          m_ivRecv(constant::k_ivBufferSize),
+          m_ivSend(constant::k_ivBufferSize)
     {}
 
     TCPConnection::~TCPConnection()
@@ -20,7 +22,21 @@ namespace net
     void TCPConnection::connect(TCPServerInterface* server, uint32_t uid)
     {
         if (m_socket.is_open())
-            readHeader();
+        {
+            PacketCreator packetCreator;
+            std::vector<byte> packet = packetCreator.getHandshake(m_ivRecv, m_ivSend);
+            std::cout << "Sending: " << util::outputPacketHex(packet).str();
+
+            // start an async read operation to receive the header of the next packet
+            asio::async_write(m_socket,
+                              asio::buffer(packet.data(), packet.size()),
+                              std::bind(&TCPConnection::writeHandler,
+                                        shared_from_this(),
+                                        std::placeholders::_1,
+                                        std::placeholders::_2));
+
+            readPacket();
+        }
     }
 
     void TCPConnection::disconnect()
@@ -34,13 +50,9 @@ namespace net
         return m_socket.is_open();
     }
 
-    tcp::socket& TCPConnection::getSocket()
+    void TCPConnection::readPacket()
     {
-        return m_socket;
-    }
-
-    void TCPConnection::readHeader()
-    {
+        std::cout << "Start Read Packet\n";
         m_tempIncomingPacket.reset(new Packet(4));
 
         // start an async read operation to receive the header of the next packet
@@ -52,12 +64,16 @@ namespace net
                                    std::placeholders::_2));
     }
 
-    void TCPConnection::readHeaderHandler(const std::error_code& ec, std::size_t bytes_transferred)
+    void TCPConnection::readHeaderHandler(const std::error_code& ec, std::size_t bytesTransferred)
     {
+        std::cout << "Start Read Header: ";
+        std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
+
         if (!ec)
         {
             // get the packet length from the header buffer
             unsigned short packetLength = net::getPacketLength(m_tempIncomingPacket.get()->data());
+            std::cout << "Received packet length: " << packetLength << '\n';
 
             // a packet must consist of 2 bytes atleast
             if (packetLength < 2)
@@ -79,144 +95,112 @@ namespace net
         }
         else
         {
+            SERVER_WARN("[{}] Read Header Fail.", m_socket.remote_endpoint().address().to_string());
+            SERVER_WARN(ec.message());
             disconnect();
         }
     }
 
-    void TCPConnection::readBodyHandler(const std::error_code& ec, std::size_t bytes_transferred)
+    void TCPConnection::readBodyHandler(const std::error_code& ec, std::size_t bytesTransferred)
     {
+        std::cout << "Start Read Body: ";
         if (!ec)
         {
             // get the packet length
-            unsigned short bytes_amount = static_cast<unsigned short>(bytes_transferred);
+            unsigned short bytesAmount = static_cast<unsigned short>(bytesTransferred);
 
             // decrypt the packet
-            net::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytes_amount);
+            net::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
+            m_incomingPackets.push_back(*m_tempIncomingPacket.get());
+
+            std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
+            std::cout << util::outputPacketString(*m_tempIncomingPacket.get()).str() << '\n';
 
             // handle the packet
-            m_player->handlePacket(bytes_amount);
+            handlePacket(bytesAmount);
 
             // start an async read operation to receive the header of the next packet
-            readHeader();
+            readPacket();
         }
         else
         {
+            SERVER_WARN("[{}] Read Body Fail.", m_socket.remote_endpoint().address().to_string());
+            SERVER_WARN(ec.message());
             disconnect();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     void TCPConnection::send(const Packet& packet)
     {
         bool writingMessage = !m_outgoingPackets.empty();
         m_outgoingPackets.push_back(packet);
 
+        // If we're already writing packets, the packet will be sent eventually anyways
         if (!writingMessage)
-            writeHeader();
+            writePacket();
     }
 
-    void TCPConnection::writeHeader()
+    void TCPConnection::writePacket()
     {
-        asio::async_write(m_socket, asio::buffer(&m_outgoingPackets.front(), 4),
-            [this](std::error_code ec, std::size_t length)
-            {
-                if (!ec)
-                {
-                    if (m_outgoingPackets.front().size() > 0)
-                        writeBody();
-                    else
-                    {
-                        m_outgoingPackets.pop_front();
-                        if (!m_outgoingPackets.empty())
-                            writeHeader();
-                    }
-                }
-                else
-                {
-                    SERVER_WARN("[{}] Write Header Fail.", m_socket.remote_endpoint().address().to_string());
-                    SERVER_WARN(ec.message());
-                    m_socket.close();
-                }
-            });
+        std::vector<byte> outgoingPacket = m_outgoingPackets.pop_front();
+        size_t packetLength = outgoingPacket.size();
+
+        std::vector<byte> tempOutgoingPacketBuffer(packetLength + 4);
+
+        // Create packet header
+        net::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<unsigned short>(packetLength));
+
+        // Move packet bytes to new buffer
+        std::copy(outgoingPacket.begin(), outgoingPacket.end(), tempOutgoingPacketBuffer.begin() + 4);
+
+        // Encrypt packet
+        net::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<unsigned short>(packetLength));
+
+        // start an async read operation to receive the header of the next packet
+        asio::async_write(m_socket,
+                          asio::buffer(tempOutgoingPacketBuffer.data(), packetLength),
+                          std::bind(&TCPConnection::writeHandler,
+                                    shared_from_this(),
+                                    std::placeholders::_1,
+                                    std::placeholders::_2));
     }
 
-    void TCPConnection::writeBody()
+    void TCPConnection::writeHandler(const std::error_code& ec, std::size_t bytesTransferred)
     {
-        asio::async_write(m_socket, asio::buffer(m_outgoingPackets.front().data(), m_outgoingPackets.front().size()),
-            [this](std::error_code ec, std::size_t length)
+        if (!ec)
+        {
+            // Remove the packet from the outgoing queue and see if there's any more to send, if so write the next packet
+            if (m_outgoingPackets.empty())
             {
-                if (!ec)
-                {
-                    m_outgoingPackets.pop_front();
-                    if (!m_outgoingPackets.empty())
-                        writeHeader();
-                }
-                else
-                {
-                    SERVER_WARN("[{}] Write Body Fail.", m_socket.remote_endpoint().address().to_string());
-                    SERVER_WARN(ec.message());
-                    m_socket.close();
-                }
-            });
+                SERVER_INFO("No more packets to write.");
+                return;
+            }
+            
+            writePacket();
+        }
+        else
+        {
+            SERVER_WARN("[{}] Write Packet Fail.", m_socket.remote_endpoint().address().to_string());
+            SERVER_WARN(ec.message());
+            disconnect();
+        }
+    }
+
+    void TCPConnection::handlePacket(int bytesAmount)
+    {}
+
+    const tcp::socket& TCPConnection::getSocket() const
+    {
+        return m_socket;
+    }
+
+    const std::vector<byte>& TCPConnection::getIvRecv() const
+    {
+        return m_ivRecv;
+    }
+    
+    const std::vector<byte>& TCPConnection::getIvSend() const
+    {
+        return m_ivSend;
     }
 }
