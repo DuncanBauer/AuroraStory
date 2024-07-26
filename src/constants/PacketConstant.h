@@ -82,7 +82,7 @@ namespace constant
         constexpr uint16_t k_QUEST_ACTION = 0x62;
         constexpr uint16_t k_SKILL_MACRO = 0x65;
         constexpr uint16_t k_REPORT_PLAYER = 0x68;
-        constexpr uint16_t k_PARTYCHAT = 0x6B;
+        constexpr uint16_t k_PARTY_CHAT = 0x6B;
         constexpr uint16_t k_WHISPER = 0x6C;
         constexpr uint16_t k_SPOUSE_CHAT = 0x6D;
         constexpr uint16_t k_MESSENGER = 0x6E;
@@ -95,7 +95,7 @@ namespace constant
         constexpr uint16_t k_BUDDY_LIST_MODIFY = 0x76;
         constexpr uint16_t k_NOTE_ACTION = 0x77;
         constexpr uint16_t k_USE_DOOR = 0x79;
-        constexpr uint16_t k_CHANGE_KEYMAP = 0x7B;
+        constexpr uint16_t k_CHANGE_KEY_MAP = 0x7B;
         constexpr uint16_t k_RING_ACTION = 0x7D;
         constexpr uint16_t k_ALLIANCE_OPERATION = 0x83;
         constexpr uint16_t k_BBS_OPERATION = 0x86;
@@ -117,8 +117,8 @@ namespace constant
         constexpr uint16_t k_PARTY_SEARCH_REGISTER = 0xBF;
         constexpr uint16_t k_PARTY_SEARCH_START = 0xBD;
         constexpr uint16_t k_PLAYER_UPDATE = 0xC0;
-        constexpr uint16_t k_MAPLETV = 0xD4;
-        constexpr uint16_t k_MTS_OP = 0xD9;
+        constexpr uint16_t k_MAPLE_TV = 0xD4;
+        constexpr uint16_t k_MTS_OPERATION = 0xD9;
 
         // CASHSHOP
         constexpr uint16_t k_TOUCHING_CS = 0xC5;
@@ -126,8 +126,8 @@ namespace constant
         constexpr uint16_t k_COUPON_CODE = 0xC7;
 
         // PET
-        constexpr uint16_t k_SPAWN_PET = 0x5A;
-        constexpr uint16_t k_MOVE_PET = 0x8C;
+        constexpr uint16_t k_PET_SPAWN = 0x5A;
+        constexpr uint16_t k_PET_MOVE = 0x8C;
         constexpr uint16_t k_PET_CHAT = 0x8D;
         constexpr uint16_t k_PET_COMMAND = 0x8E;
         constexpr uint16_t k_PET_LOOT = 0x8F;

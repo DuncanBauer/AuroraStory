@@ -28,11 +28,17 @@
     <Filter Include="src\net\login">
       <UniqueIdentifier>{4B6D2FCC-B72D-AB02-8068-F47FECE7EFDE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\net\login\handlers">
-      <UniqueIdentifier>{ABCE4030-97C8-6982-8035-00936CCECFEE}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\net\packets">
       <UniqueIdentifier>{1D46B9A8-89D1-266D-92E2-A961FEEC826D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\packets\creators">
+      <UniqueIdentifier>{8F6A2DDC-7B8F-7C5C-A4DA-61EC905E7B7A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\packets\handlers">
+      <UniqueIdentifier>{BDB30872-A9D8-57F2-D223-3D82BEA75610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\packets\handlers\login">
+      <UniqueIdentifier>{A53BC51A-9161-8F81-7AA7-144D666CB44D}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\net\world">
       <UniqueIdentifier>{FAA9F6CC-666A-7203-2FA5-BB809B24B7DF}</UniqueIdentifier>
@@ -155,14 +161,71 @@
     <ClCompile Include="src\net\login\LoginServer.cpp">
       <Filter>src\net\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\login\handlers\LoginPasswordHandler.cpp">
-      <Filter>src\net\login\handlers</Filter>
-    </ClCompile>
     <ClCompile Include="src\net\packets\PacketCreator.cpp">
       <Filter>src\net\packets</Filter>
     </ClCompile>
     <ClCompile Include="src\net\packets\PacketHandler.cpp">
       <Filter>src\net\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\GetHandshake.cpp">
+      <Filter>src\net\packets\creators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\PongHandler.cpp">
+      <Filter>src\net\packets\handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\AfterLoginHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CharListRequestHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CharSelectHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CheckCharNameHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ClientStartHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CreateCharHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\DeleteCharHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\GuestLoginHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\PickAllCharHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\PlayerDCHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\RegisterPinHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\RelogHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ServerListRequestHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ServerListRerequestHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequestHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\SetGenderHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ViewAllCharHandler.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
     </ClCompile>
     <ClCompile Include="src\net\world\World.cpp">
       <Filter>src\net\world</Filter>

@@ -93,7 +93,7 @@ namespace net
         static void handleWhisper(Packet& packet);
         static void handleSpouseChat(Packet& packet);
         static void handleMessenger(Packet& packet);
-        static void handlePlayerO(Packet& packet);
+        static void handlePlayerShop(Packet& packet);
         static void handlePlayerInteraction(Packet& packet);
         static void handlePartyOperation(Packet& packet);
         static void handleDenyPartyRequest(Packet& packet);
@@ -101,7 +101,7 @@ namespace net
         static void handleDenyGuildRequest(Packet& packet);
         static void handleBuddyListModify(Packet& packet);
         static void handleNoteAction(Packet& packet);
-        static void handleUserDoor(Packet& packet);
+        static void handleUseDoor(Packet& packet);
         static void handleChangeKeymap(Packet& packet);
         static void handleRingAction(Packet& packet);
         static void handleAllianceOperation(Packet& packet);
@@ -125,16 +125,12 @@ namespace net
         static void handlePartySearchStart(Packet& packet);
         static void handlePlayerUpdate(Packet& packet);
         static void handleMapleTV(Packet& packet);
-        static void handleMTSOp(Packet& packet);
-
-        // CASHSHOP
+        static void handleMTSOperation(Packet& packet);
         static void handleTouchingCS(Packet& packet);
         static void handleBuyCSItem(Packet& packet);
         static void handleCouponCode(Packet& packet);
-
-        // PET
-        static void handleSpawnPet(Packet& packet);
-        static void handleMovePet(Packet& packet);
+        static void handlePetSpawn(Packet& packet);
+        static void handlePetMove(Packet& packet);
         static void handlePetChat(Packet& packet);
         static void handlePetCommand(Packet& packet);
         static void handlePetLoot(Packet& packet);
