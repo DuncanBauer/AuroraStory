@@ -6,16 +6,69 @@
 #include <mongocxx/database.hpp>
 #include <mongocxx/uri.hpp>
 
-// Accounts collection
-//{
-//    "_id": "user_id",
-//    "username"         : "username",
-//    "password_hash"    : "hashed_password",
-//    "salt"             : "salt",
-//    "created_at"       : "timestamp",
-//    "last_login"       : "timestamp",
-//    "status"           : "int",
-//}
+/*
+Accounts collection
+    _id           : ObjectId
+    username      : string
+    password_hash : string
+    gm_level      : number
+    logged_in     : number
+    birthday      : number
+    email         : string
+    created_at    : number
+    last_login    : number
+    last_ip       : string
+    banned        : boolean
+    ban_reason    : string
+    guest         : boolean
+    nx            : number
+*/
+
+/*
+Characters collection
+    _id              : ObjectId
+    account_id       : ObjectId
+    name             : string
+    gm               : number
+    fame             : number
+    level            : number
+    job              : number
+    rank             : number
+    rank_move        : number
+    job_rank         : number
+    job_rank_move    : number
+    exp              : number
+    ap               : number
+    sp               : number
+    hp               : number
+    mp               : number
+    maxhp            : number
+    maxmp            : number
+    hp_ap_used       : number
+    mp_ap_used       : number
+    str              : number
+    dex              : number
+    luk              : number
+    int              : number
+    gender           : number
+    skin_color       : number
+    hair             : number
+    face             : number
+    party_id         : ObjectId
+    guild_id         : ObjectId
+    buddy_capacity   : number
+    map              : number
+    spawn_point      : number
+    match_card_wins  : number
+    match_card_loses : number
+    match_card_ties  : number
+    omok_wins        : number
+    omok_loses       : number
+    omok_ties        : number
+    has_merchant     : ObjectId
+    merchant_mesos   : number
+    created_at       : number
+*/
 
 typedef std::chrono::seconds seconds_t;
 typedef std::optional<bsoncxx::v_noabi::document::value> findOneResult;
@@ -36,6 +89,8 @@ namespace db
         void initialize(const std::string& mongoURI, const std::string& mongoDB);
 
         bool createAccount(const std::string& username, const std::string& password);
+        bool createCharacter(const std::string& name, const uint16_t gender, const uint16_t skinColor,
+            const uint16_t hair, const uint16_t face);
 
     private:
         findOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,

@@ -13,6 +13,7 @@ struct ServerSettings
     uint16_t worldCount;
     uint16_t loginServerPort;
     uint16_t channelServerPort;
+    bool guestLoginEnabled;
     bool autoRegisterEnabled;
     bool picEnabled;
     bool pinEnabled;

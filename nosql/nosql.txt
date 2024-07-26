@@ -1,0 +1,20 @@
+use aurorastory;
+db.createCollection("accounts");
+db.accounts.createIndex({ "username": 1 }, { "unique": true });
+db.createCollection("characters");
+db.characters.createIndex({ "name": 1 }, { "unique": true });
+db.createCollection("inventories");
+db.createCollection("buddies");
+db.createCollection("parties");
+db.createCollection("guilds");
+db.guilds.createIndex({ "name": 1 }, { "unique": true });
+db.createCollection("alliances");
+db.alliances.createIndex({ "name": 1 }, { "unique": true });
+db.createCollection("shops");
+db.createCollection("drops");
+
+db.createCollection("ipLogs");
+db.createCollection("banLogs");
+db.createCollection("fameLogs");
+db.createCollection("reportLogs");
+db.createCollection("tradeLogs");

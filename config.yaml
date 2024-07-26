@@ -3,6 +3,7 @@ gameVersion: 62
 worldCount: 1
 loginServerPort: 8484
 channelServerPort: 7575
+guestLoginEnabled: false
 autoRegisterEnabled: true
 picEnabled: false
 pinEnabled: false

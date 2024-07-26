@@ -1,11 +1,11 @@
 #include "pch.h"
 
-
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <mongocxx/instance.hpp>
 
 #include "util/Logger.h"
+#include "util/TimeTool.h"
 #include "DbHandler.h"
 
 namespace db
@@ -29,11 +29,11 @@ namespace db
         m_dropCollection = m_db["drops"];
 
         // Log collections
-        m_ipLogCollection = m_db["ipLog"];
-        m_banLogCollection = m_db["banLog"];
-        m_fameLogCollection = m_db["fameLog"];
-        m_reportLogCollection = m_db["reportLog"];
-        m_tradeLogCollection = m_db["tradeLog"];
+        m_ipLogCollection = m_db["ipLogs"];
+        m_banLogCollection = m_db["banLogs"];
+        m_fameLogCollection = m_db["fameLogs"];
+        m_reportLogCollection = m_db["reportLogs"];
+        m_tradeLogCollection = m_db["tradeLogs"];
     }
 
     bool DbHandler::createAccount(const std::string& username, const std::string& password)
@@ -41,29 +41,27 @@ namespace db
         SERVER_INFO("DbHandler::createAccount");
         try
         {
-            //// Generate salt and hash password
-            //std::string salt = generateSalt(16);
-            //std::string hashedPassword = hashPassword(password, salt);
+            // Define document
+            auto newDoc = bsoncxx::builder::stream::document{}
+                << "username" << username
+                << "password_hash" << password
+                << "gm_level" << 0
+                << "logged_in" << 0
+                << "birthday" << 0
+                << "email" << ""
+                << "created_at" << util::getEpochSeconds()
+                << "last_login" << 0
+                << "last_ip" << ""
+                << "banned" << 0
+                << "ban_reason" << ""
+                << "guest" << 1
+                << "nx" << 0
+                << bsoncxx::builder::stream::finalize;
 
-            //// Initialize empty server array
-            //bsoncxx::builder::basic::array serversArr = bsoncxx::builder::basic::array{};
-
-            //// Define document
-            //auto newDoc = bsoncxx::builder::stream::document{}
-            //    << "username" << username
-            //    << "password_hash" << hashedPassword
-            //    << "salt" << salt
-            //    << "owned_servers" << serversArr
-            //    << "servers" << serversArr
-            //    << "created_at" << std::to_string(getSecondsSinceEpoch())
-            //    << "last_login" << 0
-            //    << "status" << (int)UserStatus::OFFLINE
-            //    << bsoncxx::builder::stream::finalize;
-
-            //// Perform insertion
-            //auto creationResult = insertOneWithRetry(m_userCollection, newDoc.view());
-            //if (!creationResult)
-            //    SERVER_INFO("User document could not be created");
+            // Perform insertion
+            auto creationResult = insertOneWithRetry(m_accountCollection, newDoc.view());
+            if (!creationResult)
+                SERVER_INFO("User document could not be created");
 
             return true;
         }
@@ -72,7 +70,74 @@ namespace db
             SERVER_ERROR("{}", e.what());
             return false;
         }
-    
+
+        return true;
+    }
+
+    bool DbHandler::createCharacter(const std::string& name, const uint16_t gender, const uint16_t skinColor,
+                                    const uint16_t hair, const uint16_t face)
+    {
+        SERVER_INFO("DbHandler::createCharacter");
+        try
+        {
+            // Define document
+            auto newDoc = bsoncxx::builder::stream::document{}
+                << "account_id" << bsoncxx::oid()
+                << "name" << name
+                << "gm" << 0
+                << "fame" << 0
+                << "level" << 1
+                << "job" << 0
+                << "rank" << 0
+                << "rank_move" << 0
+                << "job_rank" << 0
+                << "job_rank_move" << 0
+                << "exp" << 0
+                << "ap" << 9
+                << "sp" << 0
+                << "hp" << 50
+                << "mp" << 5
+                << "maxhp" << 50
+                << "maxmp" << 5
+                << "hp_ap_used" << 0
+                << "mp_ap_used" << 0
+                << "str" << 0
+                << "dex" << 0
+                << "luk" << 0
+                << "int" << 0
+                << "gender" << gender
+                << "skin_color" << skinColor
+                << "hair" << hair
+                << "face" << face
+                << "party_id" << bsoncxx::oid()
+                << "guild_id" << bsoncxx::oid()
+                << "buddy_capacity" << 20
+                << "map" << 0
+                << "spawn_point" << 0
+                << "match_card_wins" << 0
+                << "match_card_loses" << 0
+                << "match_card_ties" << 0
+                << "omok_wins" << 0
+                << "omok_loses" << 0
+                << "omok_ties" << 0
+                << "has_merchant" << bsoncxx::oid()
+                << "merchant_mesos" << 0
+                << "created_at" << util::getEpochSeconds()
+                << bsoncxx::builder::stream::finalize;
+
+            // Perform insertion
+            auto creationResult = insertOneWithRetry(m_characterCollection, newDoc.view());
+            if (!creationResult)
+                SERVER_INFO("User document could not be created");
+
+            return true;
+        }
+        catch (std::exception& e)
+        {
+            SERVER_ERROR("{}", e.what());
+            return false;
+        }
+
         return true;
     }
 
