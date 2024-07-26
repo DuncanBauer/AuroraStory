@@ -8,7 +8,7 @@ namespace net
 {
     TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
         : m_socket(std::move(socket)),
-          m_incomingPackets(incomingPackets),
+          m_incomingPacketServerQueue(incomingPackets),
           m_ivRecv(constant::k_ivBufferSize),
           m_ivSend(constant::k_ivBufferSize)
     {
@@ -112,7 +112,15 @@ namespace net
 
             // decrypt the packet
             net::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
-            m_incomingPackets.push_back(*m_tempIncomingPacket.get());
+
+            // Add the packet to different processing queues base on packet type (chat packets can go to the server packet queue
+            //m_incomingPacketServerQueue.push_back(*m_tempIncomingPacket.get());
+            m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
+            
+            if (!m_processingPackets)
+            {
+                processPackets();
+            }
 
             std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
             std::cout << util::outputPacketString(*m_tempIncomingPacket.get()).str() << '\n';
@@ -130,8 +138,8 @@ namespace net
 
     void TCPConnection::send(const Packet& packet)
     {
-        bool writingMessage = !m_outgoingPackets.empty();
-        m_outgoingPackets.push_back(packet);
+        bool writingMessage = !m_outgoingPacketQueue.empty();
+        m_outgoingPacketQueue.push_back(packet);
 
         // If we're already writing packets, the packet will be sent eventually anyways
         if (!writingMessage)
@@ -140,7 +148,7 @@ namespace net
 
     void TCPConnection::writePacket()
     {
-        std::vector<byte> outgoingPacket = m_outgoingPackets.pop_front();
+        std::vector<byte> outgoingPacket = m_outgoingPacketQueue.pop_front();
         size_t packetLength = outgoingPacket.size();
 
         std::vector<byte> tempOutgoingPacketBuffer(packetLength + 4);
@@ -168,7 +176,7 @@ namespace net
         if (!ec)
         {
             // Remove the packet from the outgoing queue and see if there's any more to send, if so write the next packet
-            if (m_outgoingPackets.empty())
+            if (m_outgoingPacketQueue.empty())
             {
                 SERVER_INFO("No more packets to write.");
                 return;

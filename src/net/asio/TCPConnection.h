@@ -24,6 +24,7 @@ namespace net
         bool isConnected();
 
         void send(const Packet& packet);
+        virtual void processPackets() = 0;
 
         const tcp::socket& getSocket() const;
         const std::vector<byte>& getIvRecv() const;
@@ -40,11 +41,13 @@ namespace net
     protected:
         std::vector<byte> m_ivRecv;
         std::vector<byte> m_ivSend;
+        util::ThreadSafeQueue<Packet> m_incomingPacketPersonalQueue;  // Holds messages coming from the remote connection(s)
+        bool m_processingPackets = false;
 
     private:
         tcp::socket m_socket;                             // Unique socket to remote connection
         std::shared_ptr<Packet> m_tempIncomingPacket;     // Incoming messages are async so we store the partially assembled message here
-        util::ThreadSafeQueue<Packet>& m_incomingPackets;  // Holds messages coming from the remote connection(s)
-        util::ThreadSafeQueue<Packet> m_outgoingPackets;  // Holds messages to be sent to the remote connection
+        util::ThreadSafeQueue<Packet>& m_incomingPacketServerQueue;  // Holds messages coming from the remote connection(s)
+        util::ThreadSafeQueue<Packet> m_outgoingPacketQueue;  // Holds messages to be sent to the remote connection
     };
 }

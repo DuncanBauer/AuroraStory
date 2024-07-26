@@ -17,6 +17,8 @@ namespace game
         Player(tcp::socket socket, util::ThreadSafeQueue<net::Packet>& incomingPackets);
         ~Player();
 
+        void processPackets();
+
         int login(const std::string& username, const std::string& password);
         int logout();
         int changeChannel();

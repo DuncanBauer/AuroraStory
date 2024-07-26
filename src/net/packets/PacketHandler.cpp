@@ -1,9 +1,13 @@
-//#include "PacketHandler.h"
-//
-//namespace net
-//{
-//    namespace PacketHandler
-//    {
+#include "PacketHandler.h"
+
+#include "constants/PacketConstant.h"
+
+namespace net
+{
+    void PacketHandler::registerHandlers()
+    {
+        m_packetHandlers[static_cast<byte>(constant::RecvOps::k_PONG)] = [this](net::Packet& packet) { handlePong(packet); };
+    }
 //        // GENERAL
 //        void handlePong(Packet& packet) {}
 //
@@ -128,5 +132,4 @@
 //        void handlePetCommand(Packet& packet) {}
 //        void handlePetLoot(Packet& packet) {}
 //        void handlePetFood(Packet& packet) {}
-//    };
-//}
+}

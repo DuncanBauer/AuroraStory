@@ -5,6 +5,8 @@
 
 namespace constant
 {
+    size_t maxPackets = 20; // Max numbers of packets to process at once
+
     namespace RecvOps
     {
         // GENERAL
