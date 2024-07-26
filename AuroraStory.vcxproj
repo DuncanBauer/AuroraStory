@@ -174,20 +174,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\game\Player.h" />
+    <ClInclude Include="src\Master.h" />
+    <ClInclude Include="src\constants\CryptoConstants.h" />
     <ClInclude Include="src\constants\MapleConstants.h" />
     <ClInclude Include="src\constants\PacketConstant.h" />
     <ClInclude Include="src\db\DbHandler.h" />
+    <ClInclude Include="src\game\Player.h" />
     <ClInclude Include="src\net\asio\TCPConnection.h" />
     <ClInclude Include="src\net\asio\TCPNet.h" />
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\net\channel\ChannelServer.h" />
     <ClInclude Include="src\net\crypto\Crypto.h" />
-    <ClInclude Include="src\constants\CryptoConstants.h" />
     <ClInclude Include="src\net\login\LoginServer.h" />
     <ClInclude Include="src\net\packets\PacketCreator.h" />
     <ClInclude Include="src\net\packets\PacketHandler.h" />
-    <ClInclude Include="src\Master.h" />
+    <ClInclude Include="src\net\world\World.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\util\HashPassword.h" />
     <ClInclude Include="src\util\Logger.h" />
@@ -199,21 +200,21 @@
     <ClInclude Include="vendor\aes\aestab.h" />
     <ClInclude Include="vendor\aes\brg_endian.h" />
     <ClInclude Include="vendor\aes\brg_types.h" />
-    <ClInclude Include="src\net\world\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\Player.cpp" />
-    <ClCompile Include="src\net\login\handlers\LoginPasswordHandler.cpp" />
+    <ClCompile Include="src\Master.cpp" />
     <ClCompile Include="src\db\DbHandler.cpp" />
+    <ClCompile Include="src\game\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\net\asio\TCPConnection.cpp" />
     <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />
     <ClCompile Include="src\net\channel\ChannelServer.cpp" />
     <ClCompile Include="src\net\crypto\Crypto.cpp" />
     <ClCompile Include="src\net\login\LoginServer.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp" />
     <ClCompile Include="src\net\packets\PacketCreator.cpp" />
     <ClCompile Include="src\net\packets\PacketHandler.cpp" />
-    <ClCompile Include="src\Master.cpp" />
+    <ClCompile Include="src\net\world\World.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\util\Logger.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
@@ -221,7 +222,6 @@
     <ClCompile Include="vendor\aes\aescrypt.c" />
     <ClCompile Include="vendor\aes\aeskey.c" />
     <ClCompile Include="vendor\aes\aestab.c" />
-    <ClCompile Include="src\net\world\World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,6 +10,9 @@
     <Filter Include="src\db">
       <UniqueIdentifier>{424D661C-2EEF-90F2-17AA-A44603EB1743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{165530CF-0222-8BDA-2B3B-79821767C068}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\net">
       <UniqueIdentifier>{E32030A9-4F00-AF44-5818-3A1BC47615A6}</UniqueIdentifier>
     </Filter>
@@ -24,6 +27,9 @@
     </Filter>
     <Filter Include="src\net\login">
       <UniqueIdentifier>{4B6D2FCC-B72D-AB02-8068-F47FECE7EFDE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\login\handlers">
+      <UniqueIdentifier>{ABCE4030-97C8-6982-8035-00936CCECFEE}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\net\packets">
       <UniqueIdentifier>{1D46B9A8-89D1-266D-92E2-A961FEEC826D}</UniqueIdentifier>
@@ -42,14 +48,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Master.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\constants\CryptoConstants.h">
+      <Filter>src\constants</Filter>
+    </ClInclude>
     <ClInclude Include="src\constants\MapleConstants.h">
       <Filter>src\constants</Filter>
     </ClInclude>
     <ClInclude Include="src\constants\PacketConstant.h">
       <Filter>src\constants</Filter>
     </ClInclude>
-    <ClInclude Include="src\db\MongoDbHandler.h">
+    <ClInclude Include="src\db\DbHandler.h">
       <Filter>src\db</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Player.h">
+      <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\net\asio\TCPConnection.h">
       <Filter>src\net\asio</Filter>
@@ -66,9 +81,6 @@
     <ClInclude Include="src\net\crypto\Crypto.h">
       <Filter>src\net\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\crypto\CryptoConstants.h">
-      <Filter>src\net\crypto</Filter>
-    </ClInclude>
     <ClInclude Include="src\net\login\LoginServer.h">
       <Filter>src\net\login</Filter>
     </ClInclude>
@@ -83,9 +95,6 @@
     </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\ConfigTool.h">
-      <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\HashPassword.h">
       <Filter>src\util</Filter>
@@ -119,8 +128,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\db\MongoDbHandler.cpp">
+    <ClCompile Include="src\Master.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\DbHandler.cpp">
       <Filter>src\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Player.cpp">
+      <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
@@ -140,8 +155,8 @@
     <ClCompile Include="src\net\login\LoginServer.cpp">
       <Filter>src\net\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\LoginPackets.cpp">
-      <Filter>src\net\packets</Filter>
+    <ClCompile Include="src\net\login\handlers\LoginPasswordHandler.cpp">
+      <Filter>src\net\login\handlers</Filter>
     </ClCompile>
     <ClCompile Include="src\net\packets\PacketCreator.cpp">
       <Filter>src\net\packets</Filter>
@@ -154,9 +169,6 @@
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\ConfigTool.cpp">
-      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="src\util\Logger.cpp">
       <Filter>src\util</Filter>

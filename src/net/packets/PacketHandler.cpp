@@ -1,34 +1,38 @@
+#include "pch.h"
+
 #include "PacketHandler.h"
 
 #include "constants/PacketConstant.h"
 
 namespace net
 {
+    PacketHandlers PacketHandler::m_packetHandlers;
+
     void PacketHandler::registerHandlers()
     {
-        m_packetHandlers[static_cast<byte>(constant::RecvOps::k_PONG)] = [this](net::Packet& packet) { handlePong(packet); };
+        // GENERAL
+        m_packetHandlers[constant::RecvOps::k_PONG] = [this](net::Packet& packet) { handlePong(packet); };
+
+        // LOGIN
+        m_packetHandlers[constant::RecvOps::k_LOGIN_PASSWORD]       = [this](net::Packet& packet) { handleLoginPassword(packet); };
+        m_packetHandlers[constant::RecvOps::k_GUEST_LOGIN]          = [this](net::Packet& packet) { handleGuestLogin(packet); };
+        m_packetHandlers[constant::RecvOps::k_SERVERLIST_REREQUEST] = [this](net::Packet& packet) { handleServerListRerequest(packet); };
+        m_packetHandlers[constant::RecvOps::k_CHARLIST_REQUEST]     = [this](net::Packet& packet) { handleCharListRequest(packet); };
+        m_packetHandlers[constant::RecvOps::k_SERVERSTATUS_REQUEST] = [this](net::Packet& packet) { handleServerStatusRequest(packet); };
+        m_packetHandlers[constant::RecvOps::k_SET_GENDER]           = [this](net::Packet& packet) { handleSetGender(packet); };
+        m_packetHandlers[constant::RecvOps::k_AFTER_LOGIN]          = [this](net::Packet& packet) { handleAfterLogin(packet); };
+        m_packetHandlers[constant::RecvOps::k_REGISTER_PIN]         = [this](net::Packet& packet) { handleRegisterPin(packet); };
+        m_packetHandlers[constant::RecvOps::k_SERVERLIST_REQUEST]   = [this](net::Packet& packet) { handleServerListRequest(packet); };
+        m_packetHandlers[constant::RecvOps::k_PLAYER_DC]            = [this](net::Packet& packet) { handlePlayerDC(packet); };
+        m_packetHandlers[constant::RecvOps::k_VIEW_ALL_CHAR]        = [this](net::Packet& packet) { handleViewAllChar(packet); };
+        m_packetHandlers[constant::RecvOps::k_PICK_ALL_CHAR]        = [this](net::Packet& packet) { handlePickAllChar(packet); };
+        m_packetHandlers[constant::RecvOps::k_CHAR_SELECT]          = [this](net::Packet& packet) { handleCharSelect(packet); };
+        m_packetHandlers[constant::RecvOps::k_CHECK_CHAR_NAME]      = [this](net::Packet& packet) { handleCheckCharName(packet); };
+        m_packetHandlers[constant::RecvOps::k_CREATE_CHAR]          = [this](net::Packet& packet) { handleCreateChar(packet); };
+        m_packetHandlers[constant::RecvOps::k_DELETE_CHAR]          = [this](net::Packet& packet) { handleDeleteChar(packet); };
+        m_packetHandlers[constant::RecvOps::k_CLIENT_START]         = [this](net::Packet& packet) { handleClientStart(packet); };
+        m_packetHandlers[constant::RecvOps::k_RELOG]                = [this](net::Packet& packet) { handleRelog(packet); };
     }
-//        // GENERAL
-//        void handlePong(Packet& packet) {}
-//
-//        // LOGIN
-//        void handleGuestLogin(Packet& packet) {}
-//        void handleServerListRerequest(Packet& packet) {}
-//        void handleCharListRequest(Packet& packet) {}
-//        void handleServerStatusRequest(Packet& packet) {}
-//        void handleSetGender(Packet& packet) {}
-//        void handleAfterLogin(Packet& packet) {}
-//        void handleRegisterPin(Packet& packet) {}
-//        void handleServerListRequest(Packet& packet) {}
-//        void handlePlayerDC(Packet& packet) {}
-//        void handleViewAllChar(Packet& packet) {}
-//        void handlePickAllChar(Packet& packet) {}
-//        void handleCharSelect(Packet& packet) {}
-//        //void handleCheckCharName(Packet& packet) {}
-//        //void handleCreateChar(Packet& packet) {}
-//        //void handleDeleteChar(Packet& packet) {}
-//        void handleClientStart(Packet& packet) {}
-//        void handleRelog(Packet& packet) {}
 //
 //        // CHANNEL
 //        void handlePlayerLoggedIn(Packet& packet) {}

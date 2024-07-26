@@ -7,7 +7,7 @@
 
 namespace net
 {
-    typedef std::unordered_map<byte, std::function<void(Packet&)>> PacketHandlers;
+    typedef std::unordered_map<uint16_t, std::function<void(Packet&)>> PacketHandlers;
 
     class PacketHandler
     {

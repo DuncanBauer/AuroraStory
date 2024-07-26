@@ -24,7 +24,7 @@ namespace net
         bool isConnected();
 
         void send(const Packet& packet);
-        virtual void processPackets() = 0;
+        virtual void processPacket(Packet& packet) = 0;
 
         const tcp::socket& getSocket() const;
         const std::vector<byte>& getIvRecv() const;

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "ChannelServer.h"
 
 #include "constants/PacketConstant.h"

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PacketCreator.h"
 #include "constants/MapleConstants.h"
 

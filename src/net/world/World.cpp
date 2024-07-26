@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "World.h"
 
 namespace net
@@ -15,5 +17,15 @@ namespace net
     void World::initialize()
     {
 
+    }
+
+    WorldSettings& World::getSettings()
+    {
+        return m_settings;
+    }
+    
+    WorldRates& World::getRates()
+    {
+        return m_rates;
     }
 }

@@ -3,6 +3,7 @@
 #include "yaml-cpp/yaml.h"
 
 #include "db/DbHandler.h"
+#include "net/packets/PacketHandler.h"
 #include "net/world/World.h"
 
 struct ServerSettings
@@ -39,4 +40,5 @@ private:
     db::DbHandler m_dbHandler;
     ServerSettings m_settings;
     std::vector<net::World> m_worlds;
+    net::PacketHandler packetHandler;
 };

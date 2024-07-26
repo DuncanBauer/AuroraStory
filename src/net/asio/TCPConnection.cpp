@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "TCPConnection.h"
 #include "constants/MapleConstants.h"
 #include "net/crypto/Crypto.h"
@@ -115,12 +117,9 @@ namespace net
 
             // Add the packet to different processing queues base on packet type (chat packets can go to the server packet queue
             //m_incomingPacketServerQueue.push_back(*m_tempIncomingPacket.get());
-            m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
+            //m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
             
-            if (!m_processingPackets)
-            {
-                processPackets();
-            }
+            processPacket(*m_tempIncomingPacket.get());
 
             std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
             std::cout << util::outputPacketString(*m_tempIncomingPacket.get()).str() << '\n';

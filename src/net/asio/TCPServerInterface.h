@@ -15,7 +15,7 @@ namespace net
         bool start();
         void stop();
         void listenForClientConnection();
-        void update(bool wait = false);
+        void update(size_t maxPackets = -1, bool wait = false);
 
         void messageClient(std::shared_ptr<TCPConnection> client, const Packet& packet);
         void messageAllClients(const Packet& packet, std::shared_ptr<TCPConnection> pIgnoreClient = nullptr);

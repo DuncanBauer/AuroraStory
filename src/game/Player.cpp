@@ -1,7 +1,10 @@
+#include "pch.h"
+
 #include "Player.h"
 
+#include "net/packets/PacketCreator.h"
 #include "net/packets/PacketHandler.h"
-#include "constants/PacketConstant.h"
+#include "util/PacketTool.h"
 
 namespace game
 {
@@ -13,17 +16,22 @@ namespace game
     Player::~Player()
     {}
 
-    void Player::processPackets()
+    void Player::processPacket(net::Packet& packet)
     {
-        m_processingPackets = true;
-        size_t packetCount = 0;
-        while (packetCount < constant::maxPackets && !m_incomingPacketPersonalQueue.empty())
+        // Remove game version / packet size
+        uint16_t packetHeader = net::PacketCreator::readShort(packet);
+        std::cout << util::outputShortHex(packetHeader).str() << '\n';
+
+        // Get opCode
+        uint16_t opCode = net::PacketCreator::readShort(packet);
+        std::cout << util::outputShortHex(opCode).str() << '\n';
+        if (!net::PacketHandler::m_packetHandlers[opCode])
         {
-            net::Packet packet = m_incomingPacketPersonalQueue.pop_front();
-            net::PacketHandler::m_packetHandlers[packet.front()](packet);
-            packetCount++;
+            SERVER_ERROR("No handler for this opCode");
+            return;
         }
-        m_processingPackets = false;
+
+        net::PacketHandler::m_packetHandlers[opCode](packet);
     }
 
     int Player::login(const std::string& username, const std::string& password)

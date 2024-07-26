@@ -1,6 +1,7 @@
+#include "pch.h"
+
 #include "TCPServerInterface.h"
 #include "game/Player.h"
-#include "constants/PacketConstant.h"
 
 namespace net
 {
@@ -67,12 +68,12 @@ namespace net
             });
     }
 
-    void TCPServerInterface::update(bool wait)
+    void TCPServerInterface::update(size_t maxPackets, bool wait)
     {
         if (wait)
         {
             size_t packetCount = 0;
-            while (packetCount < constant::maxPackets && !m_incomingPackets.empty())
+            while (packetCount < maxPackets && !m_incomingPackets.empty())
             {
                 auto packet = m_incomingPackets.pop_front();
                 onMessage(packet);

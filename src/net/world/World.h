@@ -6,11 +6,15 @@ namespace net
 {
     struct WorldSettings
     {
-        uint16_t worldCount;
+        uint16_t flag;
+        std::string serverMessage;
+        std::string eventMessage;
+        uint16_t channelCount;
+        uint16_t maxPlayers;
         bool kerningPQEnabled;
-        bool ludiPQEnabled;
+        bool ludibriumPQEnabled;
         bool orbisPQEnabled;
-        bool ludimazePQEnabled;
+        bool ludibriumMazePQEnabled;
     };
 
     struct WorldRates
@@ -21,6 +25,7 @@ namespace net
         uint16_t partyExpRate;
         uint16_t partyMesoRate;
         uint16_t partyDropRate;
+        uint16_t pqExpRate;
         uint16_t bossExpRate;
         uint16_t bossMesoRate;
         uint16_t bossDropRate;
@@ -36,6 +41,9 @@ namespace net
         ~World();
 
         void initialize();
+
+        WorldSettings& getSettings();
+        WorldRates& getRates();
 
     private:
         WorldSettings m_settings;

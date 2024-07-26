@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "LoginServer.h"
 #include "constants/PacketConstant.h"
 
