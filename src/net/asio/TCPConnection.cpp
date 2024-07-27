@@ -1,7 +1,7 @@
 #include "TCPConnection.h"
 #include "MapleConstants.h"
-#include "net/crypto/Crypto.h"
-#include "net/packets/PacketProcessor.h"
+#include "util/MapleAESOFB.h"
+#include "net/packets/PacketCreator.h"
 #include "util/PacketTool.h"
 
 namespace net
@@ -24,8 +24,8 @@ namespace net
     {
         if (m_socket.is_open())
         {
-            Packet packet = PacketProcessor::getHandshake(m_ivRecv, m_ivSend);
-            SERVER_INFO("Sending: {}", util::outputPacketHex(packet).str());
+            Packet packet = PacketCreator::getHandshake(m_ivRecv, m_ivSend);
+            SERVER_INFO("Sending: {}", util::PacketTool::outputPacketHex(packet).str());
 
             // start an async read operation to receive the header of the next packet
             asio::async_write(m_socket,
@@ -68,7 +68,7 @@ namespace net
         if (!ec)
         {
             // get the packet length from the header buffer
-            u16 packetLength = net::getPacketLength(m_tempIncomingPacket.get()->data());
+            u16 packetLength = util::MapleAESOFB::getPacketLength(m_tempIncomingPacket.get()->data());
 
             // a packet must consist of 2 bytes atleast
             if (packetLength < 2)
@@ -104,15 +104,15 @@ namespace net
             u16 bytesAmount = static_cast<u16>(bytesTransferred);
 
             // decrypt the packet
-            net::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
+            util::MapleAESOFB::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
 
             // Add the packet to different processing queues base on packet type (chat packets can go to the server packet queue
             //m_incomingPacketServerQueue.push_back(*m_tempIncomingPacket.get());
             //m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
 
-            SERVER_INFO("Incoming packet hex: {}", util::outputPacketHex(*m_tempIncomingPacket.get()).str());
-            SERVER_INFO("Incoming packet dec: {}", util::outputPacketDec(*m_tempIncomingPacket.get()).str());
-            SERVER_INFO("Incoming packet string: {}", util::outputPacketString(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("Incoming packet hex: {}", util::PacketTool::outputPacketHex(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("Incoming packet dec: {}", util::PacketTool::outputPacketDec(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("Incoming packet string: {}", util::PacketTool::outputPacketString(*m_tempIncomingPacket.get()).str());
             processPacket(*m_tempIncomingPacket.get());
 
             // start an async read operation to receive the header of the next packet
@@ -144,13 +144,13 @@ namespace net
         Packet tempOutgoingPacketBuffer(packetLength + 4);
 
         // Create packet header
-        net::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
+        util::MapleAESOFB::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
 
         // Move packet bytes to new buffer
         std::copy(outgoingPacket.begin(), outgoingPacket.end(), tempOutgoingPacketBuffer.begin() + 4);
 
         // Encrypt packet
-        net::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
+        util::MapleAESOFB::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
 
         // start an async read operation to receive the header of the next packet
         asio::async_write(m_socket,

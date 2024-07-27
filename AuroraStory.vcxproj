@@ -177,20 +177,19 @@
     <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\Master.h" />
     <ClInclude Include="src\Typedefs.h" />
-    <ClInclude Include="src\constants\CryptoConstants.h" />
-    <ClInclude Include="src\db\DbHandler.h" />
     <ClInclude Include="src\game\Player.h" />
     <ClInclude Include="src\net\asio\TCPConnection.h" />
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\net\channel\ChannelServer.h" />
-    <ClInclude Include="src\net\crypto\Crypto.h" />
     <ClInclude Include="src\net\login\LoginServer.h" />
     <ClInclude Include="src\net\packets\PacketConstants.h" />
     <ClInclude Include="src\net\packets\PacketHandler.h" />
-    <ClInclude Include="src\net\packets\PacketProcessor.h" />
-    <ClInclude Include="src\net\world\World.h" />
+    <ClInclude Include="src\net\packets\PacketCreator.h" />
+    <ClInclude Include="src\game\World.h" />
     <ClInclude Include="src\util\HashPassword.h" />
-    <ClInclude Include="src\util\Logger.h" />
+    <ClInclude Include="src\util\LoggingTool.h" />
+    <ClInclude Include="src\util\MapleAESOFB.h" />
+    <ClInclude Include="src\util\MongoDb.h" />
     <ClInclude Include="src\util\PacketTool.h" />
     <ClInclude Include="src\util\ThreadSafeQueue.h" />
     <ClInclude Include="src\util\TimeTool.h" />
@@ -203,16 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp" />
-    <ClCompile Include="src\db\DbHandler.cpp" />
     <ClCompile Include="src\game\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\net\asio\TCPConnection.cpp" />
     <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />
     <ClCompile Include="src\net\channel\ChannelServer.cpp" />
-    <ClCompile Include="src\net\crypto\Crypto.cpp" />
     <ClCompile Include="src\net\login\LoginServer.cpp" />
-    <ClCompile Include="src\net\packets\PacketHandler.cpp" />
-    <ClCompile Include="src\net\packets\PacketProcessor.cpp" />
     <ClCompile Include="src\net\packets\handlers\PongHandler.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\AfterLoginHandler.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\CharListRequestHandler.cpp" />
@@ -233,8 +228,7 @@
     <ClCompile Include="src\net\packets\handlers\login\SetGenderHandler.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ViewAllCharHandler.cpp" />
     <ClCompile Include="src\net\packets\processors\GetHandshake.cpp" />
-    <ClCompile Include="src\net\world\World.cpp" />
-    <ClCompile Include="src\util\Logger.cpp" />
+    <ClCompile Include="src\game\World.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
     <ClCompile Include="vendor\aes\aes_ni.c" />
     <ClCompile Include="vendor\aes\aescrypt.c" />

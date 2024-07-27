@@ -1,4 +1,4 @@
-#include "util/Logger.h"
+#include "util/LoggingTool.h"
 #include "net/packets/PacketHandler.h"
 #include "net/packets/PacketProcessor.h"
 

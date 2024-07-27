@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "asio.hpp"
-#include "util/Logger.h"
+#include "util/LoggingTool.h"
 #include "util/ThreadSafeQueue.h"
 
 #include "Typedefs.h"

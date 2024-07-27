@@ -3,7 +3,7 @@
 #include "yaml-cpp/yaml.h"
 
 #include "net/packets/PacketHandler.h"
-#include "net/world/World.h"
+#include "game/World.h"
 
 struct ServerSettings
 {
@@ -32,10 +32,9 @@ public:
     void run();
     void stop();
 
-    YAML::Node getConfig();
+    static const ServerSettings& getServerSettings();
 
 private:
-    YAML::Node m_config;
     ServerSettings m_settings;
-    std::vector<net::World> m_worlds;
+    std::vector<World> m_worlds;
 };

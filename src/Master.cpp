@@ -3,30 +3,30 @@
 #include "Master.h"
 #include "net/login/LoginServer.h"
 #include "net/channel/ChannelServer.h"
-#include "db/DbHandler.h"
+#include "util/MongoDb.h"
 
 Master::Master()
 {
     // Load Server Configuration
-    m_config = YAML::LoadFile("config.yaml");
+    YAML::Node config = YAML::LoadFile("config.yaml");
     
     // Server data
-    m_settings.gameVersion         = m_config["gameVersion"].as<u16>();
-    m_settings.worldCount          = m_config["worldCount"].as<u16>();
-    m_settings.loginServerPort     = m_config["loginServerPort"].as<u16>();
-    m_settings.channelServerPort   = m_config["channelServerPort"].as<u16>();
-    m_settings.guestLoginEnabled   = m_config["guestLoginEnabled"].as<bool>();
-    m_settings.autoRegisterEnabled = m_config["autoRegisterEnabled"].as<bool>();
-    m_settings.picEnabled          = m_config["picEnabled"].as<bool>();
-    m_settings.pinEnabled          = m_config["pinEnabled"].as<bool>();
+    m_settings.gameVersion         = config["gameVersion"].as<u16>();
+    m_settings.worldCount          = config["worldCount"].as<u16>();
+    m_settings.loginServerPort     = config["loginServerPort"].as<u16>();
+    m_settings.channelServerPort   = config["channelServerPort"].as<u16>();
+    m_settings.guestLoginEnabled   = config["guestLoginEnabled"].as<bool>();
+    m_settings.autoRegisterEnabled = config["autoRegisterEnabled"].as<bool>();
+    m_settings.picEnabled          = config["picEnabled"].as<bool>();
+    m_settings.pinEnabled          = config["pinEnabled"].as<bool>();
     
     // MongoDb data
-    m_settings.mongoURI            = m_config["mongoURI"].as<std::string>();
-    m_settings.mongoDB             = m_config["mongoDB"].as<std::string>();
+    m_settings.mongoURI            = config["mongoURI"].as<std::string>();
+    m_settings.mongoDB             = config["mongoDB"].as<std::string>();
 
     // World data
     for (const auto& world : m_config["worlds"]) {
-        net::World newWorld;
+        World newWorld;
 
         // Settings
         newWorld.getSettings().flag                   = world["flag"].as<u16>();
@@ -67,13 +67,13 @@ Master::~Master()
 void Master::initialize()
 {
     // Initialize Logger
-    util::Logger::init();
+    util::LoggingTool::initialize();
 
     // Initialize MongoDb
-    DbHandler::initialize(m_settings.mongoURI, m_settings.mongoDB);
+    util::MongoDb::initialize(m_settings.mongoURI, m_settings.mongoDB);
 
     // Initialize PacketHandlers
-    PacketHandler::registerHandlers();
+    PacketHandler::initialize();
 }
 
 void Master::run()
@@ -125,7 +125,7 @@ void Master::run()
 void Master::stop()
 {}
 
-YAML::Node Master::getConfig()
+const ServerSettings& Master::getServerSettings()
 {
-    return m_config;
+    return m_settings;
 }
