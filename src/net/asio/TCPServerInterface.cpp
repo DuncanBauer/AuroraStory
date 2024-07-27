@@ -1,11 +1,11 @@
-#include "pch.h"
-
 #include "TCPServerInterface.h"
+
 #include "game/Player.h"
+#include "Typedefs.h"
 
 namespace net
 {
-    TCPServerInterface::TCPServerInterface(asio::io_context& io_context, uint16_t port) :
+    TCPServerInterface::TCPServerInterface(asio::io_context& io_context, u16 port) :
         m_ioContext(io_context),
         m_acceptor(m_ioContext, tcp::endpoint(tcp::v4(), port))
     {}
@@ -45,7 +45,7 @@ namespace net
                 {
                     SERVER_INFO("[SERVER] New Connection: {}:{}", socket.remote_endpoint().address().to_string(), socket.remote_endpoint().port());
 
-                    std::shared_ptr<game::Player> conn = std::make_shared<game::Player>(std::move(socket), m_incomingPackets);
+                    std::shared_ptr<Player> conn = std::make_shared<Player>(std::move(socket), m_incomingPackets);
 
                     onClientConnect(conn);
                     if (conn->isConnected())
@@ -82,7 +82,7 @@ namespace net
         }
     }
 
-    void TCPServerInterface::messageClient(std::shared_ptr<TCPConnection> client, const Packet& packet)
+    void TCPServerInterface::messageClient(ClientConnection client, const Packet& packet)
     {
         if (client && client->isConnected())
             client->send(packet);
@@ -94,7 +94,7 @@ namespace net
         }
     }
 
-    void TCPServerInterface::messageAllClients(const Packet& packet, std::shared_ptr<TCPConnection> pIgnoreClient)
+    void TCPServerInterface::messageAllClients(const Packet& packet, ClientConnection pIgnoreClient)
     {
         // Flag for an invalid client
         bool bInvalidClientExists = false;

@@ -1,9 +1,7 @@
-#include "pch.h"
-
 #include "TCPConnection.h"
-#include "constants/MapleConstants.h"
+#include "MapleConstants.h"
 #include "net/crypto/Crypto.h"
-#include "net/packets/PacketCreator.h"
+#include "net/packets/PacketProcessor.h"
 #include "util/PacketTool.h"
 
 namespace net
@@ -11,8 +9,8 @@ namespace net
     TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
         : m_socket(std::move(socket)),
           m_incomingPacketServerQueue(incomingPackets),
-          m_ivRecv(constant::k_ivBufferSize),
-          m_ivSend(constant::k_ivBufferSize)
+          m_ivRecv(k_ivBufferSize),
+          m_ivSend(k_ivBufferSize)
     {
     }
 
@@ -22,13 +20,12 @@ namespace net
     }
 
     // Connect to client
-    void TCPConnection::connect(TCPServerInterface* server, uint32_t uid)
+    void TCPConnection::connect(TCPServerInterface* server, u32 uid)
     {
         if (m_socket.is_open())
         {
-            PacketCreator packetCreator;
-            std::vector<byte> packet = packetCreator.getHandshake(m_ivRecv, m_ivSend);
-            std::cout << "Sending: " << util::outputPacketHex(packet).str();
+            Packet packet = PacketProcessor::getHandshake(m_ivRecv, m_ivSend);
+            SERVER_INFO("Sending: {}", util::outputPacketHex(packet).str());
 
             // start an async read operation to receive the header of the next packet
             asio::async_write(m_socket,
@@ -55,7 +52,6 @@ namespace net
 
     void TCPConnection::readPacket()
     {
-        std::cout << "Start Read Packet\n";
         m_tempIncomingPacket.reset(new Packet(4));
 
         // start an async read operation to receive the header of the next packet
@@ -69,14 +65,10 @@ namespace net
 
     void TCPConnection::readHeaderHandler(const std::error_code& ec, std::size_t bytesTransferred)
     {
-        std::cout << "Start Read Header: ";
-        std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
-
         if (!ec)
         {
             // get the packet length from the header buffer
-            unsigned short packetLength = net::getPacketLength(m_tempIncomingPacket.get()->data());
-            std::cout << "Received packet length: " << packetLength << '\n';
+            u16 packetLength = net::getPacketLength(m_tempIncomingPacket.get()->data());
 
             // a packet must consist of 2 bytes atleast
             if (packetLength < 2)
@@ -106,11 +98,10 @@ namespace net
 
     void TCPConnection::readBodyHandler(const std::error_code& ec, std::size_t bytesTransferred)
     {
-        std::cout << "Start Read Body: ";
         if (!ec)
         {
             // get the packet length
-            unsigned short bytesAmount = static_cast<unsigned short>(bytesTransferred);
+            u16 bytesAmount = static_cast<u16>(bytesTransferred);
 
             // decrypt the packet
             net::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
@@ -118,11 +109,11 @@ namespace net
             // Add the packet to different processing queues base on packet type (chat packets can go to the server packet queue
             //m_incomingPacketServerQueue.push_back(*m_tempIncomingPacket.get());
             //m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
-            
-            processPacket(*m_tempIncomingPacket.get());
 
-            std::cout << util::outputPacketHex(*m_tempIncomingPacket.get()).str() << '\n';
-            std::cout << util::outputPacketString(*m_tempIncomingPacket.get()).str() << '\n';
+            SERVER_INFO("Incoming packet hex: {}", util::outputPacketHex(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("Incoming packet dec: {}", util::outputPacketDec(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("Incoming packet string: {}", util::outputPacketString(*m_tempIncomingPacket.get()).str());
+            processPacket(*m_tempIncomingPacket.get());
 
             // start an async read operation to receive the header of the next packet
             readPacket();
@@ -147,19 +138,19 @@ namespace net
 
     void TCPConnection::writePacket()
     {
-        std::vector<byte> outgoingPacket = m_outgoingPacketQueue.pop_front();
+        Packet outgoingPacket = m_outgoingPacketQueue.pop_front();
         size_t packetLength = outgoingPacket.size();
 
-        std::vector<byte> tempOutgoingPacketBuffer(packetLength + 4);
+        Packet tempOutgoingPacketBuffer(packetLength + 4);
 
         // Create packet header
-        net::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<unsigned short>(packetLength));
+        net::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
 
         // Move packet bytes to new buffer
         std::copy(outgoingPacket.begin(), outgoingPacket.end(), tempOutgoingPacketBuffer.begin() + 4);
 
         // Encrypt packet
-        net::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<unsigned short>(packetLength));
+        net::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
 
         // start an async read operation to receive the header of the next packet
         asio::async_write(m_socket,
@@ -196,12 +187,12 @@ namespace net
         return m_socket;
     }
 
-    const std::vector<byte>& TCPConnection::getIvRecv() const
+    const Packet& TCPConnection::getIvRecv() const
     {
         return m_ivRecv;
     }
     
-    const std::vector<byte>& TCPConnection::getIvSend() const
+    const Packet& TCPConnection::getIvSend() const
     {
         return m_ivSend;
     }

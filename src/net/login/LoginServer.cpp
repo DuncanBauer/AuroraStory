@@ -1,11 +1,8 @@
-#include "pch.h"
-
 #include "LoginServer.h"
-#include "constants/PacketConstant.h"
 
 namespace net
 {
-    LoginServer::LoginServer(asio::io_context& io_context, uint16_t port) : 
+    LoginServer::LoginServer(asio::io_context& io_context, u16 port) : 
         TCPServerInterface(io_context, port)
     {
     }
@@ -13,11 +10,11 @@ namespace net
     LoginServer::~LoginServer()
     {}
 
-    void LoginServer::onClientConnect(clientConnection client)
+    void LoginServer::onClientConnect(ClientConnection client)
     {
     }
 
-    void LoginServer::onClientDisconnect(clientConnection client)
+    void LoginServer::onClientDisconnect(ClientConnection client)
     {
     }
 

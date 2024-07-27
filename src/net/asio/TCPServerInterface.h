@@ -9,7 +9,7 @@ namespace net
     class TCPServerInterface
     {
     public:
-        TCPServerInterface(asio::io_context& io_context, uint16_t port);
+        TCPServerInterface(asio::io_context& io_context, u16 port);
         virtual ~TCPServerInterface();
 
         bool start();
@@ -17,18 +17,18 @@ namespace net
         void listenForClientConnection();
         void update(size_t maxPackets = -1, bool wait = false);
 
-        void messageClient(std::shared_ptr<TCPConnection> client, const Packet& packet);
-        void messageAllClients(const Packet& packet, std::shared_ptr<TCPConnection> pIgnoreClient = nullptr);
+        void messageClient(ClientConnection client, const Packet& packet);
+        void messageAllClients(const Packet& packet, ClientConnection pIgnoreClient = nullptr);
 
     protected:
-        virtual void onClientConnect(std::shared_ptr<TCPConnection> client) = 0;
-        virtual void onClientDisconnect(std::shared_ptr<TCPConnection> client) = 0;
+        virtual void onClientConnect(ClientConnection client) = 0;
+        virtual void onClientDisconnect(ClientConnection client) = 0;
         virtual void onMessage(Packet& packet) = 0;
 
     private:
         asio::io_context& m_ioContext;
         tcp::acceptor m_acceptor;
         util::ThreadSafeQueue<Packet> m_incomingPackets;
-        std::deque<std::shared_ptr<TCPConnection>> m_connections;
+        std::deque<ClientConnection> m_connections;
     };
 }

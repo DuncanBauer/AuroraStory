@@ -1,12 +1,8 @@
-#include "pch.h"
-
 #include "ChannelServer.h"
-
-#include "constants/PacketConstant.h"
 
 namespace net
 {
-    ChannelServer::ChannelServer(asio::io_context& io_context, uint16_t port) : 
+    ChannelServer::ChannelServer(asio::io_context& io_context, u16 port) : 
         TCPServerInterface(io_context, port)
     {
     }
@@ -14,11 +10,11 @@ namespace net
     ChannelServer::~ChannelServer()
     {}
 
-    void ChannelServer::onClientConnect(clientConnection client)
+    void ChannelServer::onClientConnect(ClientConnection client)
     {
     }
 
-    void ChannelServer::onClientDisconnect(clientConnection client)
+    void ChannelServer::onClientDisconnect(ClientConnection client)
     {
     }
 

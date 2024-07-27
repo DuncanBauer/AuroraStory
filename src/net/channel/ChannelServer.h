@@ -8,12 +8,12 @@ namespace net
     class ChannelServer : public TCPServerInterface
     {
     public:
-        ChannelServer(asio::io_context& io_context, uint16_t port);
+        ChannelServer(asio::io_context& io_context, u16 port);
         ~ChannelServer();
 
     protected:
-        void onClientConnect(clientConnection client) override;
-        void onClientDisconnect(clientConnection client) override;
+        void onClientConnect(ClientConnection client) override;
+        void onClientDisconnect(ClientConnection client) override;
         void onMessage(Packet& packet) override;
     };
 }

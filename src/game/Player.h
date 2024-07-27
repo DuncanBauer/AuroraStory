@@ -2,29 +2,25 @@
 
 #include "net/asio/TCPConnection.h"
 
-namespace game
+using asio::ip::tcp;
+
+struct PlayerStats
 {
-    using asio::ip::tcp;
 
-    struct PlayerStats
-    {
+};
 
-    };
+class Player : public net::TCPConnection
+{
+public:
+    Player(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
+    ~Player();
 
-    class Player : public net::TCPConnection
-    {
-    public:
-        Player(tcp::socket socket, util::ThreadSafeQueue<net::Packet>& incomingPackets);
-        ~Player();
+    void processPacket(Packet& packet);
 
-        void processPacket(net::Packet& packet);
+    int login(const std::string& username, const std::string& password);
+    int logout();
+    int changeChannel();
 
-        int login(const std::string& username, const std::string& password);
-        int logout();
-        int changeChannel();
-
-    private:
-        PlayerStats baseStats;
-        PlayerStats modStats;
-    };
-}
+private:
+    PlayerStats baseStats;
+};

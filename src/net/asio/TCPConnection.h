@@ -3,9 +3,10 @@
 #include <memory>
 
 #include "asio.hpp"
-#include "TCPNet.h"
 #include "util/Logger.h"
 #include "util/ThreadSafeQueue.h"
+
+#include "Typedefs.h"
 
 namespace net
 {
@@ -19,7 +20,7 @@ namespace net
         TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets);
         ~TCPConnection();
 
-        void connect(TCPServerInterface* server, uint32_t uid = 0);
+        void connect(TCPServerInterface* server, u32 uid = 0);
         void disconnect();
         bool isConnected();
 
@@ -27,8 +28,8 @@ namespace net
         virtual void processPacket(Packet& packet) = 0;
 
         const tcp::socket& getSocket() const;
-        const std::vector<byte>& getIvRecv() const;
-        const std::vector<byte>& getIvSend() const;
+        const Packet& getIvRecv() const;
+        const Packet& getIvSend() const;
 
     private:
         void readPacket();
@@ -39,8 +40,8 @@ namespace net
         void writeHandler(const std::error_code& ec, std::size_t bytes_transferred);
 
     protected:
-        std::vector<byte> m_ivRecv;
-        std::vector<byte> m_ivSend;
+        Packet m_ivRecv;
+        Packet m_ivSend;
         util::ThreadSafeQueue<Packet> m_incomingPacketPersonalQueue;  // Holds messages coming from the remote connection(s)
         bool m_processingPackets = false;
 

@@ -33,12 +33,12 @@ namespace util
             << std::hex
             << (int)(packetByte & 0xFF)
             << ' ';
-        ss << std::dec << '\n';
+        ss << std::dec;
 
         return ss;
     }
 
-    inline std::stringstream outputPacketHex(std::vector<byte> packet)
+    inline std::stringstream outputPacketHex(Packet packet)
     {
         std::stringstream ss;
         for (byte val : packet)
@@ -51,19 +51,31 @@ namespace util
                 << (int)(val & 0xFF)
                 << ' ';
         }
-        ss << std::dec << '\n';
+        ss << std::dec;
 
         return ss;
     }
 
-    inline std::stringstream outputPacketString(std::vector<byte> packet)
+    inline std::stringstream outputPacketDec(Packet packet)
     {
         std::stringstream ss;
         for (byte val : packet)
         {
-            ss << val << ' ';
+            ss << (int)val << ' ';
         }
-        ss << std::dec << '\n';
+        ss << std::dec;
+
+        return ss;
+    }
+
+    inline std::stringstream outputPacketString(Packet packet)
+    {
+        std::stringstream ss;
+        for (byte val : packet)
+        {
+            ss << (char)val << ' ';
+        }
+        ss << std::dec;
 
         return ss;
     }

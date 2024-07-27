@@ -1,15 +1,10 @@
-#include "pch.h"
-
 #include "util/Logger.h"
 #include "net/packets/PacketHandler.h"
-#include "net/packets/PacketCreator.h"
+#include "net/packets/PacketProcessor.h"
 
-namespace net
+void PacketHandler::handleCharListRequest(Player& player, Packet& packet)
 {
-    void PacketHandler::handleCharListRequest(Packet& packet)
-    {
-        SERVER_INFO("PacketHandler::handleCharListRequest");
+    SERVER_INFO("PacketHandler::handleCharListRequest");
 
-        uint16_t loginOk = 0;
-    }
+    u16 loginOk = 0;
 }

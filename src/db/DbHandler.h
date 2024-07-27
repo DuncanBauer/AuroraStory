@@ -49,7 +49,7 @@ Characters collection
     str              : number
     dex              : number
     luk              : number
-    int              : number
+    u16              : number
     gender           : number
     skin_color       : number
     hair             : number
@@ -58,7 +58,7 @@ Characters collection
     guild_id         : ObjectId
     buddy_capacity   : number
     map              : number
-    spawn_point      : number
+    spawn_pou16      : number
     match_card_wins  : number
     match_card_loses : number
     match_card_ties  : number
@@ -78,63 +78,59 @@ typedef std::optional<mongocxx::v_noabi::result::insert_many> insertManyResult;
 typedef std::optional<mongocxx::v_noabi::result::update> updateResult;
 typedef std::optional<mongocxx::v_noabi::result::delete_result> deleteResult;
 
-namespace db
+class DbHandler
 {
-    class DbHandler
-    {
-    public:
-        DbHandler() {}
-        ~DbHandler() {}
+public:
+    DbHandler() = delete;
 
-        void initialize(const std::string& mongoURI, const std::string& mongoDB);
+    static void initialize(const std::string& mongoURI, const std::string& mongoDB);
 
-        bool createAccount(const std::string& username, const std::string& password);
-        bool createCharacter(const std::string& name, const uint16_t gender, const uint16_t skinColor,
-            const uint16_t hair, const uint16_t face);
+    static bool createAccount(const std::string& username, const std::string& password);
+    static bool createCharacter(const std::string& name, const u16 gender, const u16 skinColor,
+        const u16 hair, const u16 face);
 
-    private:
-        findOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        findManyResult findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        insertOneResult insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        insertManyResult insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        updateResult updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        updateResult updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        findOneResult findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        deleteResult deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        deleteResult deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            int max_retries = 3, int retry_interval_ms = 1000);
-        findOneResult findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            int max_retries = 3, int retry_interval_ms = 1000);
+private:
+    static findOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static findManyResult findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static insertOneResult insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static insertManyResult insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static updateResult updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static updateResult updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static findOneResult findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static deleteResult deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static deleteResult deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+    static findOneResult findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
 
-    private:
-        mongocxx::uri m_uri;
-        mongocxx::client m_client;
-        mongocxx::database m_db;
+private:
+    static mongocxx::uri m_uri;
+    static mongocxx::client m_client;
+    static mongocxx::database m_db;
 
-        // Collections
-        mongocxx::collection m_accountCollection;
-        mongocxx::collection m_characterCollection;
-        mongocxx::collection m_inventoriesCollection;
-        mongocxx::collection m_buddyCollection;
-        mongocxx::collection m_partyCollection;
-        mongocxx::collection m_guildCollection;
-        mongocxx::collection m_alliancesCollection;
-        mongocxx::collection m_shopCollection;
-        mongocxx::collection m_dropCollection;
+    // Collections
+    static mongocxx::collection m_accountCollection;
+    static mongocxx::collection m_characterCollection;
+    static mongocxx::collection m_inventoriesCollection;
+    static mongocxx::collection m_buddyCollection;
+    static mongocxx::collection m_partyCollection;
+    static mongocxx::collection m_guildCollection;
+    static mongocxx::collection m_alliancesCollection;
+    static mongocxx::collection m_shopCollection;
+    static mongocxx::collection m_dropCollection;
 
-        // Log collections
-        mongocxx::collection m_ipLogCollection;
-        mongocxx::collection m_banLogCollection;
-        mongocxx::collection m_fameLogCollection;
-        mongocxx::collection m_reportLogCollection;
-        mongocxx::collection m_tradeLogCollection;
-    };
-}
+    // Log collections
+    static mongocxx::collection m_ipLogCollection;
+    static mongocxx::collection m_banLogCollection;
+    static mongocxx::collection m_fameLogCollection;
+    static mongocxx::collection m_reportLogCollection;
+    static mongocxx::collection m_tradeLogCollection;
+};

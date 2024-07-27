@@ -1,16 +1,18 @@
 #pragma once
 
-#include <cstdint>
+#include <string>
+
+#include "Typedefs.h"
 
 namespace net
 {
     struct WorldSettings
     {
-        uint16_t flag;
+        u16 flag;
         std::string serverMessage;
         std::string eventMessage;
-        uint16_t channelCount;
-        uint16_t maxPlayers;
+        u16 channelCount;
+        u16 maxPlayers;
         bool kerningPQEnabled;
         bool ludibriumPQEnabled;
         bool orbisPQEnabled;
@@ -19,19 +21,19 @@ namespace net
 
     struct WorldRates
     {
-        uint16_t expRate;
-        uint16_t mesoRate;
-        uint16_t dropRate;
-        uint16_t partyExpRate;
-        uint16_t partyMesoRate;
-        uint16_t partyDropRate;
-        uint16_t pqExpRate;
-        uint16_t bossExpRate;
-        uint16_t bossMesoRate;
-        uint16_t bossDropRate;
-        uint16_t questExpRate;
-        uint16_t questMesoRate;
-        uint16_t petExpRate;
+        u16 expRate;
+        u16 mesoRate;
+        u16 dropRate;
+        u16 partyExpRate;
+        u16 partyMesoRate;
+        u16 partyDropRate;
+        u16 pqExpRate;
+        u16 bossExpRate;
+        u16 bossMesoRate;
+        u16 bossDropRate;
+        u16 questExpRate;
+        u16 questMesoRate;
+        u16 petExpRate;
     };
 
     class World

@@ -2,17 +2,16 @@
 
 #include "yaml-cpp/yaml.h"
 
-#include "db/DbHandler.h"
 #include "net/packets/PacketHandler.h"
 #include "net/world/World.h"
 
 struct ServerSettings
 {
     // SERVER SETTINGS
-    uint16_t gameVersion;
-    uint16_t worldCount;
-    uint16_t loginServerPort;
-    uint16_t channelServerPort;
+    u16 gameVersion;
+    u16 worldCount;
+    u16 loginServerPort;
+    u16 channelServerPort;
     bool guestLoginEnabled;
     bool autoRegisterEnabled;
     bool picEnabled;
@@ -34,12 +33,9 @@ public:
     void stop();
 
     YAML::Node getConfig();
-    db::DbHandler& getDbHandler();
 
 private:
     YAML::Node m_config;
-    db::DbHandler m_dbHandler;
     ServerSettings m_settings;
     std::vector<net::World> m_worlds;
-    net::PacketHandler packetHandler;
 };
