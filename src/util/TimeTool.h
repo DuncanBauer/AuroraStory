@@ -32,6 +32,6 @@ namespace util
         timeInfo.tm_mon = month;        // Month (0-11, so July is 6)
         timeInfo.tm_mday = day;         // Day of the month
 
-        return std::mktime(&timeInfo);
+        return static_cast<u64>(std::mktime(&timeInfo));
     }
 }

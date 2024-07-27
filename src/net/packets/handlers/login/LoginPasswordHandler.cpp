@@ -31,10 +31,10 @@ void PacketHandler::handleLoginPassword(Player& player, Packet& packet)
     // If username doesn't exist
     if (!util::MongoDb::accountExists(username))
     {
-        if (Master::m_serverSettings.autoRegisterEnabled)
+        if (Master::getServerSettings().autoRegisterEnabled)
         {
             std::string passwordHash = util::generateHash(password);
-            if (util::MongoDb::autoRegisterAccount(username, passwordHash))
+            if (util::MongoDb::autoRegisterAccount(username, passwordHash, player.getIP()))
             {
 
             }

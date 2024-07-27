@@ -187,6 +187,11 @@ namespace net
         return m_socket;
     }
 
+    const std::string TCPConnection::getIP() const
+    {
+        return m_socket.remote_endpoint().address().to_string();
+    }
+
     const Packet& TCPConnection::getIvRecv() const
     {
         return m_ivRecv;

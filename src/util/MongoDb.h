@@ -136,7 +136,7 @@ namespace util
             return true;
         }
 
-        static inline bool autoRegisterAccount(const std::string& username, const std::string& passwordHash)
+        static inline bool autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip)
         {
             SERVER_INFO("MongoDb::autoRegisterAccount");
             try
@@ -147,10 +147,10 @@ namespace util
                     << "password_hash" << passwordHash
                     << "gm_level" << 0
                     << "logged_in" << 0
-                    << "birthday" << util::dateToEpochSeconds(1990, 01, 01)
-                    << "created_at" << util::getEpochSeconds()
+                    << "birthday" << static_cast<i64>(util::dateToEpochSeconds(1990, 01, 01)) // MongoDb only supports signed 64 bit int, so we need to cast it back to unsigned when reading
+                    << "created_at" << static_cast<i64>(util::getEpochSeconds())              // MongoDb only supports signed 64 bit int, so we need to cast it back to unsigned when reading
                     << "last_login" << 0
-                    << "last_ip" << ""
+                    << "last_ip" << ip
                     << "banned" << 0
                     << "nx" << 0
                     << bsoncxx::builder::stream::finalize;

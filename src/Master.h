@@ -35,6 +35,6 @@ public:
     static const ServerSettings& getServerSettings();
 
 private:
-    ServerSettings m_settings;
+    static inline ServerSettings m_settings;
     std::vector<World> m_worlds;
 };

@@ -1,6 +1,7 @@
-#include "util/LoggingTool.h"
+#include "net/packets/PacketCreator.h"
 #include "net/packets/PacketHandler.h"
-#include "net/packets/PacketProcessor.h"
+#include "util/LoggingTool.h"
+#include "util/PacketTool.h"
 
 void PacketHandler::handleServerStatusRequest(Player& player, Packet& packet)
 {
