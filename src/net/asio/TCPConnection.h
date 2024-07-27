@@ -28,7 +28,7 @@ namespace net
         virtual void processPacket(Packet& packet) = 0;
 
         const tcp::socket& getSocket() const;
-        const std::string getIP() const;
+        const std::string getIp() const;
         const Packet& getIvRecv() const;
         const Packet& getIvSend() const;
 

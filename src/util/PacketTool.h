@@ -226,6 +226,12 @@ namespace util
             }
         }
 
+        static inline void writeByteArray(Packet& packet, std::vector<byte> byteArray)
+        {
+            for (byte val : byteArray)
+                writeByte(packet, val);
+        }
+
         static inline std::stringstream outputShortHex(short packetShort)
         {
             std::stringstream ss;

@@ -124,8 +124,3 @@ void Master::run()
 
 void Master::stop()
 {}
-
-const ServerSettings& Master::getServerSettings()
-{
-    return m_settings;
-}

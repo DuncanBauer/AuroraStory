@@ -32,9 +32,14 @@ public:
     void run();
     void stop();
 
-    static const ServerSettings& getServerSettings();
+public:
+    static const inline ServerSettings& getServerSettings() { return m_settings; }
+    static const inline std::vector<std::string>& getIpBans() { return m_ipBans; }
+    static const inline std::vector<std::string>& getMacBans() { return m_macBans; }
 
 private:
     static inline ServerSettings m_settings;
+    static inline std::vector<std::string> m_ipBans;
+    static inline std::vector<std::string> m_macBans;
     std::vector<World> m_worlds;
 };

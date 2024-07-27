@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <ctime>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -35,3 +36,10 @@ using insertOneResult = std::optional<mongocxx::v_noabi::result::insert_one>;
 using insertManyResult = std::optional<mongocxx::v_noabi::result::insert_many>;
 using updateResult = std::optional<mongocxx::v_noabi::result::update>;
 using deleteResult = std::optional<mongocxx::v_noabi::result::delete_result>;
+
+// Other
+using Calendar = std::tm;
+using Point = struct {
+    u32 x;
+    u32 y;
+};

@@ -25,24 +25,43 @@ void PacketHandler::handleLoginPassword(Player& player, Packet& packet)
     SERVER_INFO("Username: {}", username);
     SERVER_INFO("Password: {}", password);
 
-    player.login(username, password);
-    u16 loginOk = 0;
+    //player.login(username, password);
 
-    // If username doesn't exist
-    if (!util::MongoDb::accountExists(username))
+    //if (!util::MongoDb::accountExists(username))
+    //{
+    //    if (Master::getServerSettings().autoRegisterEnabled)
+    //    {
+    //        std::string passwordHash = util::generateHash(password);
+    //        if (util::MongoDb::autoRegisterAccount(username, passwordHash, player.getIP()))
+    //        {
+
+    //        }
+    //    }
+    //}
+
+    if (player.isBanned()
     {
-        if (Master::getServerSettings().autoRegisterEnabled)
-        {
-            std::string passwordHash = util::generateHash(password);
-            if (util::MongoDb::autoRegisterAccount(username, passwordHash, player.getIP()))
-            {
+        player.send(PacketCreator::getPermaBan());
+        return;
+    }
 
+    if (!accountExists)
+    {
+        if (autoRegisterEnabled)
+        {
+            bool registerSuccess = player.send(PacketCreator::getAutoRegister());
+            if (!registerSuccess)
+            {
+                player.send(PacketCreator::getLoginFailed());
+                return;
             }
         }
+        else
+        {
+            player.send(PacketCreator::getLoginFailed());
+            return
+        }
     }
-        // check ban status
-        // check password hash
-    // else
-        // if auto register enabled
-            // register
+
+    addToLoginQueue(player, player.isGM());
 }

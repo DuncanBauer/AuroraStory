@@ -109,9 +109,10 @@ namespace util
             m_tradeLogCollection = m_db["tradeLogs"];
         }
 
-        static inline bool accountExists(const std::string& username)
+        static inline findOneResult accountExists(const std::string& username)
         {
             SERVER_INFO("MongoDb::accountExists");
+            findOneResult result;
             try
             {
                 // Define query
@@ -120,20 +121,18 @@ namespace util
                     << bsoncxx::builder::stream::finalize;
 
                 // Perform insertion
-                auto findOneResult = findOneWithRetry(m_accountCollection, query.view());
-                if (!findOneResult)
+                result = findOneWithRetry(m_accountCollection, query.view());
+                if (!result)
                 {
                     SERVER_INFO("{} account could not be found", username);
-                    return false;
                 }
             }
             catch (std::exception& e)
             {
                 SERVER_ERROR("{}", e.what());
-                return false;
             }
 
-            return true;
+            return result;
         }
 
         static inline bool autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip)
@@ -156,11 +155,12 @@ namespace util
                     << bsoncxx::builder::stream::finalize;
 
                 // Perform insertion
-                auto creationResult = insertOneWithRetry(m_accountCollection, doc.view());
-                if (!creationResult)
-                    SERVER_INFO("{} account could not be registered");
-
-                return true;
+                auto insertionResult = insertOneWithRetry(m_accountCollection, doc.view());
+                if (!insertionResult)
+                {
+                    SERVER_INFO("{} account could not be registered", username);
+                    return false;
+                }
             }
             catch (std::exception& e)
             {
