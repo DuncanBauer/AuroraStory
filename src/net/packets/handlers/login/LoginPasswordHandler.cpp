@@ -39,29 +39,29 @@ void PacketHandler::handleLoginPassword(Player& player, Packet& packet)
     //    }
     //}
 
-    if (player.isBanned()
-    {
-        player.send(PacketCreator::getPermaBan());
-        return;
-    }
+    //if (player.isBanned()
+    //{
+    //    player.send(PacketCreator::getPermaBan());
+    //    return;
+    //}
 
-    if (!accountExists)
-    {
-        if (autoRegisterEnabled)
-        {
-            bool registerSuccess = player.send(PacketCreator::getAutoRegister());
-            if (!registerSuccess)
-            {
-                player.send(PacketCreator::getLoginFailed());
-                return;
-            }
-        }
-        else
-        {
-            player.send(PacketCreator::getLoginFailed());
-            return
-        }
-    }
+    //if (!accountExists)
+    //{
+    //    if (autoRegisterEnabled)
+    //    {
+    //        bool registerSuccess = player.send(PacketCreator::getAutoRegister());
+    //        if (!registerSuccess)
+    //        {
+    //            player.send(PacketCreator::getLoginFailed());
+    //            return;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        player.send(PacketCreator::getLoginFailed());
+    //        return
+    //    }
+    //}
 
-    addToLoginQueue(player, player.isGM());
+    //addToLoginQueue(player, player.isGM());
 }

@@ -67,9 +67,24 @@ void Player::banAccount()
 
 }
 
+bool Player::isGM()
+{
+    return m_isGM;
+}
+
+bool Player::isLoggedIn()
+{
+    return m_isLoggedIn;
+}
+
+bool Player::isGuestAccount()
+{
+    return m_isGuestAccount;
+}
+
 bool Player::isAccountBanned()
 {
-
+    return m_isBanned;
 }
 
 bool Player::hasBannedIp()

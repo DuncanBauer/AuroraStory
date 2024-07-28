@@ -13,11 +13,11 @@ namespace util
     public:
         MapleAESOFB() = delete;
 
-        static inline void encrypt(byte* buffer, byte* iv, unsigned short size)
+        static inline void encrypt(byte* buffer, byte* iv, u16 size)
 		{
 			byte a;
 			byte c;
-			unsigned short temp_size;
+			u16 temp_size;
 			int loop_counter = 0;
 
 			for (; loop_counter < 3; ++loop_counter)
@@ -53,7 +53,7 @@ namespace util
 			shuffleIv(iv);
 		}
 
-        static inline void decrypt(byte* buffer, byte* iv, unsigned short size)
+        static inline void decrypt(byte* buffer, byte* iv, u16 size)
 		{
 			aesCrypt(buffer, iv, size);
 			shuffleIv(iv);
@@ -61,7 +61,7 @@ namespace util
 			byte a;
 			byte b;
 			byte c;
-			unsigned short temp_size;
+			u16 temp_size;
 			int loop_counter = 0;
 
 			for (; loop_counter < 3; ++loop_counter)
@@ -80,6 +80,7 @@ namespace util
 					b = a;
 					buffer[temp_size - 1] = c;
 				}
+
 				a = 0;
 				b = 0;
 				for (temp_size = size; temp_size > 0; --temp_size)
@@ -98,9 +99,9 @@ namespace util
 			}
 		}
 
-        static inline void createPacketHeader(byte* buffer, byte* iv, unsigned short size)
+        static inline void createPacketHeader(byte* buffer, byte* iv, u16 size)
 		{
-			unsigned short version = (((iv[3] << 8) | iv[2]) ^ -(k_gameVersion + 1));
+			u16 version = (((iv[3] << 8) | iv[2]) ^ -(k_gameVersion + 1));
 			size = version ^ size;
 
 			buffer[0] = version & 0xFF;
@@ -110,19 +111,19 @@ namespace util
 			buffer[3] = (size >> 8) & 0xFF;
 		}
 
-        static inline unsigned short getPacketLength(byte* buffer)
+        static inline u16 getPacketLength(byte* buffer)
 		{
-			return ((*(unsigned short*)(buffer)) ^ (*(unsigned short*)(buffer + 2)));
+			return ((*(u16*)(buffer)) ^ (*(u16*)(buffer + 2)));
 		}
 
     private:
-        static inline byte rotateRight(byte val, unsigned short shifts)
+        static inline byte rotateRight(byte val, u16 shifts)
 		{
 			shifts &= 7;
 			return static_cast<byte>((val >> shifts) | (val << (8 - shifts)));
 		}
 
-        static inline byte rotateLeft(byte val, unsigned short shifts)
+        static inline byte rotateLeft(byte val, u16 shifts)
 		{
 			shifts &= 7;
 			return static_cast<byte>((val << shifts) | (val >> (8 - shifts)));
@@ -163,12 +164,12 @@ namespace util
 			memcpy(iv + 12, new_iv, 4);
 		}
 
-        static inline void aesCrypt(byte* buffer, byte* iv, unsigned short size)
+        static inline void aesCrypt(byte* buffer, byte* iv, u16 size)
 		{
 			byte temp_iv[16];
-			unsigned short pos = 0;
-			unsigned short t_pos = 1456;
-			unsigned short bytes_amount;
+			u16 pos = 0;
+			u16 t_pos = 1456;
+			u16 bytes_amount;
 
 			aes_encrypt_ctx cx[1];
 			aes_init();

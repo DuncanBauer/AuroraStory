@@ -9,7 +9,7 @@ struct Character
 {
     std::string characterId;
     std::string characterName;
-    Job job;
+    u16 job;
     u16 level;
     std::atomic<u64> exp;
     std::atomic<u64> mesos;
@@ -68,6 +68,10 @@ public:
     u32 changeChannel();
 
     void banAccount();
+    
+    bool isGM();
+    bool isLoggedIn();
+    bool isGuestAccount();
     bool isAccountBanned();
     bool hasBannedIp();
     bool hasBannedMac();
@@ -79,7 +83,6 @@ private:
     bool m_isLoggedIn = false;
     bool m_isGM = false;
     bool m_isGuestAccount = false;
-
     bool m_isBanned = false;
     byte m_banReason = 1;
     Calendar m_tempban = {};

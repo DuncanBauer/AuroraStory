@@ -42,7 +42,9 @@ namespace net
     void TCPConnection::disconnect()
     {
         if (isConnected())
+        {
             m_socket.close();
+        }
     }
 
     bool TCPConnection::isConnected()
@@ -133,7 +135,9 @@ namespace net
 
         // If we're already writing packets, the packet will be sent eventually anyways
         if (!writingMessage)
+        {
             writePacket();
+        }
     }
 
     void TCPConnection::writePacket()

@@ -109,10 +109,10 @@ namespace util
             m_tradeLogCollection = m_db["tradeLogs"];
         }
 
-        static inline findOneResult accountExists(const std::string& username)
+        static inline FindOneResult accountExists(const std::string& username)
         {
             SERVER_INFO("MongoDb::accountExists");
-            findOneResult result;
+            FindOneResult result;
             try
             {
                 // Define query
@@ -135,9 +135,10 @@ namespace util
             return result;
         }
 
-        static inline bool autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip)
+        static inline InsertOneResult autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip)
         {
             SERVER_INFO("MongoDb::autoRegisterAccount");
+            InsertOneResult result;
             try
             {
                 // Define document
@@ -155,25 +156,24 @@ namespace util
                     << bsoncxx::builder::stream::finalize;
 
                 // Perform insertion
-                auto insertionResult = insertOneWithRetry(m_accountCollection, doc.view());
-                if (!insertionResult)
+                result = insertOneWithRetry(m_accountCollection, doc.view());
+                if (!result)
                 {
                     SERVER_INFO("{} account could not be registered", username);
-                    return false;
                 }
             }
             catch (std::exception& e)
             {
                 SERVER_ERROR("{}", e.what());
-                return false;
             }
 
-            return true;
+            return result;
         }
 
-        static inline bool registerAccount(const std::string& username, const std::string& password)
+        static inline InsertOneResult registerAccount(const std::string& username, const std::string& password)
         {
             SERVER_INFO("MongoDb::registerAccount");
+            InsertOneResult result;
             try
             {
                 //// Define document
@@ -194,24 +194,24 @@ namespace util
                 //    << bsoncxx::builder::stream::finalize;
 
                 //// Perform insertion
-                //auto creationResult = insertOneWithRetry(m_accountCollection, newDoc.view());
-                //if (!creationResult)
+                //auto result = insertOneWithRetry(m_accountCollection, newDoc.view());
+                //if (!result)
                 //    SERVER_INFO("User document could not be created");
 
-                return true;
+                return result;
             }
             catch (std::exception& e)
             {
                 SERVER_ERROR("{}", e.what());
-                return false;
             }
 
-            return true;
+            return result;
         }
 
-        static inline bool createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face)
+        static inline InsertOneResult createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face)
         {
             SERVER_INFO("MongoDb::createCharacter");
+            InsertOneResult result;
             try
             {
                 //// Define document
@@ -260,28 +260,27 @@ namespace util
                 //    << bsoncxx::builder::stream::finalize;
 
                 //// Perform insertion
-                //auto creationResult = insertOneWithRetry(m_characterCollection, newDoc.view());
-                //if (!creationResult)
+                //auto result = insertOneWithRetry(m_characterCollection, newDoc.view());
+                //if (!result)
                 //    SERVER_INFO("User document could not be created");
 
-                return true;
+                return result;
             }
             catch (std::exception& e)
             {
                 SERVER_ERROR("{}", e.what());
-                return false;
             }
 
-            return true;
+            return result;
         }
 
     private:
-        static inline findOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        static inline FindOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::findOneWithRetry");
             u16 attempt = 0;
-            findOneResult result;
+            FindOneResult result;
             while (attempt < max_retries)
             {
                 try
@@ -303,12 +302,12 @@ namespace util
             return result;
         }
 
-        static inline findManyResult findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        static inline FindManyResult findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::findManyWithRetry");
             u16 attempt = 0;
-            findManyResult result;
+            FindManyResult result;
             while (attempt < max_retries)
             {
                 try
@@ -330,12 +329,12 @@ namespace util
             return result;
         }
 
-        static inline insertOneResult insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
+        static inline InsertOneResult insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::insertOneWithRetry");
             u16 attempt = 0;
-            insertOneResult result;
+            InsertOneResult result;
             while (attempt < max_retries)
             {
                 try
@@ -357,12 +356,12 @@ namespace util
             return result;
         }
 
-        static inline insertManyResult insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
+        static inline InsertManyResult insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::insertManyWithRetry");
             u16 attempt = 0;
-            insertManyResult result;
+            InsertManyResult result;
             while (attempt < max_retries)
             {
                 try
@@ -384,12 +383,12 @@ namespace util
             return result;
         }
 
-        static inline updateResult updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        static inline UpdateResult updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::updateOneWithRetry");
             u16 attempt = 0;
-            updateResult result;
+            UpdateResult result;
             while (attempt < max_retries)
             {
                 try
@@ -411,12 +410,12 @@ namespace util
             return result;
         }
 
-        static inline updateResult updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        static inline UpdateResult updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::updateManyWithRetry");
             u16 attempt = 0;
-            updateResult result;
+            UpdateResult result;
             while (attempt < max_retries)
             {
                 try
@@ -438,12 +437,12 @@ namespace util
             return result;
         }
 
-        static inline findOneResult findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+        static inline FindOneResult findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::findOneAndUpdateWithRetry");
             u16 attempt = 0;
-            findOneResult result;
+            FindOneResult result;
             while (attempt < max_retries)
             {
                 try
@@ -465,12 +464,12 @@ namespace util
             return result;
         }
 
-        static inline deleteResult deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        static inline DeleteResult deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::deleteOneWithRetry");
             u16 attempt = 0;
-            deleteResult result;
+            DeleteResult result;
             while (attempt < max_retries)
             {
                 try
@@ -492,12 +491,12 @@ namespace util
             return result;
         }
 
-        static inline deleteResult deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        static inline DeleteResult deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::deleteManyWithRetry");
             u16 attempt = 0;
-            deleteResult result;
+            DeleteResult result;
             while (attempt < max_retries)
             {
                 try
@@ -519,12 +518,12 @@ namespace util
             return result;
         }
 
-        static inline findOneResult findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+        static inline FindOneResult findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
             u16 max_retries = 3, u16 retry_u16erval_ms = 1000)
         {
             SERVER_INFO("MongoDbHandle::findOneAndDeleteWithRetry");
             u16 attempt = 0;
-            findOneResult result;
+            FindOneResult result;
             while (attempt < max_retries)
             {
                 try

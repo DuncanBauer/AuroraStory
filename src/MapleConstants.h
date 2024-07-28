@@ -15,98 +15,99 @@ constexpr std::size_t k_ivBufferSize = 16;
 constexpr std::size_t k_headerSize = 4;
 const std::string k_gameFilePath = "C:/Nexon/Maplestory/";
 
-enum class Job : u32
+namespace Job
 {
-    BEGINNER = 0,
-    WARRIOR = 100,
-    FIGHTER = 110,
-    CRUSADER = 111,
-    HERO = 112,
-    PAGE = 120,
-    WHITEKNIGHT = 121,
-    PALADIN = 122,
-    SPEARMAN = 130,
-    DRAGONKNIGHT = 131,
-    DARKKNIGHT = 132,
-    MAGICIAN = 200,
-    FP_WIZARD = 210,
-    FP_MAGE = 211,
-    FP_ARCHMAGE = 212,
-    IL_WIZARD = 220,
-    IL_MAGE = 221,
-    IL_ARCHMAGE = 222,
-    CLERIC = 230,
-    PRIEST = 231,
-    BISHOP = 232,
-    BOWMAN = 300,
-    HUNTER = 310,
-    RANGER = 311,
-    BOWMASTER = 312,
-    CROSSBOWMAN = 320,
-    SNIPER = 321,
-    CROSSBOWMASTER = 322,
-    THIEF = 400,
-    ASSASSIN = 410,
-    HERMIT = 411,
-    NIGHTLORD = 412,
-    BANDIT = 420,
-    CHIEFBANDIT = 421,
-    SHADOWER = 422,
-    PIRATE = 500,
-    BRAWLER = 510,
-    MARAUDER = 511,
-    BUCCANEER = 512,
-    GUNSLINGER = 520,
-    OUTLAW = 521,
-    CORSAIR = 522,
-    GM = 900,
-    SUPERGM = 910
+    constexpr u16 k_BEGINNER = 0;
+    constexpr u16 k_WARRIOR = 100;
+    constexpr u16 k_FIGHTER = 110;
+    constexpr u16 k_CRUSADER = 111;
+    constexpr u16 k_HERO = 112;
+    constexpr u16 k_PAGE = 120;
+    constexpr u16 k_WHITEKNIGHT = 121;
+    constexpr u16 k_PALADIN = 122;
+    constexpr u16 k_SPEARMAN = 130;
+    constexpr u16 k_DRAGONKNIGHT = 131;
+    constexpr u16 k_DARKKNIGHT = 132;
+    constexpr u16 k_MAGICIAN = 200;
+    constexpr u16 k_FP_WIZARD = 210;
+    constexpr u16 k_FP_MAGE = 211;
+    constexpr u16 k_FP_ARCHMAGE = 212;
+    constexpr u16 k_IL_WIZARD = 220;
+    constexpr u16 k_IL_MAGE = 221;
+    constexpr u16 k_IL_ARCHMAGE = 222;
+    constexpr u16 k_CLERIC = 230;
+    constexpr u16 k_PRIEST = 231;
+    constexpr u16 k_BISHOP = 232;
+    constexpr u16 k_BOWMAN = 300;
+    constexpr u16 k_HUNTER = 310;
+    constexpr u16 k_RANGER = 311;
+    constexpr u16 k_BOWMASTER = 312;
+    constexpr u16 k_CROSSBOWMAN = 320;
+    constexpr u16 k_SNIPER = 321;
+    constexpr u16 k_CROSSBOWMASTER = 322;
+    constexpr u16 k_THIEF = 400;
+    constexpr u16 k_ASSASSIN = 410;
+    constexpr u16 k_HERMIT = 411;
+    constexpr u16 k_NIGHTLORD = 412;
+    constexpr u16 k_BANDIT = 420;
+    constexpr u16 k_CHIEFBANDIT = 421;
+    constexpr u16 k_SHADOWER = 422;
+    constexpr u16 k_PIRATE = 500;
+    constexpr u16 k_BRAWLER = 510;
+    constexpr u16 k_MARAUDER = 511;
+    constexpr u16 k_BUCCANEER = 512;
+    constexpr u16 k_GUNSLINGER = 520;
+    constexpr u16 k_OUTLAW = 521;
+    constexpr u16 k_CORSAIR = 522;
+    constexpr u16 k_GM = 900;
+    constexpr u16 k_SUPERGM = 910;
 };
 
-enum class SkinColor : u32
+namespace SkinColorId
 {
-    NORMAL = 0,
-    DARK = 1,
-    BLACK = 2,
-    PALE = 3,
-    BLUE = 4,
-    WHITE = 9
+    constexpr u16 k_NORMAL = 0;
+    constexpr u16 k_DARK = 1;
+    constexpr u16 k_BLACK = 2;
+    constexpr u16 k_PALE = 3;
+    constexpr u16 k_BLUE = 4;
+    constexpr u16 k_WHITE = 9;
 };
 
-enum class MapleInventoryType : u32
+namespace MapleInventoryTypeId
 {
-    UNDEFINED = 0,
-    EQUIP = 1,
-    USE = 2,
-    SETUP = 3,
-    ETC = 4,
-    CASH = 5,
-    EQUIPPED = -1
+    constexpr u16 k_EQUIPPED = -1;
+    constexpr u16 k_UNDEFINED = 0;
+    constexpr u16 k_EQUIP = 1;
+    constexpr u16 k_USE = 2;
+    constexpr u16 k_SETUP = 3;
+    constexpr u16 k_ETC = 4;
+    constexpr u16 k_CASH = 5;
 };
 
 // Values are the respective weapons max damage multipliers
-namespace MapleWeaponType
+namespace MapleWeaponTypeDmgMultiplier
 {
-    float none = 0.0f;
-    float bow = 3.4f;
-    float claw = 3.6f;
-    float dagger = 4.0f;
-    float crossbow = 3.6f;
-    float axe_1h = 4.4f;
-    float axe_2h = 4.8f;
-    float sword_1h = 4.0f;
-    float sword_2h = 4.6f;
-    float blunt_1h = 4.4f;
-    float blunt_2h = 4.8f;
-    float pole_arm = 5.0f;
-    float spear = 5.0f;
-    float staff = 3.6f;
-    float want = 3.6f;
-    float knuckle = 4.0f;
-    float gun = 5.0f;
+    constexpr float k_NONE = 0.0f;
+    constexpr float k_BOW = 3.4f;
+    constexpr float k_CLAW = 3.6f;
+    constexpr float k_DAGGER = 4.0f;
+    constexpr float k_CROSSBOW = 3.6f;
+    constexpr float k_AXE_1H = 4.4f;
+    constexpr float k_AXE_2H = 4.8f;
+    constexpr float k_SWORD_1H = 4.0f;
+    constexpr float k_SWORD_2H = 4.6f;
+    constexpr float k_BLUNT_1h = 4.4f;
+    constexpr float k_BLUNT_2H = 4.8f;
+    constexpr float k_POLEARM = 5.0f;
+    constexpr float k_SPEAR = 5.0f;
+    constexpr float k_STAFF = 3.6f;
+    constexpr float k_WAND = 3.6f;
+    constexpr float k_KNUCKLE = 4.0f;
+    constexpr float k_GUN = 5.0f;
 };
 
-std::vector<u32> expTable = { 0, 15, 34, 57, 92, 135, 372, 560, 840, 1242, 1716, 2360, 3216, 4200, 5460, 7050, 8840,
+constexpr u32 expTable[201] = {
+    0, 15, 34, 57, 92, 135, 372, 560, 840, 1242, 1716, 2360, 3216, 4200, 5460, 7050, 8840,
     11040, 13716, 16680, 20216, 24402, 28980, 34320, 40512, 47216, 54900, 63666, 73080, 83720, 95700, 108480,
     122760, 138666, 155540, 174216, 194832, 216600, 240500, 266682, 294216, 324240, 356916, 391160, 428280, 468450,
     510420, 555680, 604416, 655200, 709716, 748608, 789631, 832902, 878545, 926689, 977471, 1031036, 1087536,
@@ -126,10 +127,12 @@ std::vector<u32> expTable = { 0, 15, 34, 57, 92, 135, 372, 560, 840, 1242, 1716,
     1807535693, 1906558648, 2011069705, 2121276324
 };
 
-std::vector<u32> petExpTable = { 0, 1, 3, 6, 14, 31, 60, 108, 181, 287, 434, 632, 891, 1224, 1642, 2161, 2793,
-    3557, 4467, 5542, 6801, 8263, 9950, 11882, 14084, 16578, 19391, 22547, 26074, 30000
+constexpr u32 petExpTable[30] = {
+    0, 1, 3, 6, 14, 31, 60, 108, 181, 287, 434, 632, 891, 1224, 1642, 2161, 2793, 3557,
+    4467, 5542, 6801, 8263, 9950, 11882, 14084, 16578, 19391, 22547, 26074, 30000
 };
 
-std::vector<u32> mountExpTable = { 0, 6, 25, 50, 105, 134, 196, 254, 263, 315, 367, 430, 543, 587, 679, 725, 897, 1146, 1394, 1701, 2247,
-    2543, 2898, 3156, 3313, 3584, 3923, 4150, 4305, 4550
+constexpr u32 mountExpTable[30] = {
+    0, 6, 25, 50, 105, 134, 196, 254, 263, 315, 367, 430, 543, 587, 679, 725, 897, 1146,
+    1394, 1701, 2247, 2543, 2898, 3156, 3313, 3584, 3923, 4150, 4305, 4550
 };

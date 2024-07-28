@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "net/packets/PacketHandler.h"
 #include "net/asio/TCPServerInterface.h"
+
+class Player;
 
 namespace net
 {
@@ -11,9 +15,18 @@ namespace net
         LoginServer(asio::io_context& io_context, u16 port);
         ~LoginServer();
 
+        void addToLoginQueue(std::shared_ptr<Player> player);
+        void removeFromLoginQueue(std::shared_ptr<Player>player);
+
     protected:
         void onClientConnect(ClientConnection client) override;
         void onClientDisconnect(ClientConnection client) override;
         void onMessage(Packet& packet) override;
+
+    private:
+        void updateLoginQueue();
+
+    private:
+        std::vector<std::shared_ptr<Player>> m_loginQueue;
     };
 }

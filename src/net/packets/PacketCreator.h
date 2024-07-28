@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+#include "net/packets/PacketConstants.h"
+#include "util/PacketTool.h"
 #include "Typedefs.h"
 
 class PacketCreator

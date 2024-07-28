@@ -143,7 +143,9 @@ namespace util
         {
             std::string data;
             for (int i = 0; i < length; i++)
+            {
                 data += readByte(packet);
+            }
             return data;
         }
 
@@ -222,14 +224,18 @@ namespace util
             {
                 writeShort(packet, static_cast<short>(data.size()));
                 for (byte c : data)
+                {
                     writeByte(packet, c);
+                }
             }
         }
 
         static inline void writeByteArray(Packet& packet, std::vector<byte> byteArray)
         {
             for (byte val : byteArray)
+            {
                 writeByte(packet, val);
+            }
         }
 
         static inline std::stringstream outputShortHex(short packetShort)

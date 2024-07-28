@@ -25,7 +25,8 @@ Master::Master()
     m_settings.mongoDB             = config["mongoDB"].as<std::string>();
 
     // World data
-    for (const auto& world : config["worlds"]) {
+    for (const auto& world : config["worlds"]) 
+    {
         World newWorld;
 
         // Settings

@@ -35,18 +35,18 @@ namespace util
         T pop_front()
         {
             std::scoped_lock lock(m_queueMutex);
-            auto t = std::move(m_deque.front());
+            auto val = std::move(m_deque.front());
             m_deque.pop_front();
-            return t;
+            return val;
         }
 
         // Removes and returns item from back of Queue
         T pop_back()
         {
             std::scoped_lock lock(m_queueMutex);
-            auto t = std::move(m_deque.back());
+            auto val = std::move(m_deque.back());
             m_deque.pop_back();
-            return t;
+            return val;
         }
 
         // Adds an item to back of Queue

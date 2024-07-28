@@ -107,7 +107,9 @@ namespace net
             {
                 // ..it is!
                 if (client != pIgnoreClient)
+                {
                     client->send(packet);
+                }
             }
             else
             {
