@@ -7,23 +7,34 @@
 ## Requirements:
 
 ### Build Tools:
-    [Premake](https://premake.github.io)
-    [CMake](https://cmake.org)
-    [Python](https://www.python.org)
-    C++ Compiler
+[Premake](https://premake.github.io)
+
+[CMake](https://cmake.org)
+
+[Python](https://www.python.org)
+
+C++ Compiler
 
 ### Dependencies:
-    Git Submodules:
-        [AES](https://github.com/BrianGladman/aes)
-        [ASIO](https://github.com/chriskohlhoff/asio.git)
-        [Bcrypt](https://github.com/trusch/libbcrypt.git)
-        [rpclib](https://github.com/rpclib/rpclib.git)
-        [Spdlog](https://github.com/gabime/spdlog.git)
-        [Yaml-Cpp](https://github.com/jbeder/yaml-cpp.git)
+Git Submodules:
 
-    Vcpkgs:
-        mongo-c-driver
-        mongo-cxx-driver
+[AES](https://github.com/BrianGladman/aes)
+
+[ASIO](https://github.com/chriskohlhoff/asio.git)
+
+[Bcrypt](https://github.com/trusch/libbcrypt.git)
+
+[rpclib](https://github.com/rpclib/rpclib.git)
+
+[Spdlog](https://github.com/gabime/spdlog.git)
+
+[Yaml-Cpp](https://github.com/jbeder/yaml-cpp.git)
+
+Vcpkgs:
+
+mongo-c-driver
+
+mongo-cxx-driver
 
 ## Build Instructions:
 To build project dependencies and generate the project files run:
