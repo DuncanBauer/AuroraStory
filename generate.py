@@ -8,6 +8,9 @@ bldcfg = sys.argv[1]
 print("Building bcrypt")
 subprocess.call("python3 scripts/buildBcrypt.py {}".format(bldcfg), shell=True)
 
+print("Building rpclib")
+subprocess.call("python3 scripts/buildRpclib.py {}".format(bldcfg), shell=True)
+
 print("Building Spdlog")
 subprocess.call("python3 scripts/buildSpdlog.py {}".format(bldcfg), shell=True)
 

@@ -1,7 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuroraStory", "AuroraStory.vcxproj", "{90A99020-FC5E-0916-8553-03EDF107001A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChannelServer", "ChannelServer\ChannelServer.vcxproj", "{755567E0-E115-E316-AA50-2C9416D027F3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginServer", "LoginServer\LoginServer.vcxproj", "{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorldServer", "WorldServer\WorldServer.vcxproj", "{C4887064-303E-E959-B932-E33025E7DF5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +17,38 @@ Global
 		Release|Windows = Release|Windows
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Unix.ActiveCfg = Debug Unix|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Unix.Build.0 = Debug Unix|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Windows.ActiveCfg = Debug Windows|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Debug|Windows.Build.0 = Debug Windows|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Unix.ActiveCfg = Release Unix|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Unix.Build.0 = Release Unix|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Windows.ActiveCfg = Release Windows|x64
-		{90A99020-FC5E-0916-8553-03EDF107001A}.Release|Windows.Build.0 = Release Windows|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Debug|Unix.Build.0 = Debug Unix|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Debug|Windows.Build.0 = Debug Windows|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Release|Unix.ActiveCfg = Release Unix|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Release|Unix.Build.0 = Release Unix|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Release|Windows.ActiveCfg = Release Windows|x64
+		{755567E0-E115-E316-AA50-2C9416D027F3}.Release|Windows.Build.0 = Release Windows|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Unix.Build.0 = Debug Unix|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Windows.Build.0 = Debug Windows|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Unix.ActiveCfg = Release Unix|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Unix.Build.0 = Release Unix|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Windows.ActiveCfg = Release Windows|x64
+		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Release|Windows.Build.0 = Release Windows|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Debug|Unix.Build.0 = Debug Unix|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Debug|Windows.Build.0 = Debug Windows|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Release|Unix.ActiveCfg = Release Unix|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Release|Unix.Build.0 = Release Unix|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Release|Windows.ActiveCfg = Release Windows|x64
+		{D5C41CE5-417A-95DA-CA6E-8FB136238CDE}.Release|Windows.Build.0 = Release Windows|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Debug|Unix.Build.0 = Debug Unix|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Debug|Windows.Build.0 = Debug Windows|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Release|Unix.ActiveCfg = Release Unix|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Release|Unix.Build.0 = Release Unix|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Release|Windows.ActiveCfg = Release Windows|x64
+		{C4887064-303E-E959-B932-E33025E7DF5D}.Release|Windows.Build.0 = Release Windows|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
