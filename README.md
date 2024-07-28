@@ -1,4 +1,4 @@
-TODO (In order?):
+###TODO (In order?):
 
 Login Queue
 Packets
@@ -11,50 +11,44 @@ Marriage
 Rings
 Combat
 
+###Build Tools:
+    [Premake](https://premake.github.io)
+    [CMake](https://cmake.org)
+    [Python](https://www.python.org)
 
-Dependencies:
+###Dependencies:
+    Git Submodules:
+        [AES](https://github.com/BrianGladman/aes)
+        [ASIO](https://github.com/chriskohlhoff/asio.git)
+        [Bcrypt](https://github.com/trusch/libbcrypt.git)
+        [rpclib](https://github.com/rpclib/rpclib.git)
+        [Spdlog](https://github.com/gabime/spdlog.git)
+        [Yaml-Cpp](https://github.com/jbeder/yaml-cpp.git)
 
-    build tools:
-    Premake
-    CMake
-    Python
+    Vcpkgs:
+        mongo-c-driver
+        mongo-cxx-drive
 
-    as git submodules:
-    AES
-    ASIO
-    Bcrypt
-    rpclib
-    Spdlog
-    Yaml-Cpp
-
-    as vcpkgs:
-    BsonC
-    BsonCXX
-    MongoC
-    MongoCXX
-
-Build instructions:
+#####Build instructions:
 'python generate.py Debug|Release'
 
-Design Decisions:
-C++ for source language:
+####Design Decisions:
+#####Language - C++
     Speed
     I don't like java
 
-Lua for scripting:
+#####Scripting - Lua
     Lighweight
     Easy to learn/use for beginners (Unlike javascript)
 
-MongoDB for databasing:
+#####Databasing - MongoDB
     I'm more familiar with it than SQL at this point
 
-Yaml for Wz:
+#####Wz Parsing - YAML
     Xml is so 2008
 
-Multi-application Architecture:
-    Allows for distribution of servers over multiple computers.
+#####System Architecture:
 
-System Architecture
                                 Login Server
 
                                 /           \
@@ -78,8 +72,8 @@ System Architecture
                 /       |      \              /      |      \
 
                /        |       \            /       |       \
-               
+
            Channel1 Channel2 Channel3    Channel1 Channel2 Channel3
 
 The Login Server is connected over RPC to each World Server, which in turn are
-connected over RPC to their respective channel servers.
+connected over RPC to their respective channel servers. Which allows for distribution of servers over multiple computers.
