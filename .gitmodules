@@ -10,6 +10,3 @@
 [submodule "vendor/bcrypt"]
 	path = vendor/bcrypt
 	url = https://github.com/trusch/libbcrypt.git
-[submodule "vendor/rpclib"]
-	path = vendor/rpclib
-	url = https://github.com/rpclib/rpclib.git

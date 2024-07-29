@@ -31,9 +31,6 @@
     <Filter Include="src\net\packets\processors">
       <UniqueIdentifier>{5FFE8D83-4B0E-3A54-B4C7-9E72A0F628ED}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\net\world">
-      <UniqueIdentifier>{FAA9F6CC-666A-7203-2FA5-BB809B24B7DF}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\util">
       <UniqueIdentifier>{BA5238CF-A61F-93DA-CF38-8182BB64C868}</UniqueIdentifier>
     </Filter>
@@ -54,7 +51,13 @@
     <ClInclude Include="src\Typedefs.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\Party.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Player.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\World.h">
       <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\net\asio\TCPConnection.h">
@@ -72,14 +75,11 @@
     <ClInclude Include="src\net\packets\PacketConstants.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\packets\PacketHandler.h">
-      <Filter>src\net\packets</Filter>
-    </ClInclude>
     <ClInclude Include="src\net\packets\PacketCreator.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\World.h">
-      <Filter>src\net\world</Filter>
+    <ClInclude Include="src\net\packets\PacketHandler.h">
+      <Filter>src\net\packets</Filter>
     </ClInclude>
     <ClInclude Include="src\util\HashPassword.h">
       <Filter>src\util</Filter>
@@ -125,7 +125,13 @@
     <ClCompile Include="src\Master.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\Party.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\Player.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\World.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -143,68 +149,11 @@
     <ClCompile Include="src\net\login\LoginServer.cpp">
       <Filter>src\net\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\PongHandler.cpp">
-      <Filter>src\net\packets\handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\AfterLoginHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\CharListRequestHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\CharSelectHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\CheckCharNameHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\ClientStartHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\CreateCharHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\DeleteCharHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\GuestLoginHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
     <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\PickAllCharHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\PlayerDCHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\RegisterPinHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\RelogHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\ServerListRequestHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\ServerListRerequestHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequestHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\SetGenderHandler.cpp">
-      <Filter>src\net\packets\handlers\login</Filter>
-    </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\ViewAllCharHandler.cpp">
       <Filter>src\net\packets\handlers\login</Filter>
     </ClCompile>
     <ClCompile Include="src\net\packets\processors\GetHandshake.cpp">
       <Filter>src\net\packets\processors</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\World.cpp">
-      <Filter>src\net\world</Filter>
     </ClCompile>
     <ClCompile Include="vendor\aes\aes_modes.c">
       <Filter>vendor\aes</Filter>

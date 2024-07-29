@@ -27,7 +27,6 @@ IncludeDir["aes"]				= "%{os.getcwd()}/vendor/aes"
 -- submodule libraries
 IncludeDir["ASIO"]	 			= "%{os.getcwd()}/vendor/asio/asio/include"
 IncludeDir["bcrypt"]	 		= "%{os.getcwd()}/vendor/bcrypt/include"
-IncludeDir["rpclib"]			= "%{os.getcwd()}/vendor/rpclib/include"
 IncludeDir["spdlog"] 			= "%{os.getcwd()}/vendor/spdlog/include"
 IncludeDir["yamlcpp"] 			= "%{os.getcwd()}/vendor/yaml-cpp/include"
 
@@ -40,7 +39,6 @@ IncludeDir["MongoCXX"]			= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/include/mon
 LinkDir = {}
 -- Need separate debug and release links. (I'm sure theres a better way)
 LinkDir["bcrypt"]				= "%{os.getcwd()}/vendor/bcrypt/build/%{cfg.buildcfg}/bcrypt"
-LinkDir["rpclib"]				= "%{os.getcwd()}/vendor/rpclib/build/%{cfg.buildcfg}/rpc"
 
 LinkDir["yamlcpp"]				= "%{os.getcwd()}/vendor/yaml-cpp/build/%{cfg.buildcfg}/yaml-cpp"
 LinkDir["yamlcppd"]				= "%{os.getcwd()}/vendor/yaml-cpp/build/%{cfg.buildcfg}/yaml-cppd"
@@ -55,7 +53,80 @@ LinkDir["BsonCXXd"]				= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/debug/lib/bso
 LinkDir["MongoCd"]				= "%{vcpkgdir}/mongo-c-driver_x64-windows/debug/lib/mongoc-1.0"
 LinkDir["MongoCXXd"]			= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/debug/lib/mongocxx-v_noabi-dhs-mdd"
 
-include "Core"
-include "WorldServer"
-include "LoginServer"
-include "ChannelServer"
+project "AuroraStory"
+	location "."
+	kind "ConsoleApp"
+	staticruntime "off"
+	language "C++"
+	cppdialect "C++20"
+	targetdir ("bin/" .. outputdir)
+	objdir ("bin-int/" .. outputdir)
+	
+	files
+	{
+		"src/**.cpp",
+		"src/**.h",
+		"vendor/aes/**.c",
+		"vendor/aes/**.h"
+	}
+	
+	includedirs
+	{
+		"src/",
+		"%{IncludeDir.aes}",
+		"%{IncludeDir.ASIO}",
+		"%{IncludeDir.bcrypt}",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.yamlcpp}",
+		"%{IncludeDir.Bson}",
+		"%{IncludeDir.BsonCXX}",
+		"%{IncludeDir.MongoC}",
+		"%{IncludeDir.MongoCXX}"
+	}
+
+	links
+	{
+		"%{LinkDir.bcrypt}"
+	}
+
+	filter "system:windows"
+		architecture "x86_64"
+		defines 
+		{
+			"_WIN32_WINNT=0x0601"
+		}
+
+	filter "system:linux"
+		architecture "x86_64"
+
+	filter "configurations:Debug"
+		defines 
+		{
+			"DEBUG"
+		}
+		links
+		{
+			"%{LinkDir.MongoCd}",
+			"%{LinkDir.MongoCXXd}",
+			"%{LinkDir.Bsond}",
+			"%{LinkDir.BsonCXXd}",
+			"%{LinkDir.yamlcppd}",
+		}
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines
+		{
+			"NDEBUG"
+		}
+		links
+		{
+			"%{LinkDir.MongoC}",
+			"%{LinkDir.MongoCXX}",
+			"%{LinkDir.Bson}",
+			"%{LinkDir.BsonCXX}",
+			"%{LinkDir.yamlcpp}",
+		}
+		runtime "Release"
+		optimize "on"

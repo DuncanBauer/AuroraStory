@@ -67,29 +67,29 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Debug\windows\AuroraStory\</OutDir>
-    <IntDir>bin-int\Debug\windows\AuroraStory\Windows\</IntDir>
+    <OutDir>bin\Debug\windows\</OutDir>
+    <IntDir>bin-int\Debug\windows\Windows\</IntDir>
     <TargetName>AuroraStory</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Debug\windows\AuroraStory\</OutDir>
-    <IntDir>bin-int\Debug\windows\AuroraStory\Unix\</IntDir>
+    <OutDir>bin\Debug\windows\</OutDir>
+    <IntDir>bin-int\Debug\windows\Unix\</IntDir>
     <TargetName>AuroraStory</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Release\windows\AuroraStory\</OutDir>
-    <IntDir>bin-int\Release\windows\AuroraStory\Windows\</IntDir>
+    <OutDir>bin\Release\windows\</OutDir>
+    <IntDir>bin-int\Release\windows\Windows\</IntDir>
     <TargetName>AuroraStory</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Release\windows\AuroraStory\</OutDir>
-    <IntDir>bin-int\Release\windows\AuroraStory\Unix\</IntDir>
+    <OutDir>bin\Release\windows\</OutDir>
+    <IntDir>bin-int\Release\windows\Unix\</IntDir>
     <TargetName>AuroraStory</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -97,7 +97,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;DEBUG;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -115,7 +115,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;DEBUG;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -133,7 +133,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -155,7 +155,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_WIN32_WINNT=0x0601;NDEBUG;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -174,19 +174,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\game\Party.h" />
     <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\Master.h" />
     <ClInclude Include="src\Typedefs.h" />
+    <ClInclude Include="src\game\Party.h" />
     <ClInclude Include="src\game\Player.h" />
+    <ClInclude Include="src\game\World.h" />
     <ClInclude Include="src\net\asio\TCPConnection.h" />
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\net\channel\ChannelServer.h" />
     <ClInclude Include="src\net\login\LoginServer.h" />
     <ClInclude Include="src\net\packets\PacketConstants.h" />
-    <ClInclude Include="src\net\packets\PacketHandler.h" />
     <ClInclude Include="src\net\packets\PacketCreator.h" />
-    <ClInclude Include="src\game\World.h" />
+    <ClInclude Include="src\net\packets\PacketHandler.h" />
     <ClInclude Include="src\util\HashPassword.h" />
     <ClInclude Include="src\util\LoggingTool.h" />
     <ClInclude Include="src\util\MapleAESOFB.h" />
@@ -202,35 +202,17 @@
     <ClInclude Include="vendor\aes\brg_types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\Party.cpp" />
     <ClCompile Include="src\Master.cpp" />
+    <ClCompile Include="src\game\Party.cpp" />
     <ClCompile Include="src\game\Player.cpp" />
+    <ClCompile Include="src\game\World.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\net\asio\TCPConnection.cpp" />
     <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />
     <ClCompile Include="src\net\channel\ChannelServer.cpp" />
     <ClCompile Include="src\net\login\LoginServer.cpp" />
-    <ClCompile Include="src\net\packets\handlers\PongHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\AfterLoginHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CharListRequestHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CharSelectHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CheckCharNameHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ClientStartHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CreateCharHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\DeleteCharHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\GuestLoginHandler.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\PickAllCharHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\PlayerDCHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\RegisterPinHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\RelogHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerListRequestHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerListRerequestHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequestHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\SetGenderHandler.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ViewAllCharHandler.cpp" />
     <ClCompile Include="src\net\packets\processors\GetHandshake.cpp" />
-    <ClCompile Include="src\game\World.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
     <ClCompile Include="vendor\aes\aes_ni.c" />
     <ClCompile Include="vendor\aes\aescrypt.c" />

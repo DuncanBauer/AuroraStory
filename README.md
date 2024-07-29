@@ -53,8 +53,10 @@ To build the ChannelServer run:
 
 
 ## Run Instructions:
-### It's important to note that these more of these steps aren't yet functional
+### It's important to note that these most of these steps aren't yet functional
+The order matters!
 
+    LoginServer -> WorldServer(s) -> ChannelServer(s)
 
 To run the project, first you must launch the LoginServer.
 

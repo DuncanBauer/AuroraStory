@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  aurorastory:
+    image: aurorastory
+    build:
+      context: .
+      dockerfile: ./Dockerfile
