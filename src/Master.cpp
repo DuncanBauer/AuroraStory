@@ -8,7 +8,7 @@
 #include "net/packets/PacketHandler.h"
 #include "util/MongoDb.h"
 
-Master::Master() : m_loginServer()
+Master::Master()
 {
     // Load Server Configuration
     YAML::Node config = YAML::LoadFile("config.yaml");

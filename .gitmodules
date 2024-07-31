@@ -1,0 +1,12 @@
+[submodule "vendor/asio"]
+	path = vendor/asio
+	url = https://github.com/chriskohlhoff/asio.git
+[submodule "vendor/spdlog"]
+	path = vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "vendor/yaml-cpp"]
+	path = vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "vendor/bcrypt"]
+	path = vendor/bcrypt
+	url = https://github.com/trusch/libbcrypt.git
