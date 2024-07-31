@@ -107,4 +107,104 @@ public:
         return packet;
     }
 
+    /**
+     * Gets a successful authentication and PIN Request packet.
+     *
+     * @param username The account name.
+     * @return The PIN request packet.
+     */
+    static Packet getLoginSuccess(std::string username) 
+    {
+        Packet packet;
+        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
+        util::PacketTool::writeString(packet, username);
+        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0});
+        util::PacketTool::writeByte(packet, 1); // Bypass pin for now
+        util::PacketTool::writeByte(packet, 2); // Bypass pic for now
+        return packet;
+    }
+
+    //static Packet getAuthSuccess(std::shared_ptr<Player> player) 
+    //{
+    //    Server.getInstance().loadAccountCharacters(player);    // locks the login session until data is recovered from the cache or the DB.
+    //    Server.getInstance().loadAccountStorages(player);
+
+    //    final MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
+    //    mplew.writeShort(SendOpcode.LOGIN_STATUS.getValue());
+    //    mplew.writeInt(0);
+    //    mplew.writeShort(0);
+    //    mplew.writeInt(player.getAccID());
+    //    mplew.write(player.getGender());
+
+    //    boolean canFly = Server.getInstance().canFly(c.getAccID());
+    //    mplew.writeBool((YamlConfig.config.server.USE_ENFORCE_ADMIN_ACCOUNT || canFly) ? c.getGMLevel() > 1 : false);    // thanks Steve(kaito1410) for pointing the GM account boolean here
+    //    mplew.write(((YamlConfig.config.server.USE_ENFORCE_ADMIN_ACCOUNT || canFly) && c.getGMLevel() > 1) ? 0x80 : 0);  // Admin Byte. 0x80,0x40,0x20.. Rubbish.
+    //    mplew.write(0); // Country Code.
+
+    //    mplew.writeMapleAsciiString(c.getAccountName());
+    //    mplew.write(0);
+
+    //    mplew.write(0); // IsQuietBan
+    //    mplew.writeLong(0);//IsQuietBanTimeStamp
+    //    mplew.writeLong(0); //CreationTimeStamp
+
+    //    mplew.writeInt(1); // 1: Remove the "Select the world you want to play in"
+
+    //    mplew.write(YamlConfig.config.server.ENABLE_PIN && !c.canBypassPin() ? 0 : 1); // 0 = Pin-System Enabled, 1 = Disabled
+    //    mplew.write(YamlConfig.config.server.ENABLE_PIC && !c.canBypassPic() ? (c.getPic() == null || c.getPic().equals("") ? 0 : 1) : 2); // 0 = Register PIC, 1 = Ask for PIC, 2 = Disabled
+
+    //    return mplew.getPacket();
+    //}
+
+
+    /**
+     * Gets a packet detailing a PIN operation.
+     *
+     * Possible values for <code>mode</code>:<br>
+     * 0 - PIN was accepted<br>
+     * 1 - Register a new PIN<br>
+     * 2 - Invalid pin / Reenter<br>
+     * 3 - Connection failed due to system error<br>
+     * 4 - Enter the pin
+     *
+     * @param mode The mode.
+     */
+    static Packet pinOperation(byte mode) 
+    {
+        Packet packet;
+        util::PacketTool::writeShort(packet, SendOps::k_PIN_OPERATION);
+        util::PacketTool::writeByte(packet, mode);
+        return packet;
+    }
+
+    /**
+     * Gets a packet requesting the client enter a PIN.
+     *
+     * @return The request PIN packet.
+     */
+    static Packet requestPin() 
+    {
+        return pinOperation((byte)4);
+    }
+
+    /**
+     * Gets a packet requesting the PIN after a failed attempt.
+     *
+     * @return The failed PIN packet.
+     */
+    static Packet requestPinAfterFailure() 
+    {
+        return pinOperation((byte)2);
+    }
+
+    /**
+     * Gets a packet saying the PIN has been accepted.
+     *
+     * @return The PIN accepted packet.
+     */
+    static Packet pinAccepted() 
+    {
+        return pinOperation((byte)0);
+    }
 };

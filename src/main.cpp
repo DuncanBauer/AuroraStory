@@ -4,8 +4,14 @@
 
 int main(int argc, char** argv)
 {
-    Master master;
-    master.run();
-
+    try
+    {
+        Master master;
+        master.run();
+    }
+    catch (std::exception e)
+    {
+        SERVER_ERROR("{}", e.what());
+    }
     std::cin.get();
 }

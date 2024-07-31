@@ -170,5 +170,6 @@
     <ClCompile Include="vendor\aes\aestab.c">
       <Filter>vendor\aes</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\MongoDb.cpp" />
   </ItemGroup>
 </Project>

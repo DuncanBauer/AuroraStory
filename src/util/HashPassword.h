@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "bcrypt/BCrypt.hpp"
 
 namespace util

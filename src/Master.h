@@ -4,6 +4,7 @@
 
 #include "net/packets/PacketHandler.h"
 #include "game/World.h"
+#include "util/MongoDb.h"
 
 struct DbSettings
 {
@@ -67,16 +68,15 @@ public:
     void stop();
 
     static inline ServerSettings& getServerSettings() { return m_serverSettings; }
-    static inline std::vector<std::string> getBannedIPs() { return m_bannedIPs; }
-    static inline std::vector<std::string> getBannedMACs() { return m_bannedMACs; }
 
 private:
     asio::io_context m_ioContext;
     
     static inline ServerSettings m_serverSettings;
-    static inline std::vector<std::string> m_bannedIPs;
-    static inline std::vector<std::string> m_bannedMACs;
 
     std::shared_ptr<LoginServer> m_loginServer;
     std::vector<std::shared_ptr<ChannelServer>> m_channelServers;
+
+    std::thread m_loginServerThread;
+    std::map<int, std::thread> m_channelServerThreads;
 };

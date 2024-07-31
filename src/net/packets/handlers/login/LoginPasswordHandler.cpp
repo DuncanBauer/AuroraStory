@@ -7,6 +7,7 @@
 #include "game/Player.h"
 #include "net/packets/PacketHandler.h"
 #include "net/packets/PacketCreator.h"
+#include "Typedefs.h"
 
 enum LoginStatus
 {
@@ -15,53 +16,45 @@ enum LoginStatus
     BANNED
 };
 
-void PacketHandler::handleLoginPassword(std::shared_ptr<net::TCPConnection> player, Packet& packet)
+void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& packet)
 {
     SERVER_INFO("PacketHandler::handleLoginPassword");
 
     std::string username = util::PacketTool::readMapleString(packet);
     std::string password = util::PacketTool::readMapleString(packet);
 
-    SERVER_INFO("Username: {}", username);
-    SERVER_INFO("Password: {}", password);
+    u16 loginSuccess = 5; // Account doesn't exist
+    FindOneResult dbResult = util::MongoDb::getInstance().accountExists(username);
 
-    //player.login(username, password);
+    // Username doesn't exist
+    if (!dbResult)
+    {
+        if (Master::getServerSettings().autoRegisterEnabled)
+        {
+            // Register new account and log in
+            player->autoRegister(username, password);
+            dbResult = util::MongoDb::getInstance().accountExists(username);
+        }
+        else
+        {
+            player->send(PacketCreator::getLoginFailed(loginSuccess));
+        }
+        return;
+    }
 
-    //if (!util::MongoDb::accountExists(username))
-    //{
-    //    if (Master::getServerSettings().autoRegisterEnabled)
-    //    {
-    //        std::string passwordHash = util::generateHash(password);
-    //        if (util::MongoDb::autoRegisterAccount(username, passwordHash, player.getIP()))
-    //        {
+    // Attempt login
+    loginSuccess = player->login(username, password, *dbResult);
+    SERVER_INFO("LoginSuccess: {}", loginSuccess);
 
-    //        }
-    //    }
-    //}
-
-    //if (player.isBanned()
-    //{
-    //    player.send(PacketCreator::getPermaBan());
-    //    return;
-    //}
-
-    //if (!accountExists)
-    //{
-    //    if (autoRegisterEnabled)
-    //    {
-    //        bool registerSuccess = player.send(PacketCreator::getAutoRegister());
-    //        if (!registerSuccess)
-    //        {
-    //            player.send(PacketCreator::getLoginFailed());
-    //            return;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        player.send(PacketCreator::getLoginFailed());
-    //        return
-    //    }
-    //}
+    // Correct password
+    if (loginSuccess == 2)
+    {
+        player->send(PacketCreator::getLoginSuccess(username));
+    }
+    else
+    {
+        player->send(PacketCreator::getLoginFailed(loginSuccess));
+    }
 
     //addToLoginQueue(player, player.isGM());
 }

@@ -55,6 +55,19 @@ struct Character
     //Messenger messenger;
 };
 
+struct Account
+{
+    std::string accountId;
+    std::string username;
+    i64 birthday = 0;
+    u32 isLoggedIn = false;
+    bool isGM = false;
+    bool isGuestAccount = false;
+    bool isBanned = false;
+    u32 banReason = 1;
+    i64 tempban = 0;
+};
+
 class Player : public net::TCPConnection
 {
 public:
@@ -62,9 +75,10 @@ public:
     ~Player();
 
     void processPacket(Packet& packet);
-    void loadAccountData();
+    void loadAccountData(const bsoncxx::v_noabi::document::value& data);
 
-    u32 login(const std::string& username, const std::string& password);
+    void autoRegister(const std::string& username, const std::string& password);
+    u16 login(const std::string& username, const std::string& password, const bsoncxx::v_noabi::document::value& data);
     u32 logout();
     u32 changeChannel();
 
@@ -78,17 +92,9 @@ public:
     bool hasBannedMAC();
 
 private:
-    std::string m_accountId;
-    std::string m_accountName;
-    Calendar m_birthday = {};
-    bool m_isLoggedIn = false;
-    bool m_isGM = false;
-    bool m_isGuestAccount = false;
-    bool m_isBanned = false;
-    byte m_banReason = 1;
-    Calendar m_tempban = {};
     u16 m_attemptedLogins = 0;
     u64 m_lastPong = 0;
 
+    Account m_account;
     Character m_character;
 };

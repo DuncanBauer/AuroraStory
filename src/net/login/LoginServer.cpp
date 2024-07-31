@@ -16,7 +16,7 @@ void LoginServer::addToLoginQueue(std::shared_ptr<Player> player)
 {
     if (player->isGM())
     {
-        m_loginQueue.emplace(m_loginQueue.begin(), player);
+        m_loginQueue.insert(m_loginQueue.begin(), player);
     }
     else
     {

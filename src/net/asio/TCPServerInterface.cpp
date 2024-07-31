@@ -69,16 +69,16 @@ namespace net
 
     void TCPServerInterface::update(size_t maxPackets, bool wait)
     {
-        if (wait)
-        {
-            size_t packetCount = 0;
-            while (packetCount < maxPackets && !m_incomingPackets.empty())
-            {
-                auto packet = m_incomingPackets.pop_front();
-                onMessage(packet);
-                packetCount++;
-            }
-        }
+        //if (wait)
+        //{
+        //    size_t packetCount = 0;
+        //    while (packetCount < maxPackets && !m_incomingPackets.empty())
+        //    {
+        //        auto packet = m_incomingPackets.pop_front();
+        //        onMessage(packet);
+        //        packetCount++;
+        //    }
+        //}
     }
 
     void TCPServerInterface::messageClient(ClientConnection client, const Packet& packet)

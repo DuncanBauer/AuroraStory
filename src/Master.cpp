@@ -69,7 +69,8 @@ void Master::initialize()
     util::LoggingTool::initialize();
 
     // Initialize MongoDb
-    util::MongoDb::initialize(m_serverSettings.dbSettings.mongoURI, m_serverSettings.dbSettings.mongoDB);
+    util::MongoDb::getInstance().initialize(m_serverSettings.dbSettings.mongoURI, m_serverSettings.dbSettings.mongoDB);
+    //util::MongoDb::initialize(m_serverSettings.dbSettings.mongoURI, m_serverSettings.dbSettings.mongoDB);
 
     // Initialize PacketHandlers
     PacketHandler::initialize();
@@ -80,7 +81,9 @@ void Master::run()
     // Set up login server
     m_loginServer = std::make_shared<LoginServer>(m_ioContext);
     m_loginServer->start();
+    //m_loginServerThread = std::thread([this]() { m_loginServer->update(); });
     std::cout << "Hello after loginserver start\n";
+
 
     // Set up channel servers
     u16 channelPort = 7575;

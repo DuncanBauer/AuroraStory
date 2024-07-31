@@ -213,6 +213,7 @@
     <ClCompile Include="src\net\login\LoginServer.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp" />
     <ClCompile Include="src\net\packets\processors\GetHandshake.cpp" />
+    <ClCompile Include="src\util\MongoDb.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
     <ClCompile Include="vendor\aes\aes_ni.c" />
     <ClCompile Include="vendor\aes\aescrypt.c" />
