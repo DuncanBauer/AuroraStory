@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "yaml-cpp/yaml.h"
 
 #include "Master.h"
