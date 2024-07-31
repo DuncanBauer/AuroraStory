@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-
 #include "MapleConstants.h"
 #include "Typedefs.h"
 

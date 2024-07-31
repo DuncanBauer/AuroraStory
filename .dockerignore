@@ -1,3 +1,6 @@
+*.exe.lnk
+*.exe
+
 **/.classpath
 **/.dockerignore
 **/.env

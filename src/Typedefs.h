@@ -38,7 +38,7 @@ using DeleteResult = std::optional<mongocxx::v_noabi::result::delete_result>;
 using seconds_t = std::chrono::seconds;
 using Calendar = std::tm;
 
-using Point = struct {
+struct Point {
     u32 x;
     u32 y;
 };
