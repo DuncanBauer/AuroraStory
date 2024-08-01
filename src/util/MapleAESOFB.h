@@ -1,10 +1,13 @@
 #pragma once
 
+#include <iostream>
+#include <iomanip>
+
 #include <vector>
 
 #include "aes.h"
 
-
+#include "util/PacketTool.h"
 #include "Typedefs.h"
 
 namespace util
@@ -14,12 +17,44 @@ namespace util
     public:
         MapleAESOFB() = delete;
 
+		static inline void aesCrypt(byte* buffer, byte* iv, u16 size)
+		{
+			byte temp_iv[16];
+			u16 pos = 0;
+			u16 t_pos = 1456;
+			u16 bytes_amount;
+
+			aes_encrypt_ctx cx[1];
+			aes_init();
+
+			while (size > pos)
+			{
+				memcpy(temp_iv, iv, 16);
+
+				aes_encrypt_key256(m_aesKey, cx);
+
+				if (size > (pos + t_pos))
+				{
+					bytes_amount = t_pos;
+				}
+				else
+				{
+					bytes_amount = size - pos;
+				}
+
+				aes_ofb_crypt(buffer + pos, buffer + pos, bytes_amount, temp_iv, cx);
+
+				pos += t_pos;
+				t_pos = 1460;
+			}
+		}
+
         static inline void encrypt(byte* buffer, byte* iv, u16 size)
 		{
 			byte a;
 			byte c;
 			u16 temp_size;
-			int loop_counter = 0;
+			u32 loop_counter = 0;
 
 			for (; loop_counter < 3; ++loop_counter)
 			{
@@ -63,7 +98,7 @@ namespace util
 			byte b;
 			byte c;
 			u16 temp_size;
-			int loop_counter = 0;
+			u32 loop_counter = 0;
 
 			for (; loop_counter < 3; ++loop_counter)
 			{
@@ -100,14 +135,15 @@ namespace util
 			}
 		}
 
-        static inline void createPacketHeader(byte* buffer, byte* iv, u16 size)
+        static inline void createPacketHeader(byte* buffer, byte* iv, u32 size)
 		{
-			u16 version = (((iv[3] << 8) | iv[2]) ^ -(k_gameVersion + 1));
+			short version = (short)(0xFFFF) - k_gameVersion;
+			short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
 			size = version ^ size;
 
-			buffer[0] = version & 0xFF;
-			buffer[1] = (version >> 8) & 0xFF;
 
+			buffer[0] = (mapleVersion >> 8) & 0xFF;
+			buffer[1] = mapleVersion & 0xFF;
 			buffer[2] = size & 0xFF;
 			buffer[3] = (size >> 8) & 0xFF;
 		}
@@ -135,9 +171,9 @@ namespace util
 			byte new_iv[4] = { 0xF2, 0x53, 0x50, 0xC6 };
 			byte input;
 			byte value_input;
-			unsigned int full_iv;
-			unsigned int shift;
-			int loop_counter = 0;
+			u32 full_iv;
+			u32 shift;
+			u32 loop_counter = 0;
 
 			for (; loop_counter < 4; loop_counter++)
 			{
@@ -163,38 +199,6 @@ namespace util
 			memcpy(iv + 4, new_iv, 4);
 			memcpy(iv + 8, new_iv, 4);
 			memcpy(iv + 12, new_iv, 4);
-		}
-
-        static inline void aesCrypt(byte* buffer, byte* iv, u16 size)
-		{
-			byte temp_iv[16];
-			u16 pos = 0;
-			u16 t_pos = 1456;
-			u16 bytes_amount;
-
-			aes_encrypt_ctx cx[1];
-			aes_init();
-
-			while (size > pos)
-			{
-				memcpy(temp_iv, iv, 16);
-
-				aes_encrypt_key256(m_aesKey, cx);
-
-				if (size > (pos + t_pos))
-				{
-					bytes_amount = t_pos;
-				}
-				else
-				{
-					bytes_amount = size - pos;
-				}
-
-				aes_ofb_crypt(buffer + pos, buffer + pos, bytes_amount, temp_iv, cx);
-
-				pos += t_pos;
-				t_pos = 1460;
-			}
 		}
 
 	private:

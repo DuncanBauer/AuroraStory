@@ -8,9 +8,9 @@ Packet PacketCreator::getHandshake(Packet iv_recv, Packet iv_send)
     util::PacketTool::writeShort(packet, 14);
     util::PacketTool::writeShort(packet, k_gameVersion);
     util::PacketTool::writeShort(packet, k_gameMinorVersion);
-    util::PacketTool::writeSByte(packet, 49);
+    util::PacketTool::writeByte(packet, 49);
     util::PacketTool::writeInt(packet, *(int*)iv_recv.data());
     util::PacketTool::writeInt(packet, *(int*)iv_send.data());
-    util::PacketTool::writeSByte(packet, k_gmsLocale);
+    util::PacketTool::writeByte(packet, k_gmsLocale);
     return packet;
 }

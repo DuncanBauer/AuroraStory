@@ -36,42 +36,10 @@ namespace util
             return result;
         }
 
-        static inline i16 readSignedShort(Packet& packet)
-        {
-            i16 r1, r2;
-            i16 result = 0;
-
-            r1 = readByte(packet);
-            r2 = readByte(packet);
-
-            result |= r2 << 8;
-            result |= r1;
-
-            return result;
-        }
-
         static inline u32 readInt(Packet& packet)
         {
             u32 r1, r2, r3, r4;
             u32 result = 0;
-
-            r1 = readByte(packet);
-            r2 = readByte(packet);
-            r3 = readByte(packet);
-            r4 = readByte(packet);
-
-            result |= r4 << 24;
-            result |= r3 << 16;
-            result |= r2 << 8;
-            result |= r1;
-
-            return result;
-        }
-
-        static inline i32 readSignedInt(Packet& packet)
-        {
-            i32 r1, r2, r3, r4;
-            i32 result = 0;
 
             r1 = readByte(packet);
             r2 = readByte(packet);
@@ -91,33 +59,6 @@ namespace util
             u64 r1, r2, r3, r4,
                 r5, r6, r7, r8;
             u64 result = 0;
-
-            r1 = readByte(packet);
-            r2 = readByte(packet);
-            r3 = readByte(packet);
-            r4 = readByte(packet);
-            r5 = readByte(packet);
-            r6 = readByte(packet);
-            r7 = readByte(packet);
-            r8 = readByte(packet);
-
-            result |= r8 << 56;
-            result |= r7 << 48;
-            result |= r6 << 40;
-            result |= r5 << 32;
-            result |= r4 << 24;
-            result |= r3 << 16;
-            result |= r2 << 8;
-            result |= r1;
-
-            return result;
-        }
-
-        static inline int64_t readSignedLong(Packet& packet)
-        {
-            int64_t r1, r2, r3, r4,
-                r5, r6, r7, r8;
-            int64_t result = 0;
 
             r1 = readByte(packet);
             r2 = readByte(packet);
@@ -162,32 +103,13 @@ namespace util
             packet.push_back(data);
         }
 
-        static inline void writeSByte(Packet& packet, char data)
-        {
-            packet.push_back(data);
-        }
-
         static inline void writeShort(Packet& packet, u16 data)
         {
             writeByte(packet, data & 0xFF);
             writeByte(packet, (data >> 8) & 0xFF);
         }
 
-        static inline void writeSignedShort(Packet& packet, i16 data)
-        {
-            writeByte(packet, data & 0xFF);
-            writeByte(packet, (data >> 8) & 0xFF);
-        }
-
         static inline void writeInt(Packet& packet, u32 data)
-        {
-            writeByte(packet, data & 0xFF);
-            writeByte(packet, (data >> 8) & 0xFF);
-            writeByte(packet, (data >> 16) & 0xFF);
-            writeByte(packet, (data >> 24) & 0xFF);
-        }
-
-        static inline void writeSignedInt(Packet& packet, i32 data)
         {
             writeByte(packet, data & 0xFF);
             writeByte(packet, (data >> 8) & 0xFF);
@@ -207,28 +129,18 @@ namespace util
             writeByte(packet, (data >> 56) & 0xFF);
         }
 
-        static inline void writeSignedLong(Packet& packet, int64_t data)
-        {
-            writeByte(packet, data & 0xFF);
-            writeByte(packet, (data >> 8) & 0xFF);
-            writeByte(packet, (data >> 16) & 0xFF);
-            writeByte(packet, (data >> 24) & 0xFF);
-            writeByte(packet, (data >> 32) & 0xFF);
-            writeByte(packet, (data >> 40) & 0xFF);
-            writeByte(packet, (data >> 48) & 0xFF);
-            writeByte(packet, (data >> 56) & 0xFF);
-        }
-
         static inline void writeString(Packet& packet, std::string data)
         {
-            if (data.size())
+            for (byte c : data)
             {
-                writeShort(packet, static_cast<short>(data.size()));
-                for (byte c : data)
-                {
-                    writeByte(packet, c);
-                }
+                writeByte(packet, c);
             }
+        }
+
+        static inline void writeMapleString(Packet& packet, std::string data)
+        {
+            writeShort(packet, static_cast<short>(data.size()));
+            writeString(packet, data);
         }
 
         static inline void writeByteArray(Packet& packet, std::vector<byte> byteArray)
@@ -269,17 +181,49 @@ namespace util
             return ss;
         }
 
+        //static inline std::stringstream outputPacketHex(Packet packet)
+        //{
+        //    std::stringstream ss;
+        //    for (byte val : packet)
+        //    {
+        //        ss << "0x"
+        //           << std::uppercase    // Print letters in uppercase (A-F)
+        //           << std::setw(2)      // Set width to 2 characters (for a byte)<< val << ' ';
+        //           << std::setfill('0') // Fill with zeroes if necessary
+        //           << std::hex
+        //           << (int)(val & 0xFF)
+        //           << ' ';
+        //    }
+        //    ss << std::dec;
+
+        //    return ss;
+        //}
+
         static inline std::stringstream outputPacketHex(Packet packet)
         {
             std::stringstream ss;
             for (byte val : packet)
             {
-                ss << "0x"
-                    << std::uppercase    // Print letters in uppercase (A-F)
+                ss << std::hex
+                   << std::setw(2)      // Set width to 2 characters (for a byte)<< val << ' ';
+                   << std::setfill('0') // Fill with zeroes if necessary
+                   << (int)(val)
+                   << ' ';
+            }
+            ss << std::dec;
+
+            return ss;
+        }
+
+        static inline std::stringstream outputByteBufferHex(byte* buffer, size_t size)
+        {
+            std::stringstream ss;
+            for(int i = 0; i < size; i++)
+            {
+                ss << std::hex
                     << std::setw(2)      // Set width to 2 characters (for a byte)<< val << ' ';
                     << std::setfill('0') // Fill with zeroes if necessary
-                    << std::hex
-                    << (int)(val & 0xFF)
+                    << (int)(buffer[i])
                     << ' ';
             }
             ss << std::dec;

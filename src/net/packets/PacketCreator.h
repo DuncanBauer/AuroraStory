@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <string>
 
-
 #include "net/packets/PacketConstants.h"
 #include "util/PacketTool.h"
+#include "util/LoggingTool.h"
 #include "Typedefs.h"
 
 class PacketCreator
@@ -62,6 +62,9 @@ public:
         util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeInt(packet, reason);
         util::PacketTool::writeShort(packet, 0);
+        SERVER_INFO("{}", util::PacketTool::outputPacketDec(packet).str());
+        SERVER_INFO("{}", util::PacketTool::outputPacketHex(packet).str());
+        SERVER_INFO("{}", util::PacketTool::outputPacketString(packet).str());
         return packet;
     }
 
@@ -118,10 +121,8 @@ public:
         Packet packet;
         util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
-        util::PacketTool::writeString(packet, username);
-        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0});
-        util::PacketTool::writeByte(packet, 1); // Bypass pin for now
-        util::PacketTool::writeByte(packet, 2); // Bypass pic for now
+        util::PacketTool::writeMapleString(packet, username);
+        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0, 0, 0 });
         return packet;
     }
 

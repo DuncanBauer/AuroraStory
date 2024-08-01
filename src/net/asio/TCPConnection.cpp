@@ -25,7 +25,6 @@ namespace net
         if (m_socket.is_open())
         {
             Packet packet = PacketCreator::getHandshake(m_ivRecv, m_ivSend);
-            SERVER_INFO("Sending: {}", util::PacketTool::outputPacketHex(packet).str());
 
             // start an async read operation to receive the header of the next packet
             asio::async_write(m_socket,
@@ -108,13 +107,7 @@ namespace net
             // decrypt the packet
             util::MapleAESOFB::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
 
-            // Add the packet to different processing queues base on packet type (chat packets can go to the server packet queue
-            //m_incomingPacketServerQueue.push_back(*m_tempIncomingPacket.get());
-            //m_incomingPacketPersonalQueue.push_back(*m_tempIncomingPacket.get());
-
-            SERVER_INFO("Incoming packet hex: {}", util::PacketTool::outputPacketHex(*m_tempIncomingPacket.get()).str());
-            SERVER_INFO("Incoming packet dec: {}", util::PacketTool::outputPacketDec(*m_tempIncomingPacket.get()).str());
-            SERVER_INFO("Incoming packet string: {}", util::PacketTool::outputPacketString(*m_tempIncomingPacket.get()).str());
+            SERVER_INFO("TCPConnection::readBodyHandler: {}", util::PacketTool::outputPacketHex(*m_tempIncomingPacket.get()).str());
             processPacket(*m_tempIncomingPacket.get());
 
             // start an async read operation to receive the header of the next packet
@@ -130,35 +123,26 @@ namespace net
 
     void TCPConnection::send(const Packet& packet)
     {
-        bool writingMessage = !m_outgoingPacketQueue.empty();
-        m_outgoingPacketQueue.push_back(packet);
-
-        // If we're already writing packets, the packet will be sent eventually anyways
-        if (!writingMessage)
-        {
-            writePacket();
-        }
-    }
-
-    void TCPConnection::writePacket()
-    {
-        Packet outgoingPacket = m_outgoingPacketQueue.pop_front();
-        size_t packetLength = outgoingPacket.size();
-
-        Packet tempOutgoingPacketBuffer(packetLength + 4);
-
-        // Create packet header
-        util::MapleAESOFB::createPacketHeader(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
-
-        // Move packet bytes to new buffer
-        std::copy(outgoingPacket.begin(), outgoingPacket.end(), tempOutgoingPacketBuffer.begin() + 4);
+        Packet header(4);
+        Packet body = packet;
+        Packet outgoingPacketBuffer(body.size() + 4);
 
         // Encrypt packet
-        util::MapleAESOFB::encrypt(tempOutgoingPacketBuffer.data(), m_ivSend.data(), static_cast<u16>(packetLength));
+        util::MapleAESOFB::encrypt(body.data(), m_ivSend.data(), body.size());
 
-        // start an async read operation to receive the header of the next packet
+        // Create packet header
+        util::MapleAESOFB::createPacketHeader(header.data(), m_ivSend.data(), body.size());
+
+        // Move packet bytes to new buffer
+        std::copy(header.begin(), header.end(), outgoingPacketBuffer.begin());
+        std::copy(body.begin(), body.end(), outgoingPacketBuffer.begin() + 4);
+
+        SERVER_INFO("TCPConnection::send: og {}", util::PacketTool::outputPacketHex(packet).str());
+        SERVER_INFO("TCPConnection::send: w/ header {}", util::PacketTool::outputPacketHex(outgoingPacketBuffer).str());
+
+        // Write the packet
         asio::async_write(m_socket,
-                          asio::buffer(tempOutgoingPacketBuffer.data(), packetLength),
+                          asio::buffer(outgoingPacketBuffer.data(), body.size() + 4),
                           std::bind(&TCPConnection::writeHandler,
                                     shared_from_this(),
                                     std::placeholders::_1,
@@ -175,8 +159,6 @@ namespace net
                 SERVER_INFO("No more packets to write.");
                 return;
             }
-            
-            writePacket();
         }
         else
         {
