@@ -3,9 +3,9 @@ mongoURI: "mongodb://localhost:27017"
 mongoDB: "aurorastory"
 
 # SERVER SETTINGS
+serverName: "AuroraStory"
 gameVersion: 62
-channelCount: 1
-maxPlayers: 500
+worldCount: 2
 
 # LOGIN SETTINGS
 loginServerInterval: 500
@@ -15,28 +15,187 @@ autoRegisterEnabled: true
 picEnabled: false
 pinEnabled: false
 
-# WORLD SETTINGS
-serverFlag: 0
-serverMessage: Welcome to Scania!
-eventMessage: Scania!
-
 # EVENT SETTINGS
 kerningPQEnabled: true
 ludibriumPQEnabled: true
 orbisPQEnabled: true
 ludibriumMazePQEnabled: true
 
-# WORLD RATES
-expRate: 10
-mesoRate: 10
-dropRate: 10
-partyExpRate: 10
-partyMesoRate: 10
-partyDropRate: 10
-bossExpRate: 10  # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
-bossMesoRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
-bossDropRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
-questExpRate: 5  # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
-questMesoRate: 5 # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
-pqExpRate: 10
-petExpRate: 5
+# WORLD SETTINGS
+worlds:
+    # Scania
+    - serverFlag: 0
+      serverMessage: "Welcome to Scania!"
+      eventMessage: "Scania!"
+      channelCount: 3
+      maxPlayers: 500
+  
+      # WORLD RATES
+      expRate: 10
+      mesoRate: 10
+      dropRate: 10
+      partyExpRate: 10
+      partyMesoRate: 10
+      partyDropRate: 10
+      bossExpRate: 10  # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      bossMesoRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      bossDropRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      questExpRate: 5  # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
+      questMesoRate: 5 # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
+      pqExpRate: 10
+      petExpRate: 5
+
+    #Bera
+    - serverFlag: 1
+      serverMessage: "Welcome to Bera!"
+      eventMessage: "Bera!"
+      channelCount: 1
+      maxPlayers: 500
+  
+      # WORLD RATES
+      expRate: 10
+      mesoRate: 10
+      dropRate: 10
+      partyExpRate: 10
+      partyMesoRate: 10
+      partyDropRate: 10
+      bossExpRate: 10  # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      bossMesoRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      bossDropRate: 10 # NOTE: Boss drop rate OVERRIDES common drop rate, for bosses only.
+      questExpRate: 5  # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
+      questMesoRate: 5 # Multiplier for Exp & Meso gains when completing a quest. Only available when USE_QUEST_RATE is true. Stacks with server Exp & Meso rates.
+      pqExpRate: 10
+      petExpRate: 5
+
+    #  #Properties for Broa 2
+    #- flag: 0
+    #  server_message: Welcome to Broa!
+    #  event_message: Broa!
+    #  why_am_i_recommended: Welcome to Broa!
+    #  channels: 3
+
+    #  #Properties for Windia 3
+    #- flag: 0
+    #  server_message: Welcome to Windia!
+    #  event_message: Windia!
+    #  why_am_i_recommended: Welcome to Windia!
+    #  channels: 3
+
+    #  #Properties for Khaini 4
+    #- flag: 0
+    #  server_message: Welcome to Khaini!
+    #  event_message: Khaini!
+    #  why_am_i_recommended: Welcome to Khaini!
+    #  channels: 3
+
+    #  #Properties for Bellocan 5
+    #- flag: 0
+    #  server_message: Welcome to Bellocan!
+    #  event_message: Bellocan!
+    #  why_am_i_recommended: Welcome to Bellocan!
+    #  channels: 3
+
+    #  #Properties for Mardia 6
+    #- flag: 0
+    #  server_message: Welcome to Mardia!
+    #  event_message: Mardia!
+    #  why_am_i_recommended: Welcome to Mardia!
+    #  channels: 3
+
+    #  #Properties for Kradia 7
+    #- flag: 0
+    #  server_message: Welcome to Kradia!
+    #  event_message: Kradia!
+    #  why_am_i_recommended: Welcome to Kradia!
+    #  channels: 3
+
+    #  #Properties for Yellonde 8
+    #- flag: 0
+    #  server_message: Welcome to Yellonde!
+    #  event_message: Yellonde!
+    #  why_am_i_recommended: Welcome to Yellonde!
+    #  channels: 3
+
+    #  #Properties for Demethos 9
+    #- flag: 0
+    #  server_message: Welcome to Demethos!
+    #  event_message: Demethos!
+    #  why_am_i_recommended: Welcome to Demethos!
+    #  channels: 3
+
+    #  #Properties for Galicia 10
+    #- flag: 0
+    #  server_message: Welcome to Galicia!
+    #  event_message: Galicia!
+    #  why_am_i_recommended: Welcome to Galicia!
+    #  channels: 3
+
+    #  #Properties for El Nido 11
+    #- flag: 0
+    #  server_message: Welcome to El Nido!
+    #  event_message: El Nido!
+    #  why_am_i_recommended: Welcome to El Nido!
+    #  channels: 3
+
+    #  #Properties for Zenith 12
+    #- flag: 0
+    #  server_message: Welcome to Zenith!
+    #  event_message: Zenith!
+    #  why_am_i_recommended: Welcome to Zenith!
+    #  channels: 3
+
+    #  #Properties for Arcenia 13
+    #- flag: 0
+    #  server_message: Welcome to Arcenia!
+    #  event_message: Arcenia!
+    #  why_am_i_recommended: Welcome to Arcenia!
+    #  channels: 3
+
+    #  #Properties for Kastia 14
+    #- flag: 0
+    #  server_message: Welcome to Kastia!
+    #  event_message: Kastia!
+    #  why_am_i_recommended: Welcome to Kastia!
+    #  channels: 3
+
+    #  #Properties for Judis 15
+    #- flag: 0
+    #  server_message: Welcome to Judis!
+    #  event_message: Judis!
+    #  why_am_i_recommended: Welcome to Judis!
+    #  channels: 3
+
+    #  #Properties for Plana 16
+    #- flag: 0
+    #  server_message: Welcome to Plana!
+    #  event_message: Plana!
+    #  why_am_i_recommended: Welcome to Plana!
+    #  channels: 3
+
+    #  #Properties for Kalluna 17
+    #- flag: 0
+    #  server_message: Welcome to Kalluna!
+    #  event_message: Kalluna!
+    #  why_am_i_recommended: Welcome to Kalluna!
+    #  channels: 3
+
+    #  #Properties for Stius 18
+    #- flag: 0
+    #  server_message: Welcome to Stius!
+    #  event_message: Stius!
+    #  why_am_i_recommended: Welcome to Stius!
+    #  channels: 3
+
+    #  #Properties for Croa 19
+    #- flag: 0
+    #  server_message: Welcome to Croa!
+    #  event_message: Croa!
+    #  why_am_i_recommended: Welcome to Croa!
+    #  channels: 3
+
+    #  #Properties for Medere 20
+    #- flag: 0
+    #  server_message: Welcome to Medere!
+    #  event_message: Medere!
+    #  why_am_i_recommended: Welcome to Medere!
+    #  channels: 3

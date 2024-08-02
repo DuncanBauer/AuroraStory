@@ -29,7 +29,7 @@ void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& 
     // Username doesn't exist
     if (!dbResult)
     {
-        if (Master::getServerSettings().autoRegisterEnabled)
+        if (Master::getInstance().getSettings().autoRegisterEnabled)
         {
             // Register new account and log in
             player->autoRegister(username, password);
@@ -44,7 +44,6 @@ void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& 
 
     // Attempt login
     loginSuccess = player->login(username, password, *dbResult);
-    SERVER_INFO("LoginSuccess: {}", loginSuccess);
 
     // Correct password
     if (loginSuccess == 2)
@@ -55,6 +54,4 @@ void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& 
     {
         player->send(PacketCreator::getLoginFailed(loginSuccess));
     }
-
-    //addToLoginQueue(player, player.isGM());
 }

@@ -8,27 +8,27 @@
 #include "util/LoggingTool.h"
 #include "Typedefs.h"
 
-class PacketCreator
+namespace PacketCreator
 {
-public:
-    PacketCreator() = delete;
-
     /*
     * Sends the handshake packet
     */
-    static Packet getHandshake(Packet iv_recv, Packet iv_send);
+    Packet getHandshake(Packet iv_recv, Packet iv_send);
 
     /**
      * Sends a ping packet.
      *
      * @return The packet.
      */
-    static Packet getPing()
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_PING);
-        return packet;
-    }
+    Packet getPing();
+
+    /**
+     * Gets a successful authentication and PIN Request packet.
+     *
+     * @param username The account name.
+     * @return The PIN request packet.
+     */
+    Packet getLoginSuccess(std::string username);
 
     /**
      * Gets a login failed packet.
@@ -56,17 +56,7 @@ public:
      * @param reason The reason logging in failed.
      * @return The login failed packet.
      */
-    static Packet getLoginFailed(u32 reason)
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
-        util::PacketTool::writeInt(packet, reason);
-        util::PacketTool::writeShort(packet, 0);
-        SERVER_INFO("{}", util::PacketTool::outputPacketDec(packet).str());
-        SERVER_INFO("{}", util::PacketTool::outputPacketHex(packet).str());
-        SERVER_INFO("{}", util::PacketTool::outputPacketString(packet).str());
-        return packet;
-    }
+    Packet getLoginFailed(u32 reason);
 
     /**
      * Banned reasons.
@@ -87,76 +77,8 @@ public:
      * 13 - Abusing Megaphones
      * @return
      */
-    static Packet getPermBan(u32 reason)
-    {
-        // [00 00] [02 00] [00 00 00 00] [01 00] [8C 65 3F 8A CB D1 01]
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
-        util::PacketTool::writeShort(packet, 2); // Account is banned
-        util::PacketTool::writeInt(packet, 0);
-        util::PacketTool::writeShort(packet, reason);
-        util::PacketTool::writeByteArray(packet, { 0x8C, 0x65, 0x3F, 0x8A, 0xCB, 0xD1, 0x01 });
-        return packet;
-    }
-
-    static Packet getTempBan(u64 timestampTill, byte reason)
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
-        util::PacketTool::writeByte(packet, 0x02);
-        util::PacketTool::writeByteArray(packet, { 0x00, 0x00, 0x00, 0x00, 0x00 }); // Account is banned
-        util::PacketTool::writeByte(packet, reason);
-        util::PacketTool::writeLong(packet, timestampTill); // Tempban date is handled as a 64-bit long, number of 100NS intervals since 1/1/1601. Lulz.
-        return packet;
-    }
-
-    /**
-     * Gets a successful authentication and PIN Request packet.
-     *
-     * @param username The account name.
-     * @return The PIN request packet.
-     */
-    static Packet getLoginSuccess(std::string username) 
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
-        util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
-        util::PacketTool::writeMapleString(packet, username);
-        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0, 0, 0 });
-        return packet;
-    }
-
-    //static Packet getAuthSuccess(std::shared_ptr<Player> player) 
-    //{
-    //    Server.getInstance().loadAccountCharacters(player);    // locks the login session until data is recovered from the cache or the DB.
-    //    Server.getInstance().loadAccountStorages(player);
-
-    //    final MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
-    //    mplew.writeShort(SendOpcode.LOGIN_STATUS.getValue());
-    //    mplew.writeInt(0);
-    //    mplew.writeShort(0);
-    //    mplew.writeInt(player.getAccID());
-    //    mplew.write(player.getGender());
-
-    //    boolean canFly = Server.getInstance().canFly(c.getAccID());
-    //    mplew.writeBool((YamlConfig.config.server.USE_ENFORCE_ADMIN_ACCOUNT || canFly) ? c.getGMLevel() > 1 : false);    // thanks Steve(kaito1410) for pointing the GM account boolean here
-    //    mplew.write(((YamlConfig.config.server.USE_ENFORCE_ADMIN_ACCOUNT || canFly) && c.getGMLevel() > 1) ? 0x80 : 0);  // Admin Byte. 0x80,0x40,0x20.. Rubbish.
-    //    mplew.write(0); // Country Code.
-
-    //    mplew.writeMapleAsciiString(c.getAccountName());
-    //    mplew.write(0);
-
-    //    mplew.write(0); // IsQuietBan
-    //    mplew.writeLong(0);//IsQuietBanTimeStamp
-    //    mplew.writeLong(0); //CreationTimeStamp
-
-    //    mplew.writeInt(1); // 1: Remove the "Select the world you want to play in"
-
-    //    mplew.write(YamlConfig.config.server.ENABLE_PIN && !c.canBypassPin() ? 0 : 1); // 0 = Pin-System Enabled, 1 = Disabled
-    //    mplew.write(YamlConfig.config.server.ENABLE_PIC && !c.canBypassPic() ? (c.getPic() == null || c.getPic().equals("") ? 0 : 1) : 2); // 0 = Register PIC, 1 = Ask for PIC, 2 = Disabled
-
-    //    return mplew.getPacket();
-    //}
+    Packet getPermBan(u32 reason);
+    Packet getTempBan(u64 timestampTill, byte reason);
 
 
     /**
@@ -171,41 +93,63 @@ public:
      *
      * @param mode The mode.
      */
-    static Packet pinOperation(byte mode) 
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_PIN_OPERATION);
-        util::PacketTool::writeByte(packet, mode);
-        return packet;
-    }
-
-    /**
-     * Gets a packet requesting the client enter a PIN.
-     *
-     * @return The request PIN packet.
-     */
-    static Packet requestPin() 
-    {
-        return pinOperation((byte)4);
-    }
-
-    /**
-     * Gets a packet requesting the PIN after a failed attempt.
-     *
-     * @return The failed PIN packet.
-     */
-    static Packet requestPinAfterFailure() 
-    {
-        return pinOperation((byte)2);
-    }
+    Packet pinOperation(byte mode);
 
     /**
      * Gets a packet saying the PIN has been accepted.
      *
      * @return The PIN accepted packet.
      */
-    static Packet pinAccepted() 
-    {
-        return pinOperation((byte)0);
-    }
+    Packet pinAccepted();
+
+    /**
+     * Gets a packet saying the PIN has been registered.
+     *
+     * @return The PIN registered packet.
+     */
+    Packet registerPin();
+
+    /**
+     * Gets a packet requesting the client enter a PIN.
+     *
+     * @return The request PIN packet.
+     */
+    Packet requestPin();
+
+    /**
+     * Gets a packet requesting the PIN after a failed attempt.
+     *
+     * @return The failed PIN packet.
+     */
+    Packet requestPinAfterFailure();
+
+    /**
+     * Gets a packet detailing a server and its channels.
+     *
+     * @param serverIndex The index of the server to create information about.
+     * @param serverName The name of the server.
+     * @param channelLoad Load of the channel - 1200 seems to be max.
+     * @return The server info packet.
+     */
+    Packet getServerData(u32 serverId, std::string serverName, std::map<u32, u32> channelLoad);
+
+    /**
+     * Gets a packet saying that the server list is over.
+     *
+     * @return The end of server list packet.
+     */
+    Packet getEndOfServerList();
+
+    /**
+     * Gets a packet detailing a server status message.
+     *
+     * Possible values for <code>status</code>:<br>
+     * 0 - Normal<br>
+     * 1 - Highly populated<br>
+     * 2 - Full
+     *
+     * @param status The server status.
+     * @return The server status packet.
+     */
+    Packet getServerStatus(u16 status);
 };

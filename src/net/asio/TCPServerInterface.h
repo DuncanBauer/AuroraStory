@@ -9,7 +9,9 @@ namespace net
     class TCPServerInterface
     {
     public:
-        TCPServerInterface(asio::io_context& io_context, u16 port);
+        // Delete copy constructor and assignment operator
+        TCPServerInterface(const TCPServerInterface&) = delete;
+        TCPServerInterface& operator=(const TCPServerInterface&) = delete;
         virtual ~TCPServerInterface();
 
         bool start();
@@ -21,6 +23,8 @@ namespace net
         void messageAllClients(const Packet& packet, ClientConnection pIgnoreClient = nullptr);
 
     protected:
+        TCPServerInterface(asio::io_context& io_context, u16 port);
+        
         virtual void onClientConnect(ClientConnection client) = 0;
         virtual void onClientDisconnect(ClientConnection client) = 0;
         virtual void onMessage(Packet& packet) = 0;

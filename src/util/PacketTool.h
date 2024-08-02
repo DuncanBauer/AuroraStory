@@ -98,6 +98,8 @@ namespace util
             return str;
         }
 
+
+
         static inline void writeByte(Packet& packet, byte data)
         {
             packet.push_back(data);
@@ -115,6 +117,11 @@ namespace util
             writeByte(packet, (data >> 8) & 0xFF);
             writeByte(packet, (data >> 16) & 0xFF);
             writeByte(packet, (data >> 24) & 0xFF);
+        }
+        
+        static inline void writeIntAsByte(Packet& packet, u32 data)
+        {
+            writeByte(packet, (byte)data);
         }
 
         static inline void writeLong(Packet& packet, u64 data)
@@ -150,6 +157,8 @@ namespace util
                 writeByte(packet, val);
             }
         }
+
+
 
         static inline std::stringstream outputShortHex(short packetShort)
         {
@@ -195,7 +204,6 @@ namespace util
         //           << ' ';
         //    }
         //    ss << std::dec;
-
         //    return ss;
         //}
 

@@ -107,7 +107,6 @@ namespace net
             // decrypt the packet
             util::MapleAESOFB::decrypt(m_tempIncomingPacket.get()->data(), m_ivRecv.data(), bytesAmount);
 
-            SERVER_INFO("TCPConnection::readBodyHandler: {}", util::PacketTool::outputPacketHex(*m_tempIncomingPacket.get()).str());
             processPacket(*m_tempIncomingPacket.get());
 
             // start an async read operation to receive the header of the next packet
@@ -127,11 +126,11 @@ namespace net
         Packet body = packet;
         Packet outgoingPacketBuffer(body.size() + 4);
 
-        // Encrypt packet
-        util::MapleAESOFB::encrypt(body.data(), m_ivSend.data(), body.size());
-
         // Create packet header
-        util::MapleAESOFB::createPacketHeader(header.data(), m_ivSend.data(), body.size());
+        util::MapleAESOFB::createPacketHeader(header.data(), m_ivSend.data(), (u16)body.size());
+
+        // Encrypt packet
+        util::MapleAESOFB::encrypt(body.data(), m_ivSend.data(), (u16)body.size());
 
         // Move packet bytes to new buffer
         std::copy(header.begin(), header.end(), outgoingPacketBuffer.begin());
@@ -156,7 +155,6 @@ namespace net
             // Remove the packet from the outgoing queue and see if there's any more to send, if so write the next packet
             if (m_outgoingPacketQueue.empty())
             {
-                SERVER_INFO("No more packets to write.");
                 return;
             }
         }

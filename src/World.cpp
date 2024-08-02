@@ -1,0 +1,41 @@
+#include <memory>
+
+#include "Master.h"
+#include "World.h"
+
+World::World(WorldSettings settings)
+{
+    m_settings = settings;
+
+    //// Set up channel servers
+    //u16 channelPort = 7575;
+    //for (u16 i = 0; i < m_settings.channelCount; i++)
+    //{
+    //    m_channelServers.push_back(std::make_shared<ChannelServer>(m_ioContext, channelPort++));
+    //    m_channelServers[i]->start();
+    //}
+}
+
+World::~World()
+{
+
+}
+
+void World::startChannels(u16& channelPort)
+{
+    for (u16 i = 0; i < m_settings.channelCount; i++)
+    {
+        m_channelServers.push_back(std::make_shared<ChannelServer>(Master::getInstance().getIoContext(), channelPort++));
+        m_channelServers[i]->start();
+    }
+}
+
+std::map<u32, u32> World::getChannelLoads()
+{
+    std::map<u32, u32> loads;
+    for (u16 i = 0; i < m_channelServers.size(); i++)
+    {
+        loads[i + 1] = m_channelServers[i]->getUserLoad();
+    }
+    return loads;
+}

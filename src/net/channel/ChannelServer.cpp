@@ -3,7 +3,8 @@
 #include "ChannelServer.h"
 
 ChannelServer::ChannelServer(asio::io_context& io_context, u16 channelServerPort)
-    : TCPServerInterface(io_context, channelServerPort)
+    : TCPServerInterface(io_context, channelServerPort),
+      m_port(channelServerPort)
 {
 }
 

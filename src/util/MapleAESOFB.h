@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <iomanip>
-
 #include <vector>
 
 #include "aes.h"
@@ -137,15 +136,54 @@ namespace util
 
         static inline void createPacketHeader(byte* buffer, byte* iv, u32 size)
 		{
-			short version = (short)(0xFFFF) - k_gameVersion;
+			//short version = (short)(0xFFFF) - k_gameVersion;
+			//size = version ^ size;
+			//short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
+
+			//std::cout << "Version: " << std::dec << mapleVersion << '\n';
+			//for (int i = 0; i < 4; i++)
+			//{
+			//	std::cout << std::hex
+			//		<< std::setw(2)
+			//		<< std::setfill('0')
+			//		<< (int)(iv[i])
+			//		<< ' ';
+			//}
+			//std::cout << '\n';
+
+			//buffer[0] = (mapleVersion >> 8) & 0xFF;
+			//buffer[1] = mapleVersion & 0xFF;
+			//buffer[2] = size & 0xFF;
+			//buffer[3] = (size >> 8) & 0xFF;
+
+
+
+			short version = (short)(0xFFFF - k_gameVersion);
 			short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
-			size = version ^ size;
 
+			std::cout << std::dec << mapleVersion << '\n';
+			for (int i = 0; i < 4; i++)
+			{
+				std::cout << std::hex
+						  << std::setw(2)
+						  << std::setfill('0')
+						  << (int)(iv[i])
+						  << ' '
+						  << std::dec;
+			}
+			std::cout << '\n';
 
-			buffer[0] = (mapleVersion >> 8) & 0xFF;
-			buffer[1] = mapleVersion & 0xFF;
-			buffer[2] = size & 0xFF;
-			buffer[3] = (size >> 8) & 0xFF;
+			int iiv = (iv[3]) & 0xFF;
+			iiv |= (iv[2] << 8) & 0xFF00;
+
+			iiv ^= mapleVersion;
+			int mlength = ((size << 8) & 0xFF00) | (size >> 8);
+			int xoredIv = iiv ^ mlength;
+
+			buffer[0] = (byte)((iiv >> 8) & 0xFF);
+			buffer[1] = (byte)(iiv & 0xFF);
+			buffer[2] = (byte)((xoredIv >> 8) & 0xFF);
+			buffer[3] = (byte)(xoredIv & 0xFF);
 		}
 
         static inline u16 getPacketLength(byte* buffer)

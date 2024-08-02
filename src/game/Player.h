@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "net/asio/TCPConnection.h"
 #include "MapleConstants.h"
 
@@ -59,6 +58,7 @@ struct Account
 {
     std::string accountId;
     std::string username;
+    std::string pin;
     i64 birthday = 0;
     u32 isLoggedIn = false;
     bool isGM = false;
@@ -78,11 +78,17 @@ public:
     void loadAccountData(const bsoncxx::v_noabi::document::value& data);
 
     void autoRegister(const std::string& username, const std::string& password);
+    void banAccount();
+
     u16 login(const std::string& username, const std::string& password, const bsoncxx::v_noabi::document::value& data);
     u32 logout();
+
+    std::string getPin();
+    void setPin(std::string pin);
+    bool checkPin(std::string pin);
+
     u32 changeChannel();
 
-    void banAccount();
     
     bool isGM();
     bool isLoggedIn();

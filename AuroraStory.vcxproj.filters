@@ -57,7 +57,7 @@
     <ClInclude Include="src\game\Player.h">
       <Filter>src\game</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\World.h">
+    <ClInclude Include="src\World.h">
       <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\net\asio\TCPConnection.h">
@@ -131,7 +131,7 @@
     <ClCompile Include="src\game\Player.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\World.cpp">
+    <ClCompile Include="src\World.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -149,10 +149,10 @@
     <ClCompile Include="src\net\login\LoginServer.cpp">
       <Filter>src\net\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\handlers\login\LoginPasswordHandler.cpp">
+    <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp">
       <Filter>src\net\packets\handlers\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\processors\GetHandshake.cpp">
+    <ClCompile Include="src\net\packets\creators\GetHandshake.cpp">
       <Filter>src\net\packets\processors</Filter>
     </ClCompile>
     <ClCompile Include="vendor\aes\aes_modes.c">
@@ -171,5 +171,13 @@
       <Filter>vendor\aes</Filter>
     </ClCompile>
     <ClCompile Include="src\util\MongoDb.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp" />
+    <ClCompile Include="src\net\packets\creators\getPing.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
   </ItemGroup>
 </Project>

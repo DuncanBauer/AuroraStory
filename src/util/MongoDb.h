@@ -118,10 +118,10 @@ namespace util
         void initialize(const std::string& uri, const std::string& db);
 
         FindOneResult accountExists(const std::string& username);
-
         InsertOneResult autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip);
-
         InsertOneResult registerAccount(const std::string& username, const std::string& password);
+
+        UpdateResult setPin(const std::string& username, const std::string& pin);
 
         InsertOneResult createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face);
 

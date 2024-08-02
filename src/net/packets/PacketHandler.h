@@ -151,122 +151,122 @@ public:
 
     // LOGIN
     static void handleLoginPassword(std::shared_ptr<Player> player, Packet& packet);
-    static inline void handleGuestLogin(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleServerListRerequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCharListRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleServerStatusRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSetGender(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleAfterLogin(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleRegisterPin(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleServerListRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePlayerDC(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleViewAllChar(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePickAllChar(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCharSelect(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCheckCharName(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCreateChar(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDeleteChar(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleClientStart(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleRelog(std::shared_ptr<Player> player, Packet& packet) {}
+    static inline void handleGuestLogin(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleGuestLogin"); }
+    static inline void handleServerListRerequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleServerListRerequest"); }
+    static inline void handleCharListRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharListRequest"); }
+    static void handleServerStatusRequest(std::shared_ptr<Player> player, Packet& packet);
+    static inline void handleSetGender(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSetGender"); }
+    static void handleAfterLogin(std::shared_ptr<Player> player, Packet& packet);
+    static inline void handleRegisterPin(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRegisterPin"); }
+    static void handleServerListRequest(std::shared_ptr<Player> player, Packet& packet);
+    static inline void handlePlayerDC(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerDC"); }
+    static inline void handleViewAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleViewAllChar"); }
+    static inline void handlePickAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePickAllChar"); }
+    static inline void handleCharSelect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharSelect"); }
+    static inline void handleCheckCharName(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCheckCharName"); }
+    static inline void handleCreateChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCreateChar"); }
+    static inline void handleDeleteChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDeleteChar"); }
+    static inline void handleClientStart(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleClientStart"); }
+    static inline void handleRelog(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRelog"); }
 
     // CHANNEL
-    static inline void handlePlayerLoggedIn(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleStrangeData(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleChangeMap(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleChangeChannel(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleEnterCashShop(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMovePlayer(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCancelChair(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseChair(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCloseRangeAttack(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleRangedAttack(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMagicAttack(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleEnergyOrbAttack(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleTakeDamage(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleGeneralChat(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCloseChalkboard(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleFaceExpression(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseItemEffect(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleNpcTalk(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleNpcTalkMore(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleNpcShop(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleStorage(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleHiredMerchantRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDueyAction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleItemSort(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleItemSort2(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleItemMove(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseItem(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCancelItemEffect(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseSummonBag(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseMountFood(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseCashItem(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseCatchItem(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseSkillBook(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseReturnScroll(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseUpgradeScroll(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDistributeAP(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleHealOverTime(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDistributeSP(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSpecialMove(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCancelBuff(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSkillEffect(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMesoDrop(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleGiveFame(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCharInfoRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCancelDebuff(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleChangeMapSpecial(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseInnerPortal(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleVipAddMap(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleQuestAction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSkillMacro(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleReportPlayer(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePartyChat(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleWhisper(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSpouseChat(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMessenger(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePlayerShop(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePlayerInteraction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePartyOperation(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDenyPartyRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleGuildOperation(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDenyGuildRequest(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleBuddyListModify(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleNoteAction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseDoor(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleChangeKeymap(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleRingAction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleAllianceOperation(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleBbsOperation(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleEnterMTS(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetTalk(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleUseSolomanItem(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetAutoPot(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMoveSummon(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleSummonAttack(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDamageSummon(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMoveLife(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleAutoAggro(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMobDamageMob(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMonsterBomb(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleNpcAction(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleItemPickup(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleDamageReactor(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMonsterCarnival(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePartySearchRegister(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePartySearchStart(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePlayerUpdate(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMapleTV(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleMTSOperation(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleTouchingCS(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleBuyCSItem(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handleCouponCode(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetSpawn(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetMove(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetChat(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetCommand(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetLoot(std::shared_ptr<Player> player, Packet& packet) {}
-    static inline void handlePetFood(std::shared_ptr<Player> player, Packet& packet) {}
+    static inline void handlePlayerLoggedIn(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerLoggedIn"); }
+    static inline void handleStrangeData(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleStrangeData"); }
+    static inline void handleChangeMap(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleChangeMap"); }
+    static inline void handleChangeChannel(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleChangeChannel"); }
+    static inline void handleEnterCashShop(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleEnterCashShop"); }
+    static inline void handleMovePlayer(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMovePlayer"); }
+    static inline void handleCancelChair(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCancelChair"); }
+    static inline void handleUseChair(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseChair"); }
+    static inline void handleCloseRangeAttack(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCloseRangeAttack"); }
+    static inline void handleRangedAttack(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRangedAttack"); }
+    static inline void handleMagicAttack(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMagicAttack"); }
+    static inline void handleEnergyOrbAttack(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleEnergyOrbAttack"); }
+    static inline void handleTakeDamage(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleTakeDamage"); }
+    static inline void handleGeneralChat(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleGeneralChat"); }
+    static inline void handleCloseChalkboard(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCloseChalkboard"); }
+    static inline void handleFaceExpression(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleFaceExpression"); }
+    static inline void handleUseItemEffect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseItemEffect"); }
+    static inline void handleNpcTalk(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleNpcTalk"); }
+    static inline void handleNpcTalkMore(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleNpcTalkMore"); }
+    static inline void handleNpcShop(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleNpcShop"); }
+    static inline void handleStorage(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleStorage"); }
+    static inline void handleHiredMerchantRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleHiredMerchantRequest"); }
+    static inline void handleDueyAction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDueyAction"); }
+    static inline void handleItemSort(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleItemSort"); }
+    static inline void handleItemSort2(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleItemSort2"); }
+    static inline void handleItemMove(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleItemMove"); }
+    static inline void handleUseItem(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseItem"); }
+    static inline void handleCancelItemEffect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCancelItemEffect"); }
+    static inline void handleUseSummonBag(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseSummonBag"); }
+    static inline void handleUseMountFood(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseMountFood"); }
+    static inline void handleUseCashItem(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseCashItem"); }
+    static inline void handleUseCatchItem(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseCatchItem"); }
+    static inline void handleUseSkillBook(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseSkillBook"); }
+    static inline void handleUseReturnScroll(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseReturnScroll"); }
+    static inline void handleUseUpgradeScroll(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseUpgradeScroll"); }
+    static inline void handleDistributeAP(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDistributeAP"); }
+    static inline void handleHealOverTime(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleHealOverTime"); }
+    static inline void handleDistributeSP(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDistributeSP"); }
+    static inline void handleSpecialMove(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSpecialMove"); }
+    static inline void handleCancelBuff(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCancelBuff"); }
+    static inline void handleSkillEffect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSkillEffect"); }
+    static inline void handleMesoDrop(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMesoDrop"); }
+    static inline void handleGiveFame(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleGiveFame"); }
+    static inline void handleCharInfoRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharInfoRequest"); }
+    static inline void handleCancelDebuff(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCancelDebuff"); }
+    static inline void handleChangeMapSpecial(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleChangeMapSpecial"); }
+    static inline void handleUseInnerPortal(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseInnerPortal"); }
+    static inline void handleVipAddMap(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleVipAddMap"); }
+    static inline void handleQuestAction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleQuestAction"); }
+    static inline void handleSkillMacro(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSkillMacro"); }
+    static inline void handleReportPlayer(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleReportPlayer"); }
+    static inline void handlePartyChat(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePartyChat"); }
+    static inline void handleWhisper(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleWhisper"); }
+    static inline void handleSpouseChat(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSpouseChat"); }
+    static inline void handleMessenger(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMessenger"); }
+    static inline void handlePlayerShop(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerShop"); }
+    static inline void handlePlayerInteraction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerInteraction"); }
+    static inline void handlePartyOperation(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePartyOperation"); }
+    static inline void handleDenyPartyRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDenyPartyRequest"); }
+    static inline void handleGuildOperation(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleGuildOperation"); }
+    static inline void handleDenyGuildRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDenyGuildRequest"); }
+    static inline void handleBuddyListModify(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleBuddyListModify"); }
+    static inline void handleNoteAction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleNoteAction"); }
+    static inline void handleUseDoor(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseDoor"); }
+    static inline void handleChangeKeymap(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleChangeKeymap"); }
+    static inline void handleRingAction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRingAction"); }
+    static inline void handleAllianceOperation(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleAllianceOperation"); }
+    static inline void handleBbsOperation(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleBbsOperation"); }
+    static inline void handleEnterMTS(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleEnterMTS"); }
+    static inline void handlePetTalk(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetTalk"); }
+    static inline void handleUseSolomanItem(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleUseSolomanItem"); }
+    static inline void handlePetAutoPot(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetAutoPot"); }
+    static inline void handleMoveSummon(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMoveSummon"); }
+    static inline void handleSummonAttack(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSummonAttack"); }
+    static inline void handleDamageSummon(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDamageSummon"); }
+    static inline void handleMoveLife(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMoveLife"); }
+    static inline void handleAutoAggro(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleAutoAggro"); }
+    static inline void handleMobDamageMob(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMobDamageMob"); }
+    static inline void handleMonsterBomb(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMonsterBomb"); }
+    static inline void handleNpcAction(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleNpcAction"); }
+    static inline void handleItemPickup(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleItemPickup"); }
+    static inline void handleDamageReactor(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDamageReactor"); }
+    static inline void handleMonsterCarnival(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMonsterCarnival"); }
+    static inline void handlePartySearchRegister(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePartySearchRegister"); }
+    static inline void handlePartySearchStart(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePartySearchStart"); }
+    static inline void handlePlayerUpdate(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerUpdate"); }
+    static inline void handleMapleTV(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMapleTV"); }
+    static inline void handleMTSOperation(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleMTSOperation"); }
+    static inline void handleTouchingCS(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleTouchingCS"); }
+    static inline void handleBuyCSItem(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleBuyCSItem"); }
+    static inline void handleCouponCode(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCouponCode"); }
+    static inline void handlePetSpawn(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetSpawn"); }
+    static inline void handlePetMove(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetMove"); }
+    static inline void handlePetChat(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetChat"); }
+    static inline void handlePetCommand(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetCommand"); }
+    static inline void handlePetLoot(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetLoot"); }
+    static inline void handlePetFood(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePetFood"); }
 
 public:
     static inline PacketHandlers m_packetHandlers;
