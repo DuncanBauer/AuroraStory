@@ -26,6 +26,7 @@ struct ServerSettings
     std::string serverName;
     u16 gameVersion;
     u16 worldCount;
+    u16 maxCharactersPerWorld;
 
     u16 loginServerInterval;
     u16 rankingInterval;

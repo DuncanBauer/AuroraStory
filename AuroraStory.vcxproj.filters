@@ -120,6 +120,10 @@
     <ClInclude Include="vendor\aes\brg_types.h">
       <Filter>vendor\aes</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\Character.h" />
+    <ClInclude Include="src\game\Inventory.h" />
+    <ClInclude Include="src\game\Item.h" />
+    <ClInclude Include="src\game\Equip.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp">
@@ -179,5 +183,8 @@
     <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
     <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
+    <ClCompile Include="src\game\Character.cpp" />
   </ItemGroup>
 </Project>

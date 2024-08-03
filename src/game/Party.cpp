@@ -7,12 +7,12 @@
 Party::Party(Character leader)
 {
     PartyMember newMember;
-    newMember.characterId = leader.characterId;
-    newMember.name = leader.characterName;
-    newMember.level = leader.level;
-    newMember.job = leader.job;
-    newMember.channel = leader.channel;
-    newMember.mapId = leader.mapId;
+    newMember.characterId = leader.getCharacterId();
+    newMember.name = leader.getCharacterName();
+    newMember.level = leader.getLevel();
+    newMember.job = leader.getJob();
+    newMember.channel = leader.getChannel();
+    newMember.mapId = leader.getMapId();
     newMember.online = true;
 
     //if (leader.getDoors().size() > 0) {
@@ -33,12 +33,12 @@ Party::~Party()
 bool Party::addMember(Character& member)
 {
     PartyMember newMember;
-    newMember.characterId = member.characterId;
-    newMember.name = member.characterName;
-    newMember.level = member.level;
-    newMember.job = member.job;
-    newMember.channel = member.channel;
-    newMember.mapId = member.mapId;
+    newMember.characterId = member.getCharacterId();
+    newMember.name = member.getCharacterName();
+    newMember.level = member.getLevel();
+    newMember.job = member.getJob();
+    newMember.channel = member.getChannel();
+    newMember.mapId = member.getMapId();
     newMember.online = true;
 
     //if (member.getDoors().size() > 0) {

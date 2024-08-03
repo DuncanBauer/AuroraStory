@@ -6,6 +6,7 @@ mongoDB: "aurorastory"
 serverName: "AuroraStory"
 gameVersion: 62
 worldCount: 2
+maxCharactersPerWorld: 6
 
 # LOGIN SETTINGS
 loginServerInterval: 500

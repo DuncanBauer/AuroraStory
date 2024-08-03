@@ -66,6 +66,15 @@ void Player::loadAccountData(const bsoncxx::v_noabi::document::value& data)
     }
 }
 
+std::vector<Character> Player::loadCharacters(u32 serverId)
+{
+    std::vector<Character> characters;
+
+
+
+    return characters;
+}
+
 void Player::autoRegister(const std::string& username, const std::string& password)
 {
     std::string passwordHash = util::generateHash(password);

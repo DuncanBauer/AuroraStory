@@ -30,7 +30,7 @@ public:
         m_packetHandlers[RecvOps::k_LOGIN_PASSWORD]          = [](std::shared_ptr<Player> player, Packet& packet) { handleLoginPassword(player, packet); };
         m_packetHandlers[RecvOps::k_GUEST_LOGIN]             = [](std::shared_ptr<Player> player, Packet& packet) { handleGuestLogin(player, packet); };
         m_packetHandlers[RecvOps::k_SERVER_LIST_REREQUEST]   = [](std::shared_ptr<Player> player, Packet& packet) { handleServerListRerequest(player, packet); };
-        m_packetHandlers[RecvOps::k_CHAR_LIST_REQUEST]       = [](std::shared_ptr<Player> player, Packet& packet) { handleCharListRequest(player, packet); };
+        m_packetHandlers[RecvOps::k_CHAR_LIST_REQUEST]       = [](std::shared_ptr<Player> player, Packet& packet) { handleCharacterListRequest(player, packet); };
         m_packetHandlers[RecvOps::k_SERVER_STATUS_REQUEST]   = [](std::shared_ptr<Player> player, Packet& packet) { handleServerStatusRequest(player, packet); };
         m_packetHandlers[RecvOps::k_SET_GENDER]              = [](std::shared_ptr<Player> player, Packet& packet) { handleSetGender(player, packet); };
         m_packetHandlers[RecvOps::k_AFTER_LOGIN]             = [](std::shared_ptr<Player> player, Packet& packet) { handleAfterLogin(player, packet); };
@@ -153,7 +153,7 @@ public:
     static void handleLoginPassword(std::shared_ptr<Player> player, Packet& packet);
     static inline void handleGuestLogin(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleGuestLogin"); }
     static inline void handleServerListRerequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleServerListRerequest"); }
-    static inline void handleCharListRequest(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharListRequest"); }
+    static void handleCharacterListRequest(std::shared_ptr<Player> player, Packet& packet);
     static void handleServerStatusRequest(std::shared_ptr<Player> player, Packet& packet);
     static inline void handleSetGender(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleSetGender"); }
     static void handleAfterLogin(std::shared_ptr<Player> player, Packet& packet);

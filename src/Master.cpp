@@ -21,6 +21,7 @@ Master::Master()
     m_settings.serverName                           = config["serverName"].as<std::string>();
     m_settings.gameVersion                          = config["gameVersion"].as<u16>();
     m_settings.worldCount                           = config["worldCount"].as<u16>();
+    m_settings.maxCharactersPerWorld                = config["maxCharactersPerWorld"].as<u16>();
 
     // Login Settings
     m_settings.loginServerInterval                  = config["loginServerInterval"].as<u16>();

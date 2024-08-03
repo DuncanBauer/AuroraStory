@@ -8,6 +8,8 @@
 #include "util/LoggingTool.h"
 #include "Typedefs.h"
 
+class Character;
+
 namespace PacketCreator
 {
     /*
@@ -152,4 +154,16 @@ namespace PacketCreator
      * @return The server status packet.
      */
     Packet getServerStatus(u16 status);
+
+    /**
+     * Gets a packet with a list of characters.
+     *
+     * @param c The MapleClient to load characters of.
+     * @param serverId The ID of the server requested.
+     * @return The character list packet.
+     */
+    Packet getCharacterList(std::shared_ptr<Player> player, u32 serverId);
+    void addCharacterEntry(Packet packet, Character character);
+    void addCharacterLook(Packet packet, Character character, bool mega);
+    void addCharacterStats(Packet packet, Character character);
 };

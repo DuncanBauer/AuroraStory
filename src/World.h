@@ -42,7 +42,7 @@ public:
     inline WorldSettings& getSettings() { return m_settings; }
 
     void startChannels(u16& channelPort);
-    inline u32 getChannelCount() { return m_channelServers.size(); }
+    inline u32 getChannelCount() { return (u32)m_channelServers.size(); }
     std::map<u32, u32> getChannelLoads();
 
 private:

@@ -29,23 +29,11 @@ namespace PacketCreator
         util::PacketTool::writeIntAsByte(packet, 0x0); // drop rate * 2.6
         util::PacketTool::writeIntAsByte(packet, 0x0);
         
-        //int lastChannel = 1;
-        //for (int i = 30; i > 0; i--)
-        //{
-        //    if(channelLoad[i])
-        //    {
-        //        lastChannel = i;
-        //        std::cout << "lastChannel: " << lastChannel << '\n';
-        //        break;
-        //    }
-        //}
-        u32 channelCount = Master::getInstance().getWorlds()[serverIndex]->getChannelCount();
-        //util::PacketTool::writeIntAsByte(packet, lastChannel);
-        util::PacketTool::writeIntAsByte(packet, channelCount);
+        std::map<u32, u32> channelLoads = Master::getInstance().getWorlds()[serverIndex]->getChannelLoads();
+        util::PacketTool::writeIntAsByte(packet, (u32)channelLoads.size());
 
         int load;
-        //for (int i = 1; i <= lastChannel; i++)
-        for (int i = 1; i <= channelCount; i++)
+        for (int i = 0; i < channelLoads.size(); i++)
         {
             if (channelLoad[i])
             {

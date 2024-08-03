@@ -3,11 +3,9 @@
 #include <string>
 #include <vector>
 
-
+#include "game/Character.h"
 #include "MapleConstants.h"
 #include "Typedefs.h"
-
-struct Character;
 
 struct PartyMember
 {
@@ -23,16 +21,16 @@ struct PartyMember
     u32 mysticDoorTargetMap;
     Point mysticDoorPosition;
 
-    inline std::string getId() { return characterId; }
-    inline std::string getName() { return name; }
-    inline u16 getLevel() { return level; }
-    inline u16 getJob() { return job; }
-    inline u16 getChannel() { return channel; }
-    inline u32 getMapId() { return mapId; }
-    inline bool isOnline() { return online; }
-    inline u32 getMysticDoorTown() { return mysticDoorTown; }
-    inline u32 getMysticDoorTargetMap() { return mysticDoorTargetMap; }
-    inline Point getMysticDoorPosition() { return mysticDoorPosition; }
+    inline const std::string getId() const { return characterId; }
+    inline const std::string getName() const { return name; }
+    inline const u16 getLevel() const { return level; }
+    inline const u16 getJob() const { return job; }
+    inline const u16 getChannel() const { return channel; }
+    inline const u32 getMapId() const { return mapId; }
+    inline const bool isOnline() const { return online; }
+    inline const u32 getMysticDoorTown() const { return mysticDoorTown; }
+    inline const u32 getMysticDoorTargetMap() const { return mysticDoorTargetMap; }
+    inline const Point getMysticDoorPosition() const { return mysticDoorPosition; }
 
     inline bool operator==(const PartyMember& other) const 
     {

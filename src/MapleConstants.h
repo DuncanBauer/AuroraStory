@@ -73,7 +73,13 @@ namespace SkinColorId
     constexpr u16 k_WHITE = 9;
 };
 
-namespace MapleInventoryTypeId
+namespace ItemType
+{
+    constexpr u32 k_EQUIP = 1;
+    constexpr u32 k_ITEM = 2;
+}
+
+namespace InventoryType
 {
     constexpr u16 k_EQUIPPED = -1;
     constexpr u16 k_UNDEFINED = 0;
@@ -85,7 +91,7 @@ namespace MapleInventoryTypeId
 };
 
 // Values are the respective weapons max damage multipliers
-namespace MapleWeaponTypeDmgMultiplier
+namespace WeaponTypeDmgMultiplier
 {
     constexpr float k_NONE = 0.0f;
     constexpr float k_BOW = 3.4f;
