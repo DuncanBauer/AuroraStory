@@ -36,7 +36,7 @@ void Player::loadAccountData(const bsoncxx::v_noabi::document::value& data)
     try
     {
         // Extract data from the BSON document
-        m_account.accountId = view["_id"].get_oid().value.to_string();
+        m_account.accountId = view["_id"].get_int32().value;
         m_account.username = std::string(view["username"].get_string().value);
 
         if (view.find("pin") != view.end())

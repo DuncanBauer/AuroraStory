@@ -40,7 +40,7 @@ public:
         m_packetHandlers[RecvOps::k_VIEW_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handleViewAllChar(player, packet); };
         m_packetHandlers[RecvOps::k_PICK_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handlePickAllChar(player, packet); };
         m_packetHandlers[RecvOps::k_CHAR_SELECT]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCharSelect(player, packet); };
-        m_packetHandlers[RecvOps::k_CHECK_CHAR_NAME]         = [](std::shared_ptr<Player> player, Packet& packet) { handleCheckCharName(player, packet); };
+        m_packetHandlers[RecvOps::k_CHECK_CHAR_NAME]         = [](std::shared_ptr<Player> player, Packet& packet) { handleCheckCharacterName(player, packet); };
         m_packetHandlers[RecvOps::k_CREATE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCreateChar(player, packet); };
         m_packetHandlers[RecvOps::k_DELETE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleDeleteChar(player, packet); };
         m_packetHandlers[RecvOps::k_CLIENT_START]            = [](std::shared_ptr<Player> player, Packet& packet) { handleClientStart(player, packet); };
@@ -163,7 +163,7 @@ public:
     static inline void handleViewAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleViewAllChar"); }
     static inline void handlePickAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePickAllChar"); }
     static inline void handleCharSelect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharSelect"); }
-    static inline void handleCheckCharName(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCheckCharName"); }
+    static void handleCheckCharacterName(std::shared_ptr<Player> player, Packet& packet);
     static inline void handleCreateChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCreateChar"); }
     static inline void handleDeleteChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDeleteChar"); }
     static inline void handleClientStart(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleClientStart"); }

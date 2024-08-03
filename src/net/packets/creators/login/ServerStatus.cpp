@@ -6,6 +6,17 @@
 
 namespace PacketCreator
 {
+    /**
+     * Gets a packet detailing a server status message.
+     *
+     * Possible values for <code>status</code>:<br>
+     * 0 - Normal<br>
+     * 1 - Highly populated<br>
+     * 2 - Full
+     *
+     * @param status The server status.
+     * @return The server status packet.
+     */
     Packet getServerStatus(u16 status)
     {
         Packet packet;

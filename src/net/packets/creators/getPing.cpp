@@ -3,6 +3,11 @@
 
 namespace PacketCreator
 {
+    /**
+     * Sends a ping packet.
+     *
+     * @return The packet.
+     */
     Packet getPing()
     {
         Packet packet;

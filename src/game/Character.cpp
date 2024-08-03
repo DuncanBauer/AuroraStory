@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "util/MongoDb.h"
 
 Character::Character()
 {}
@@ -62,6 +63,28 @@ Character::Character(const Character& other)
 
 Character::~Character()
 {}
+
+const u32 Character::getCharacterIdByName(std::string name, u16 world)
+{
+    FindOneResult result = util::MongoDb::getInstance().getCharacterByName(name, world);
+    if (result)
+    {
+        return (u32)std::stoull((*result).view()["_id"].get_oid().value.to_string());
+    }
+
+    // Character not found
+    return 0;
+}
+
+const std::string Character::getCharacterNameById(u32 id, u16 world)
+{
+    FindOneResult result = util::MongoDb::getInstance().getCharacterById(id, world);
+    if (result)
+    {
+        return std::string((*result).view()["name"].get_string().value);
+    }
+    return "";
+}
 
 Inventory& Character::getInventory(u16 inventoryType)
 {

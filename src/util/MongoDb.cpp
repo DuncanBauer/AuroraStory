@@ -31,28 +31,68 @@ namespace util
                 m_uri = mongocxx::uri(uri);
                 m_client = mongocxx::client(m_uri); // Create the client
                 m_db = m_client[db]; // Get the database
-                m_initialized = true; // Mark as initialized
 
                 // Collections
-                m_accountCollection = m_db["accounts"];
-                m_characterCollection = m_db["characters"];
+                m_counterCollection     = m_db["counters"];
+                m_accountCollection     = m_db["accounts"];
+                m_characterCollection   = m_db["characters"];
                 m_inventoriesCollection = m_db["inventories"];
-                m_buddyCollection = m_db["buddies"];
-                m_partyCollection = m_db["parties"];
-                m_guildCollection = m_db["guilds"];
-                m_alliancesCollection = m_db["alliances"];
-                m_shopCollection = m_db["shops"];
-                m_dropCollection = m_db["drops"];
-                m_ipLogCollection = m_db["ipLogs"];
-                m_banLogCollection = m_db["banLogs"];
-                m_fameLogCollection = m_db["fameLogs"];
-                m_reportLogCollection = m_db["reportLogs"];
-                m_tradeLogCollection = m_db["tradeLogs"];
+                m_buddyCollection       = m_db["buddies"];
+                m_partyCollection       = m_db["parties"];
+                m_guildCollection       = m_db["guilds"];
+                m_alliancesCollection   = m_db["alliances"];
+                m_shopCollection        = m_db["shops"];
+                m_dropCollection        = m_db["drops"];
+                m_ipLogCollection       = m_db["ipLogs"];
+                m_banLogCollection      = m_db["banLogs"];
+                m_fameLogCollection     = m_db["fameLogs"];
+                m_reportLogCollection   = m_db["reportLogs"];
+                m_tradeLogCollection    = m_db["tradeLogs"];
+
+                m_initialized = true; // Mark as initialized
             }
         }
         catch (std::exception e)
         {
             SERVER_ERROR("{}", e.what());
+        }
+    }
+
+    u32 MongoDb::getNextSequence(const std::string& counterName)
+    {
+        FindOneResult result;
+        try
+        {
+            // Define filter
+            auto filter = bsoncxx::builder::stream::document{}
+                << "_id" << counterName
+                << bsoncxx::builder::stream::finalize;
+
+            // Define update
+            auto update = bsoncxx::builder::stream::document{}
+                << "$inc"
+                << bsoncxx::builder::stream::open_document
+                << "value" << 1
+                << bsoncxx::builder::stream::close_document
+                << bsoncxx::builder::stream::finalize;
+
+            // Perform find
+            result = findOneAndUpdateWithRetry(m_counterCollection, filter.view(), update.view());
+        }
+        catch (std::exception& e)
+        {
+            SERVER_ERROR("{}", e.what());
+        }
+
+        if (result && result->view().find("value") != result->view().end())
+        {
+            return result->view()["value"].get_int32().value;
+        }
+        else
+        {
+            // Handle case where the document was not found or 'value' does not exist
+            SERVER_ERROR("Counter not found or invalid result for {}", counterName);
+            return 0; // or some error value
         }
     }
 
@@ -84,6 +124,7 @@ namespace util
         {
             // Define document
             auto doc = bsoncxx::builder::stream::document{}
+                << "_id" << static_cast<i32>(getNextSequence("account_id"))
                 << "username" << username
                 << "password_hash" << passwordHash
                 << "gm_level" << 0
@@ -103,43 +144,6 @@ namespace util
             {
                 SERVER_INFO("{} account could not be registered", username);
             }
-        }
-        catch (std::exception& e)
-        {
-            SERVER_ERROR("{}", e.what());
-        }
-
-        return result;
-    }
-
-    InsertOneResult MongoDb::registerAccount(const std::string& username, const std::string& password)
-    {
-        InsertOneResult result;
-        try
-        {
-            //// Define document
-            //auto newDoc = bsoncxx::builder::stream::document{}
-            //    << "username" << username
-            //    << "password_hash" << password
-            //    << "gm_level" << 0
-            //    << "logged_in" << 0
-            //    << "birthday" << 0
-            //    << "email" << ""
-            //    << "created_at" << util::getEpochSeconds()
-            //    << "last_login" << 0
-            //    << "last_ip" << ""
-            //    << "banned" << 0
-            //    << "ban_reason" << ""
-            //    << "guest" << 1
-            //    << "nx" << 0
-            //    << bsoncxx::builder::stream::finalize;
-
-            //// Perform insertion
-            //auto result = insertOneWithRetry(m_accountCollection, newDoc.view());
-            //if (!result)
-            //    SERVER_INFO("User document could not be created");
-
-            return result;
         }
         catch (std::exception& e)
         {
@@ -179,6 +183,50 @@ namespace util
         return result;
     }
 
+    FindOneResult MongoDb::getCharacterByName(const std::string& name, const u16 worldId)
+    {
+        FindOneResult result;
+        //try
+        //{
+        //    // Define query
+        //    auto query = bsoncxx::builder::stream::document{}
+        //        << "name" << name
+        //        << "world_id" << worldId
+        //        << bsoncxx::builder::stream::finalize;
+
+        //    // Perform find
+        //    result = findOneWithRetry(m_characterCollection, query.view());
+        //}
+        //catch (std::exception& e)
+        //{
+        //    SERVER_ERROR("{}", e.what());
+        //}
+
+        return result;
+    }
+
+    FindOneResult MongoDb::getCharacterById(const u32 id, const u16 worldId)
+    {
+        FindOneResult result;
+        //try
+        //{
+        //    // Define query
+        //    auto query = bsoncxx::builder::stream::document{}
+        //        << "_id" << id
+        //        << "world_id" << worldId
+        //        << bsoncxx::builder::stream::finalize;
+
+        //    // Perform find
+        //    result = findOneWithRetry(m_characterCollection, query.view());
+        //}
+        //catch (std::exception& e)
+        //{
+        //    SERVER_ERROR("{}", e.what());
+        //}
+
+        return result;
+    }
+
     InsertOneResult MongoDb::createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face)
     {
         InsertOneResult result;
@@ -186,7 +234,7 @@ namespace util
         {
             //// Define document
             //auto newDoc = bsoncxx::builder::stream::document{}
-            //    << "account_id" << bsoncxx::oid()
+            //    << "account_id" << 
             //    << "name" << name
             //    << "gm" << 0
             //    << "fame" << 0
@@ -213,7 +261,6 @@ namespace util
             //    << "skin_color" << skinColor
             //    << "hair" << hair
             //    << "face" << face
-            //    << "party_id" << bsoncxx::oid()
             //    << "guild_id" << bsoncxx::oid()
             //    << "buddy_capacity" << 20
             //    << "map" << 0
@@ -233,8 +280,6 @@ namespace util
             //auto result = insertOneWithRetry(m_characterCollection, newDoc.view());
             //if (!result)
             //    SERVER_INFO("User document could not be created");
-
-            return result;
         }
         catch (std::exception& e)
         {

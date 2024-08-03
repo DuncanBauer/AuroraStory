@@ -4,6 +4,9 @@
 
 Packet PacketCreator::getHandshake(Packet iv_recv, Packet iv_send)
 {
+    /*
+    * Sends the handshake packet
+    */
     Packet packet;
     util::PacketTool::writeShort(packet, 14);
     util::PacketTool::writeShort(packet, k_gameVersion);

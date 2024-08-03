@@ -14,6 +14,7 @@
 /*
 Accounts collection
     _id           : ObjectId
+    account_id    : number
     username      : string
     password_hash : string
     gm_level      : number
@@ -32,7 +33,9 @@ Accounts collection
 /*
 Characters collection
     _id              : ObjectId
-    account_id       : ObjectId
+    account_id       : number
+    character_id     : number
+    world_id         : number
     name             : string
     gm               : number
     fame             : number
@@ -87,6 +90,7 @@ namespace util
         mongocxx::database m_db;
 
         // Collections
+        mongocxx::collection m_counterCollection;
         mongocxx::collection m_accountCollection;
         mongocxx::collection m_characterCollection;
         mongocxx::collection m_inventoriesCollection;
@@ -116,13 +120,15 @@ namespace util
         static MongoDb& getInstance();
 
         void initialize(const std::string& uri, const std::string& db);
+        u32 getNextSequence(const std::string& counterName);
 
         FindOneResult accountExists(const std::string& username);
         InsertOneResult autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip);
-        InsertOneResult registerAccount(const std::string& username, const std::string& password);
 
         UpdateResult setPin(const std::string& username, const std::string& pin);
 
+        FindOneResult getCharacterByName(const std::string& name, const u16 worldId);
+        FindOneResult getCharacterById(const u32 id, const u16 worldId);
         InsertOneResult createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face);
 
     private:

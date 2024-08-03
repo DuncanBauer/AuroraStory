@@ -183,6 +183,7 @@
     <ClInclude Include="src\Typedefs.h" />
     <ClInclude Include="src\game\Party.h" />
     <ClInclude Include="src\game\Player.h" />
+    <ClInclude Include="src\util\MapleTool.h" />
     <ClInclude Include="src\World.h" />
     <ClInclude Include="src\net\asio\TCPConnection.h" />
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
@@ -211,8 +212,10 @@
     <ClCompile Include="src\game\Party.cpp" />
     <ClCompile Include="src\game\Player.cpp" />
     <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp" />
     <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -225,7 +228,7 @@
     <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp" />
     <ClCompile Include="src\net\packets\creators\GetHandshake.cpp" />
-    <ClCompile Include="src\net\packets\creators\getPing.cpp" />
+    <ClCompile Include="src\net\packets\creators\GetPing.cpp" />
     <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
     <ClCompile Include="src\util\MongoDb.cpp" />

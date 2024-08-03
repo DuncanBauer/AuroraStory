@@ -124,6 +124,7 @@
     <ClInclude Include="src\game\Inventory.h" />
     <ClInclude Include="src\game\Item.h" />
     <ClInclude Include="src\game\Equip.h" />
+    <ClInclude Include="src\util\MapleTool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp">
@@ -177,7 +178,7 @@
     <ClCompile Include="src\util\MongoDb.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
     <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp" />
-    <ClCompile Include="src\net\packets\creators\getPing.cpp" />
+    <ClCompile Include="src\net\packets\creators\GetPing.cpp" />
     <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
     <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
@@ -186,5 +187,7 @@
     <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
     <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
     <ClCompile Include="src\game\Character.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp" />
   </ItemGroup>
 </Project>

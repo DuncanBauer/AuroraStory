@@ -11,6 +11,9 @@ public:
     Character(const Character& other);
     ~Character();
 
+    static const u32 getCharacterIdByName(std::string name, u16 world);
+    static const std::string getCharacterNameById(u32 id, u16 world);
+
     // Getters
     inline const u32 getCharacterId() const { return m_characterId; }
     inline const std::string getCharacterName() const { return m_characterName; }

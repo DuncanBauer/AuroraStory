@@ -3,6 +3,48 @@
 
 namespace PacketCreator
 {
+    /**
+     * Gets a successful authentication and PIN Request packet.
+     *
+     * @param username The account name.
+     * @return The PIN request packet.
+     */
+    Packet getLoginSuccess(std::string username)
+    {
+        Packet packet;
+        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
+        util::PacketTool::writeMapleString(packet, username);
+        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0, 0, 0 });
+        return packet;
+    }
+
+    /**
+     * Gets a login failed packet.
+     *
+     * Possible values for <code>reason</code>:<br>
+     * 3: ID deleted or blocked<br>
+     * 4: Incorrect password<br>
+     * 5: Not a registered id<br>
+     * 6: System error<br>
+     * 7: Already logged in<br>
+     * 8: System error<br>
+     * 9: System error<br>
+     * 10: Cannot process so many connections<br>
+     * 11: Only users older than 20 can use this channel<br>
+     * 13: Unable to log on as master at this ip<br>
+     * 14: Wrong gateway or personal info and weird korean button<br>
+     * 15: Processing request with that korean button!<br>
+     * 16: Please verify your account through email...<br>
+     * 17: Wrong gateway or personal info<br>
+     * 21: Please verify your account through email...<br>
+     * 23: License agreement<br>
+     * 25: Maple Europe notice =[<br>
+     * 27: Some weird full client notice, probably for trial versions<br>
+     *
+     * @param reason The reason logging in failed.
+     * @return The login failed packet.
+     */
     Packet getLoginFailed(u32 reason)
     {
         Packet packet;
@@ -12,6 +54,25 @@ namespace PacketCreator
         return packet;
     }
 
+    /**
+     * Banned reasons.
+     *
+     * 00 - Block user
+     * 01 - Hacking
+     * 02 - Botting
+     * 03 - Advertising
+     * 04 - Harassment
+     * 05 - Profane language
+     * 06 - Scamming
+     * 07 - Misconduct
+     * 08 - Illegal cash transaction
+     * 09 - Illegal charging/funding
+     * 10 - Temporary request
+     * 11 - Impersonating GM
+     * 12 - Violating game policy
+     * 13 - Abusing Megaphones
+     * @return
+     */
     Packet getPermBan(u32 reason)
     {
         Packet packet;
@@ -31,16 +92,6 @@ namespace PacketCreator
         util::PacketTool::writeByteArray(packet, { 0x00, 0x00, 0x00, 0x00, 0x00 }); // Account is banned
         util::PacketTool::writeByte(packet, reason);
         util::PacketTool::writeLong(packet, timestampTill); // Tempban date is handled as a 64-bit long, number of 100NS intervals since 1/1/1601. Lulz.
-        return packet;
-    }
-
-    Packet getLoginSuccess(std::string username)
-    {
-        Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
-        util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
-        util::PacketTool::writeMapleString(packet, username);
-        util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0, 0, 0 });
         return packet;
     }
 

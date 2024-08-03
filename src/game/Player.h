@@ -8,7 +8,7 @@ using asio::ip::tcp;
 
 struct Account
 {
-    std::string accountId;
+    u32 accountId;
     std::string username;
     std::string pin;
     i64 birthday = 0;
