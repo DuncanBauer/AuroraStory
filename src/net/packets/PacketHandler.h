@@ -37,12 +37,12 @@ public:
         m_packetHandlers[RecvOps::k_REGISTER_PIN]            = [](std::shared_ptr<Player> player, Packet& packet) { handleRegisterPin(player, packet); };
         m_packetHandlers[RecvOps::k_SERVER_LIST_REQUEST]     = [](std::shared_ptr<Player> player, Packet& packet) { handleServerListRequest(player, packet); };
         m_packetHandlers[RecvOps::k_PLAYER_DC]               = [](std::shared_ptr<Player> player, Packet& packet) { handlePlayerDC(player, packet); };
-        m_packetHandlers[RecvOps::k_VIEW_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handleViewAllChar(player, packet); };
-        m_packetHandlers[RecvOps::k_PICK_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handlePickAllChar(player, packet); };
-        m_packetHandlers[RecvOps::k_CHAR_SELECT]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCharSelect(player, packet); };
+        m_packetHandlers[RecvOps::k_VIEW_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handleViewAllCharacter(player, packet); };
+        m_packetHandlers[RecvOps::k_PICK_ALL_CHAR]           = [](std::shared_ptr<Player> player, Packet& packet) { handlePickAllCharacter(player, packet); };
+        m_packetHandlers[RecvOps::k_CHAR_SELECT]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCharacterSelect(player, packet); };
         m_packetHandlers[RecvOps::k_CHECK_CHAR_NAME]         = [](std::shared_ptr<Player> player, Packet& packet) { handleCheckCharacterName(player, packet); };
-        m_packetHandlers[RecvOps::k_CREATE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCreateChar(player, packet); };
-        m_packetHandlers[RecvOps::k_DELETE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleDeleteChar(player, packet); };
+        m_packetHandlers[RecvOps::k_CREATE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleCreateCharacter(player, packet); };
+        m_packetHandlers[RecvOps::k_DELETE_CHAR]             = [](std::shared_ptr<Player> player, Packet& packet) { handleDeleteCharacter(player, packet); };
         m_packetHandlers[RecvOps::k_CLIENT_START]            = [](std::shared_ptr<Player> player, Packet& packet) { handleClientStart(player, packet); };
         m_packetHandlers[RecvOps::k_RELOG]                   = [](std::shared_ptr<Player> player, Packet& packet) { handleRelog(player, packet); };
          
@@ -160,12 +160,12 @@ public:
     static inline void handleRegisterPin(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRegisterPin"); }
     static void handleServerListRequest(std::shared_ptr<Player> player, Packet& packet);
     static inline void handlePlayerDC(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePlayerDC"); }
-    static inline void handleViewAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleViewAllChar"); }
-    static inline void handlePickAllChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePickAllChar"); }
-    static inline void handleCharSelect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharSelect"); }
+    static inline void handleViewAllCharacter(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleViewAllChar"); }
+    static inline void handlePickAllCharacter(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handlePickAllChar"); }
+    static inline void handleCharacterSelect(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCharSelect"); }
     static void handleCheckCharacterName(std::shared_ptr<Player> player, Packet& packet);
-    static inline void handleCreateChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleCreateChar"); }
-    static inline void handleDeleteChar(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDeleteChar"); }
+    static void handleCreateCharacter(std::shared_ptr<Player> player, Packet& packet);
+    static inline void handleDeleteCharacter(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleDeleteChar"); }
     static inline void handleClientStart(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleClientStart"); }
     static inline void handleRelog(std::shared_ptr<Player> player, Packet& packet) { SERVER_INFO("handleRelog"); }
 

@@ -35,6 +35,7 @@ IncludeDir["Bson"]				= "%{vcpkgdir}/libbson_x64-windows/include"
 IncludeDir["BsonCXX"]			= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/include/bsoncxx/v_noabi"
 IncludeDir["MongoC"]			= "%{vcpkgdir}/mongo-c-driver_x64-windows/include"
 IncludeDir["MongoCXX"]			= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/include/mongocxx/v_noabi"
+IncludeDir["lz4"]				= "%{vcpkgdir}/lz4_x64-windows/include"
 
 LinkDir = {}
 -- Need separate debug and release links. (I'm sure theres a better way)
@@ -52,6 +53,9 @@ LinkDir["Bsond"]				= "%{vcpkgdir}/libbson_x64-windows/debug/lib/bson-1.0"
 LinkDir["BsonCXXd"]				= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/debug/lib/bsoncxx-v_noabi-dhs-mdd"
 LinkDir["MongoCd"]				= "%{vcpkgdir}/mongo-c-driver_x64-windows/debug/lib/mongoc-1.0"
 LinkDir["MongoCXXd"]			= "%{vcpkgdir}/mongo-cxx-driver_x64-windows/debug/lib/mongocxx-v_noabi-dhs-mdd"
+
+LinkDir["lz4"]					= "%{vcpkgdir}/lz4_x64-windows/lib/lz4"
+LinkDir["lz4d"]					= "%{vcpkgdir}/lz4_x64-windows/debug/lib/lz4d"
 
 project "AuroraStory"
 	location "."
@@ -81,7 +85,8 @@ project "AuroraStory"
 		"%{IncludeDir.Bson}",
 		"%{IncludeDir.BsonCXX}",
 		"%{IncludeDir.MongoC}",
-		"%{IncludeDir.MongoCXX}"
+		"%{IncludeDir.MongoCXX}",
+		"%{IncludeDir.lz4}"
 	}
 
 	links
@@ -111,6 +116,7 @@ project "AuroraStory"
 			"%{LinkDir.Bsond}",
 			"%{LinkDir.BsonCXXd}",
 			"%{LinkDir.yamlcppd}",
+			"%{LinkDir.lz4d}",
 		}
 		runtime "Debug"
 		symbols "on"
@@ -127,6 +133,7 @@ project "AuroraStory"
 			"%{LinkDir.Bson}",
 			"%{LinkDir.BsonCXX}",
 			"%{LinkDir.yamlcpp}",
+			"%{LinkDir.lz4}",
 		}
 		runtime "Release"
 		optimize "on"

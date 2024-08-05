@@ -22,14 +22,26 @@
     <Filter Include="src\net\packets">
       <UniqueIdentifier>{1D46B9A8-89D1-266D-92E2-A961FEEC826D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\net\packets\creators">
+      <UniqueIdentifier>{8F6A2DDC-7B8F-7C5C-A4DA-61EC905E7B7A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\net\packets\creators\login">
+      <UniqueIdentifier>{F747609C-E36D-2A03-CCB3-AFCEB8784FCF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\net\packets\handlers">
       <UniqueIdentifier>{BDB30872-A9D8-57F2-D223-3D82BEA75610}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\net\packets\handlers\login">
       <UniqueIdentifier>{A53BC51A-9161-8F81-7AA7-144D666CB44D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\net\packets\processors">
-      <UniqueIdentifier>{5FFE8D83-4B0E-3A54-B4C7-9E72A0F628ED}</UniqueIdentifier>
+    <Filter Include="src\provider">
+      <UniqueIdentifier>{47B1E85B-3314-7800-DC99-B0B6C8DB4383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\provider\wz">
+      <UniqueIdentifier>{A7D71E14-1363-8CD8-1C74-0FCD887EE8D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\provider\wz\nx">
+      <UniqueIdentifier>{DCE09F7D-C8C4-60D3-3125-5B261D284B55}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\util">
       <UniqueIdentifier>{BA5238CF-A61F-93DA-CF38-8182BB64C868}</UniqueIdentifier>
@@ -51,13 +63,25 @@
     <ClInclude Include="src\Typedefs.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\World.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Character.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Equip.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Inventory.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\Item.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
     <ClInclude Include="src\game\Party.h">
       <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\game\Player.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\World.h">
       <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\net\asio\TCPConnection.h">
@@ -81,6 +105,30 @@
     <ClInclude Include="src\net\packets\PacketHandler.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\audio.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\bitmap.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\file.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\file_impl.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\node.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\node_impl.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\nx.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\nxfwd.h">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\HashPassword.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -88,6 +136,9 @@
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\MapleAESOFB.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\MapleTool.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\MongoDb.h">
@@ -120,23 +171,21 @@
     <ClInclude Include="vendor\aes\brg_types.h">
       <Filter>vendor\aes</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\Character.h" />
-    <ClInclude Include="src\game\Inventory.h" />
-    <ClInclude Include="src\game\Item.h" />
-    <ClInclude Include="src\game\Equip.h" />
-    <ClInclude Include="src\util\MapleTool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\World.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Character.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
     <ClCompile Include="src\game\Party.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Player.cpp">
-      <Filter>src\game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -154,11 +203,68 @@
     <ClCompile Include="src\net\login\LoginServer.cpp">
       <Filter>src\net\login</Filter>
     </ClCompile>
+    <ClCompile Include="src\net\packets\creators\GetHandshake.cpp">
+      <Filter>src\net\packets\creators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\GetPing.cpp">
+      <Filter>src\net\packets\creators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\ServerList.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp">
+      <Filter>src\net\packets\creators\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\CreateCharacter.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
     <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp">
       <Filter>src\net\packets\handlers\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\creators\GetHandshake.cpp">
-      <Filter>src\net\packets\processors</Filter>
+    <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp">
+      <Filter>src\net\packets\handlers\login</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\audio.cpp">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\bitmap.cpp">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\file.cpp">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\node.cpp">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\nx.cpp">
+      <Filter>src\provider\wz\nx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\MongoDb.cpp">
+      <Filter>src\util</Filter>
     </ClCompile>
     <ClCompile Include="vendor\aes\aes_modes.c">
       <Filter>vendor\aes</Filter>
@@ -175,19 +281,5 @@
     <ClCompile Include="vendor\aes\aestab.c">
       <Filter>vendor\aes</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\MongoDb.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp" />
-    <ClCompile Include="src\net\packets\creators\GetPing.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
-    <ClCompile Include="src\game\Character.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp" />
   </ItemGroup>
 </Project>

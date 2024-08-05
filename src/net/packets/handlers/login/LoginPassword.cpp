@@ -9,13 +9,6 @@
 #include "net/packets/PacketCreator.h"
 #include "Typedefs.h"
 
-enum LoginStatus
-{
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    BANNED
-};
-
 void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& packet)
 {
     SERVER_INFO("PacketHandler::handleLoginPassword");
@@ -38,8 +31,8 @@ void PacketHandler::handleLoginPassword(std::shared_ptr<Player> player, Packet& 
         else
         {
             player->send(PacketCreator::getLoginFailed(loginSuccess));
+            return;
         }
-        return;
     }
 
     // Attempt login

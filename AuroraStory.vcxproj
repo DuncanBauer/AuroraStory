@@ -98,7 +98,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;..\..\vcpkg\packages\lz4_x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -108,7 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>vendor\bcrypt\build\Debug\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\debug\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\mongocxx-v_noabi-dhs-mdd.lib;..\..\vcpkg\packages\libbson_x64-windows\debug\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\bsoncxx-v_noabi-dhs-mdd.lib;vendor\yaml-cpp\build\Debug\yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\bcrypt\build\Debug\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\debug\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\mongocxx-v_noabi-dhs-mdd.lib;..\..\vcpkg\packages\libbson_x64-windows\debug\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\bsoncxx-v_noabi-dhs-mdd.lib;vendor\yaml-cpp\build\Debug\yaml-cppd.lib;..\..\vcpkg\packages\lz4_x64-windows\debug\lib\lz4d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
@@ -116,7 +116,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;..\..\vcpkg\packages\lz4_x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -126,7 +126,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>vendor\bcrypt\build\Debug\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\debug\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\mongocxx-v_noabi-dhs-mdd.lib;..\..\vcpkg\packages\libbson_x64-windows\debug\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\bsoncxx-v_noabi-dhs-mdd.lib;vendor\yaml-cpp\build\Debug\yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\bcrypt\build\Debug\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\debug\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\mongocxx-v_noabi-dhs-mdd.lib;..\..\vcpkg\packages\libbson_x64-windows\debug\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\debug\lib\bsoncxx-v_noabi-dhs-mdd.lib;vendor\yaml-cpp\build\Debug\yaml-cppd.lib;..\..\vcpkg\packages\lz4_x64-windows\debug\lib\lz4d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
@@ -134,7 +134,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;..\..\vcpkg\packages\lz4_x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -148,7 +148,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>vendor\bcrypt\build\Release\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\mongocxx-v_noabi-rhs-md.lib;..\..\vcpkg\packages\libbson_x64-windows\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\bsoncxx-v_noabi-rhs-md.lib;vendor\yaml-cpp\build\Release\yaml-cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\bcrypt\build\Release\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\mongocxx-v_noabi-rhs-md.lib;..\..\vcpkg\packages\libbson_x64-windows\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\bsoncxx-v_noabi-rhs-md.lib;vendor\yaml-cpp\build\Release\yaml-cpp.lib;..\..\vcpkg\packages\lz4_x64-windows\lib\lz4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
@@ -156,7 +156,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>YAML_CPP_STATIC_DEFINE;_WIN32_WINNT=0x0601;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\aes;vendor\asio\asio\include;vendor\bcrypt\include;vendor\spdlog\include;vendor\yaml-cpp\include;..\..\vcpkg\packages\libbson_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\bsoncxx\v_noabi;..\..\vcpkg\packages\mongo-c-driver_x64-windows\include;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\include\mongocxx\v_noabi;..\..\vcpkg\packages\lz4_x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -170,21 +170,20 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>vendor\bcrypt\build\Release\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\mongocxx-v_noabi-rhs-md.lib;..\..\vcpkg\packages\libbson_x64-windows\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\bsoncxx-v_noabi-rhs-md.lib;vendor\yaml-cpp\build\Release\yaml-cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vendor\bcrypt\build\Release\bcrypt.lib;..\..\vcpkg\packages\mongo-c-driver_x64-windows\lib\mongoc-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\mongocxx-v_noabi-rhs-md.lib;..\..\vcpkg\packages\libbson_x64-windows\lib\bson-1.0.lib;..\..\vcpkg\packages\mongo-cxx-driver_x64-windows\lib\bsoncxx-v_noabi-rhs-md.lib;vendor\yaml-cpp\build\Release\yaml-cpp.lib;..\..\vcpkg\packages\lz4_x64-windows\lib\lz4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\game\Equip.h" />
-    <ClInclude Include="src\game\Item.h" />
-    <ClInclude Include="src\game\Inventory.h" />
-    <ClInclude Include="src\game\Character.h" />
     <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\Master.h" />
     <ClInclude Include="src\Typedefs.h" />
+    <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\game\Character.h" />
+    <ClInclude Include="src\game\Equip.h" />
+    <ClInclude Include="src\game\Inventory.h" />
+    <ClInclude Include="src\game\Item.h" />
     <ClInclude Include="src\game\Party.h" />
     <ClInclude Include="src\game\Player.h" />
-    <ClInclude Include="src\util\MapleTool.h" />
-    <ClInclude Include="src\World.h" />
     <ClInclude Include="src\net\asio\TCPConnection.h" />
     <ClInclude Include="src\net\asio\TCPServerInterface.h" />
     <ClInclude Include="src\net\channel\ChannelServer.h" />
@@ -192,9 +191,18 @@
     <ClInclude Include="src\net\packets\PacketConstants.h" />
     <ClInclude Include="src\net\packets\PacketCreator.h" />
     <ClInclude Include="src\net\packets\PacketHandler.h" />
+    <ClInclude Include="src\provider\wz\nx\audio.h" />
+    <ClInclude Include="src\provider\wz\nx\bitmap.h" />
+    <ClInclude Include="src\provider\wz\nx\file.h" />
+    <ClInclude Include="src\provider\wz\nx\file_impl.h" />
+    <ClInclude Include="src\provider\wz\nx\node.h" />
+    <ClInclude Include="src\provider\wz\nx\node_impl.h" />
+    <ClInclude Include="src\provider\wz\nx\nx.h" />
+    <ClInclude Include="src\provider\wz\nx\nxfwd.h" />
     <ClInclude Include="src\util\HashPassword.h" />
     <ClInclude Include="src\util\LoggingTool.h" />
     <ClInclude Include="src\util\MapleAESOFB.h" />
+    <ClInclude Include="src\util\MapleTool.h" />
     <ClInclude Include="src\util\MongoDb.h" />
     <ClInclude Include="src\util\PacketTool.h" />
     <ClInclude Include="src\util\ThreadSafeQueue.h" />
@@ -207,30 +215,36 @@
     <ClInclude Include="vendor\aes\brg_types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\Character.cpp" />
     <ClCompile Include="src\Master.cpp" />
+    <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\game\Character.cpp" />
     <ClCompile Include="src\game\Party.cpp" />
     <ClCompile Include="src\game\Player.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
-    <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\net\asio\TCPConnection.cpp" />
     <ClCompile Include="src\net\asio\TCPServerInterface.cpp" />
     <ClCompile Include="src\net\channel\ChannelServer.cpp" />
     <ClCompile Include="src\net\login\LoginServer.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp" />
-    <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
-    <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp" />
     <ClCompile Include="src\net\packets\creators\GetHandshake.cpp" />
     <ClCompile Include="src\net\packets\creators\GetPing.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\GetCharacterNameResponse.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\LoginResponses.cpp" />
     <ClCompile Include="src\net\packets\creators\login\PinOperations.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\ServerList.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\ServerStatus.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\AfterLogin.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CharacterListRequest.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CheckCharacterName.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\CreateCharacter.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
+    <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
+    <ClCompile Include="src\provider\wz\nx\audio.cpp" />
+    <ClCompile Include="src\provider\wz\nx\bitmap.cpp" />
+    <ClCompile Include="src\provider\wz\nx\file.cpp" />
+    <ClCompile Include="src\provider\wz\nx\node.cpp" />
+    <ClCompile Include="src\provider\wz\nx\nx.cpp" />
     <ClCompile Include="src\util\MongoDb.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
     <ClCompile Include="vendor\aes\aes_ni.c" />

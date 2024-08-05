@@ -19,7 +19,7 @@ public:
     inline u16 getInventoryType() const { return m_type; }
     inline u16 getSlotLimit() const { return m_slotLimit; }
     inline std::map<byte, Item> getItems() const { return m_items; }
-    inline Item& getItemInSlot(byte slot)
+    inline Item getItemInSlot(byte slot)
     {
         Item item;
         try

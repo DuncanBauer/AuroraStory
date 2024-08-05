@@ -30,7 +30,7 @@ namespace util
 			{
 				memcpy(temp_iv, iv, 16);
 
-				aes_encrypt_key256(m_aesKey, cx);
+				aes_encrypt_key256(k_aesKey, cx);
 
 				if (size > (pos + t_pos))
 				{
@@ -136,42 +136,8 @@ namespace util
 
         static inline void createPacketHeader(byte* buffer, byte* iv, u32 size)
 		{
-			//short version = (short)(0xFFFF) - k_gameVersion;
-			//size = version ^ size;
-			//short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
-
-			//std::cout << "Version: " << std::dec << mapleVersion << '\n';
-			//for (int i = 0; i < 4; i++)
-			//{
-			//	std::cout << std::hex
-			//		<< std::setw(2)
-			//		<< std::setfill('0')
-			//		<< (int)(iv[i])
-			//		<< ' ';
-			//}
-			//std::cout << '\n';
-
-			//buffer[0] = (mapleVersion >> 8) & 0xFF;
-			//buffer[1] = mapleVersion & 0xFF;
-			//buffer[2] = size & 0xFF;
-			//buffer[3] = (size >> 8) & 0xFF;
-
-
-
 			short version = (short)(0xFFFF - k_gameVersion);
 			short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
-
-			std::cout << std::dec << mapleVersion << '\n';
-			for (int i = 0; i < 4; i++)
-			{
-				std::cout << std::hex
-						  << std::setw(2)
-						  << std::setfill('0')
-						  << (int)(iv[i])
-						  << ' '
-						  << std::dec;
-			}
-			std::cout << '\n';
 
 			int iiv = (iv[3]) & 0xFF;
 			iiv |= (iv[2] << 8) & 0xFF00;
@@ -216,11 +182,11 @@ namespace util
 			for (; loop_counter < 4; loop_counter++)
 			{
 				input = iv[loop_counter];
-				value_input = m_shuffle[input];
+				value_input = k_shuffle[input];
 
-				new_iv[0] += (m_shuffle[new_iv[1]] - input);
+				new_iv[0] += (k_shuffle[new_iv[1]] - input);
 				new_iv[1] -= (new_iv[2] ^ value_input);
-				new_iv[2] ^= (m_shuffle[new_iv[3]] + input);
+				new_iv[2] ^= (k_shuffle[new_iv[3]] + input);
 				new_iv[3] -= (new_iv[0] - value_input);
 
 				full_iv = (new_iv[3] << 24) | (new_iv[2] << 16) | (new_iv[1] << 8) | new_iv[0];
@@ -239,21 +205,21 @@ namespace util
 			memcpy(iv + 12, new_iv, 4);
 		}
 
-	private:
+	public:
 		// Constant used in WZ offset encryption
-		static constexpr uint32_t m_wzOffsetConstant = 0x581C3F6D;
+		static constexpr uint32_t k_wzOffsetConstant = 0x581C3F6D;
 
 		// IV used to create the WzKey for GMS
-		static constexpr byte m_wzFileKeyIv[4] = { 0x4D, 0x23, 0xC7, 0x2B };
+		static constexpr byte k_wzFileKeyIv[4] = { 0x4D, 0x23, 0xC7, 0x2B };
 
-		static constexpr byte m_aesKey[32] =
+		static constexpr byte k_aesKey[32] =
 		{
 			0x13, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0xB4, 0x00, 0x00, 0x00,
 			0x1B, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x00, 0x00, 0x33, 0x00, 0x00, 0x00, 0x52, 0x00, 0x00, 0x00
 		};
 
 		// ShuffleBytes used by MapleStory to generate a new IV
-		static constexpr byte m_shuffle[256] =
+		static constexpr byte k_shuffle[256] =
 		{//16 * 16
 			0xEC, 0x3F, 0x77, 0xA4, 0x45, 0xD0, 0x71, 0xBF, 0xB7, 0x98, 0x20, 0xFC, 0x4B, 0xE9, 0xB3, 0xE1,
 			0x5C, 0x22, 0xF7, 0x0C, 0x44, 0x1B, 0x81, 0xBD, 0x63, 0x8D, 0xD4, 0xC3, 0xF2, 0x10, 0x19, 0xE0,
