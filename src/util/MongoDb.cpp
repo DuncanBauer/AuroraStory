@@ -21,7 +21,7 @@ namespace util
         return instance;
     }
 
-    void MongoDb::initialize(const std::string& uri, const std::string& db)
+    void MongoDb::initialize(std::string const& uri, std::string const& db)
     {
         try
         {
@@ -58,7 +58,7 @@ namespace util
         }
     }
 
-    u32 MongoDb::getNextSequence(const std::string& counterName)
+    u32 MongoDb::getNextSequence(std::string const& counterName)
     {
         FindOneResult result;
         try
@@ -96,7 +96,7 @@ namespace util
         }
     }
 
-    FindOneResult MongoDb::accountExists(const std::string& username)
+    FindOneResult MongoDb::accountExists(std::string const& username)
     {
         FindOneResult result;
         try
@@ -117,7 +117,7 @@ namespace util
         return result;
     }
 
-    InsertOneResult MongoDb::autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip)
+    InsertOneResult MongoDb::autoRegisterAccount(std::string const& username, std::string const& passwordHash, std::string const& ip)
     {
         InsertOneResult result;
         try
@@ -153,7 +153,7 @@ namespace util
         return result;
     }
 
-    UpdateResult MongoDb::setPin(const std::string& username, const std::string& pin)
+    UpdateResult MongoDb::setPin(std::string const& username, std::string const& pin)
     {
         UpdateResult result;
         try
@@ -183,7 +183,7 @@ namespace util
         return result;
     }
 
-    FindOneResult MongoDb::getCharacterByName(const std::string& name, const u16 worldId)
+    FindOneResult MongoDb::getCharacterByName(std::string const& name, u16 const worldId)
     {
         FindOneResult result;
         //try
@@ -205,7 +205,7 @@ namespace util
         return result;
     }
 
-    FindOneResult MongoDb::getCharacterById(const u32 id, const u16 worldId)
+    FindOneResult MongoDb::getCharacterById(u32 const id, u16 const worldId)
     {
         FindOneResult result;
         //try
@@ -227,7 +227,7 @@ namespace util
         return result;
     }
 
-    InsertOneResult MongoDb::createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face)
+    InsertOneResult MongoDb::createCharacter(std::string const& name, u16 const gender, u16 const skinColor, u16 const hair, u16 const face)
     {
         InsertOneResult result;
         try
@@ -289,7 +289,7 @@ namespace util
         return result;
     }
 
-    FindOneResult MongoDb::findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+    FindOneResult MongoDb::findOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -315,7 +315,7 @@ namespace util
         return result;
     }
 
-    FindManyResult MongoDb::findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+    FindManyResult MongoDb::findManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -341,7 +341,7 @@ namespace util
         return result;
     }
 
-    InsertOneResult MongoDb::insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
+    InsertOneResult MongoDb::insertOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& document,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -367,7 +367,7 @@ namespace util
         return result;
     }
 
-    InsertManyResult MongoDb::insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
+    InsertManyResult MongoDb::insertManyWithRetry(mongocxx::collection& collection, std::vector<bsoncxx::document::view> const& documents,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -393,7 +393,7 @@ namespace util
         return result;
     }
 
-    UpdateResult MongoDb::updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+    UpdateResult MongoDb::updateOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -419,7 +419,7 @@ namespace util
         return result;
     }
 
-    UpdateResult MongoDb::updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+    UpdateResult MongoDb::updateManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -445,7 +445,7 @@ namespace util
         return result;
     }
 
-    FindOneResult MongoDb::findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
+    FindOneResult MongoDb::findOneAndUpdateWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -471,7 +471,7 @@ namespace util
         return result;
     }
 
-    DeleteResult MongoDb::deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+    DeleteResult MongoDb::deleteOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -497,7 +497,7 @@ namespace util
         return result;
     }
 
-    DeleteResult MongoDb::deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+    DeleteResult MongoDb::deleteManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;
@@ -523,7 +523,7 @@ namespace util
         return result;
     }
 
-    FindOneResult MongoDb::findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
+    FindOneResult MongoDb::findOneAndDeleteWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter,
         u16 max_retries, u16 retry_u16erval_ms)
     {
         u16 attempt = 0;

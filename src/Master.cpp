@@ -44,24 +44,24 @@ Master::Master()
     {
         WorldSettings worldSettings;
 
-        worldSettings.serverFlag                           = world["serverFlag"].as<u16>();
-        worldSettings.serverMessage                        = world["serverMessage"].as<std::string>();
-        worldSettings.eventMessage                         = world["eventMessage"].as<std::string>();
-        worldSettings.channelCount                         = world["channelCount"].as<u16>();
-        worldSettings.maxPlayers                           = world["maxPlayers"].as<u16>();
+        worldSettings.serverFlag                    = world["serverFlag"].as<u16>();
+        worldSettings.serverMessage                 = world["serverMessage"].as<std::string>();
+        worldSettings.eventMessage                  = world["eventMessage"].as<std::string>();
+        worldSettings.channelCount                  = world["channelCount"].as<u16>();
+        worldSettings.maxPlayers                    = world["maxPlayers"].as<u16>();
 
-        worldSettings.rates.mesoRate                       = world["mesoRate"].as<u16>();
-        worldSettings.rates.dropRate                       = world["dropRate"].as<u16>();
-        worldSettings.rates.partyExpRate                   = world["partyExpRate"].as<u16>();
-        worldSettings.rates.partyDropRate                  = world["partyDropRate"].as<u16>();
-        worldSettings.rates.partyMesoRate                  = world["partyMesoRate"].as<u16>();
-        worldSettings.rates.bossExpRate                    = world["bossExpRate"].as<u16>();
-        worldSettings.rates.bossMesoRate                   = world["bossMesoRate"].as<u16>();
-        worldSettings.rates.bossDropRate                   = world["bossDropRate"].as<u16>();
-        worldSettings.rates.questExpRate                   = world["questExpRate"].as<u16>();
-        worldSettings.rates.questMesoRate                  = world["questMesoRate"].as<u16>();
-        worldSettings.rates.pqExpRate                      = world["pqExpRate"].as<u16>();
-        worldSettings.rates.petExpRate                     = world["petExpRate"].as<u16>();
+        worldSettings.rates.mesoRate                = world["mesoRate"].as<u16>();
+        worldSettings.rates.dropRate                = world["dropRate"].as<u16>();
+        worldSettings.rates.partyExpRate            = world["partyExpRate"].as<u16>();
+        worldSettings.rates.partyDropRate           = world["partyDropRate"].as<u16>();
+        worldSettings.rates.partyMesoRate           = world["partyMesoRate"].as<u16>();
+        worldSettings.rates.bossExpRate             = world["bossExpRate"].as<u16>();
+        worldSettings.rates.bossMesoRate            = world["bossMesoRate"].as<u16>();
+        worldSettings.rates.bossDropRate            = world["bossDropRate"].as<u16>();
+        worldSettings.rates.questExpRate            = world["questExpRate"].as<u16>();
+        worldSettings.rates.questMesoRate           = world["questMesoRate"].as<u16>();
+        worldSettings.rates.pqExpRate               = world["pqExpRate"].as<u16>();
+        worldSettings.rates.petExpRate              = world["petExpRate"].as<u16>();
 
         m_worlds.push_back(std::make_shared<World>(worldSettings));
         if (++i >= m_settings.worldCount)
@@ -81,11 +81,6 @@ Master& Master::getInstance()
 {
     static Master instance; // Guaranteed to be destroyed
     return instance;
-}
-
-asio::io_context& Master::getIoContext()
-{
-    return m_ioContext;
 }
 
 void Master::initialize()
@@ -137,13 +132,3 @@ void Master::run()
 
 void Master::stop()
 {}
-
-std::vector<std::shared_ptr<World>> Master::getWorlds()
-{
-    return m_worlds;
-}
-
-std::shared_ptr<World> Master::getWorld(u32 index)
-{
-    return m_worlds[index];
-}

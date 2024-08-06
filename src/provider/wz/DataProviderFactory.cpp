@@ -1,9 +1,9 @@
 #include <filesystem>
 
 #include "DataProviderFactory.h"
-#include "WzFile.h"
-#include "NxWzFile.h"
-#include "XmlWzFile.h"
+#include "wz/WzFile.h"
+#include "nx/NxWzFile.h"
+#include "xml/XmlWzFile.h"
 #include "util/LoggingTool.h"
 
 namespace Provider
@@ -58,6 +58,6 @@ namespace Provider
             return file;
         }
 
-        return;
+        return file;
     }
 }

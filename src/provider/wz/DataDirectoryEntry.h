@@ -14,6 +14,6 @@ namespace Provider
 
     protected:
         std::vector<DataDirectoryEntry> m_subdirectories;
-        std::vector<DataFileEntry> m_files;
+        std::vector<DataFileEntry>      m_files;
     };
 }

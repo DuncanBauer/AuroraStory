@@ -33,9 +33,9 @@ namespace PacketCreator
     Packet getServerStatus(u16 status);
 
     Packet getCharacterList(std::shared_ptr<Player> player, u32 serverId);
-    void addCharacterEntry(Packet packet, Character character);
-    void addCharacterLook(Packet packet, Character character, bool mega);
-    void addCharacterStats(Packet packet, Character character);
+    void   addCharacterEntry(Packet packet, Character character);
+    void   addCharacterLook(Packet packet, Character character, bool mega);
+    void   addCharacterStats(Packet packet, Character character);
 
     Packet characterNameResponse(std::string characterName, bool isUsed);
 };

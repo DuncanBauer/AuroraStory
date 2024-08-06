@@ -8,12 +8,12 @@ Party::Party(Character leader)
 {
     PartyMember newMember;
     newMember.characterId = leader.getCharacterId();
-    newMember.name = leader.getCharacterName();
-    newMember.level = leader.getLevel();
-    newMember.job = leader.getJob();
-    newMember.channel = leader.getChannel();
-    newMember.mapId = leader.getMapId();
-    newMember.online = true;
+    newMember.name        = leader.getCharacterName();
+    newMember.level       = leader.getLevel();
+    newMember.job         = leader.getJob();
+    newMember.channel     = leader.getChannel();
+    newMember.mapId       = leader.getMapId();
+    newMember.online      = true;
 
     //if (leader.getDoors().size() > 0) {
     //    newMember.mysticDoorTown = leader.getDoors().get(0).getTown().getId();
@@ -34,12 +34,12 @@ bool Party::addMember(Character& member)
 {
     PartyMember newMember;
     newMember.characterId = member.getCharacterId();
-    newMember.name = member.getCharacterName();
-    newMember.level = member.getLevel();
-    newMember.job = member.getJob();
-    newMember.channel = member.getChannel();
-    newMember.mapId = member.getMapId();
-    newMember.online = true;
+    newMember.name        = member.getCharacterName();
+    newMember.level       = member.getLevel();
+    newMember.job         = member.getJob();
+    newMember.channel     = member.getChannel();
+    newMember.mapId       = member.getMapId();
+    newMember.online      = true;
 
     //if (member.getDoors().size() > 0) {
     //    newMember.mysticDoorTown = member.getDoors().get(0).getTown().getId();

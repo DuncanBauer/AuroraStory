@@ -15,8 +15,8 @@ namespace Provider
 
     protected:
         DataEntity m_parent;
-        u32 m_size;
-        u32 m_checksum;
-        u32 m_offset;
+        u32        m_size;
+        u32        m_checksum;
+        u32        m_offset;
     };
 }

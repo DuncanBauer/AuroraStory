@@ -6,14 +6,12 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
-
-
 namespace util
 {
     class LoggingTool
     {
     public:
-        static inline void initialize()
+        static void initialize()
         {
             std::vector<spdlog::sink_ptr> logSinks;
             logSinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
@@ -28,10 +26,7 @@ namespace util
             m_serverLogger->flush_on(spdlog::level::trace);
         }
 
-        static inline std::shared_ptr<spdlog::logger>& getServerLogger() 
-        { 
-            return m_serverLogger;
-        }
+        static inline std::shared_ptr<spdlog::logger>& getServerLogger() { return m_serverLogger; }
 
     private:
         static inline std::shared_ptr<spdlog::logger> m_serverLogger;

@@ -136,9 +136,6 @@ namespace net
         std::copy(header.begin(), header.end(), outgoingPacketBuffer.begin());
         std::copy(body.begin(), body.end(), outgoingPacketBuffer.begin() + 4);
 
-        SERVER_INFO("TCPConnection::send: og {}", util::PacketTool::outputPacketHex(packet).str());
-        SERVER_INFO("TCPConnection::send: w/ header {}", util::PacketTool::outputPacketHex(outgoingPacketBuffer).str());
-
         // Write the packet
         asio::async_write(m_socket,
                           asio::buffer(outgoingPacketBuffer.data(), body.size() + 4),
@@ -164,25 +161,5 @@ namespace net
             SERVER_WARN(ec.message());
             disconnect();
         }
-    }
-
-    const tcp::socket& TCPConnection::getSocket() const
-    {
-        return m_socket;
-    }
-
-    const std::string TCPConnection::getIp() const
-    {
-        return m_socket.remote_endpoint().address().to_string();
-    }
-
-    const Packet& TCPConnection::getIvRecv() const
-    {
-        return m_ivRecv;
-    }
-    
-    const Packet& TCPConnection::getIvSend() const
-    {
-        return m_ivSend;
     }
 }

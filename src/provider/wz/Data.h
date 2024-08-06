@@ -5,10 +5,6 @@
 
 #include "MapleConstants.h"
 #include "DataEntity.h"
-#include "nx/nx.h"
-#include "nx/node.h"
-#include "nx/audio.h"
-#include "nx/bitmap.h"
 #include "Typedefs.h"
 
 namespace Provider
@@ -18,17 +14,22 @@ namespace Provider
         using MapleDataType = u16;
 
     public:
-        inline MapleDataType getType() { return m_type; }
+        inline MapleDataType                      getType()     { return m_type; }
         inline std::vector<std::shared_ptr<Data>> getChildren() { return m_children; }
-        inline std::shared_ptr<Data> getChildByPath(std::string path) 
-        { 
-            //return m_children[path];
-        }
-        inline std::shared_ptr<Data> getData() { return m_data; }
+        inline std::shared_ptr<Data>              getData()     { return m_data; }
+        inline std::shared_ptr<Data>              getChildByPath(std::string path);
 
     private:
-        MapleDataType m_type;
+        MapleDataType                      m_type;
         std::vector<std::shared_ptr<Data>> m_children;
-        std::shared_ptr<Data> m_data;
+        union 
+        {
+            u32         m_int;
+            double      m_double;
+            std::string m_string;
+            bitmap      m_bitmap;
+            vector      m_vector;
+            audio       m_audio;
+        }
     };
 }

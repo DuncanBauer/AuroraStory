@@ -11,7 +11,7 @@ namespace util
     {
         using byte = unsigned char;
 
-        inline bool isNameLegal(const std::string& name)
+        bool isNameLegal(std::string const& name)
         {
             if (name.length() < 3 || name.length() > 12)
             {
@@ -21,12 +21,12 @@ namespace util
             return std::regex_match(name, pattern);
         }
 
-        inline bool canCreateCharacter(const std::string& name, int world)
+        bool canCreateCharacter(std::string const& name, int world)
         {
             return isNameLegal(name) && !Character::getCharacterIdByName(name, world);
         }
         
-        inline bool hasSymbols(std::string name)
+        bool hasSymbols(std::string name)
         {
             std::vector<char> symbols =
             {

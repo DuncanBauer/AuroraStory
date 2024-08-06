@@ -9,14 +9,10 @@ namespace util
     class ThreadSafeQueue
     {
     public:
-        ThreadSafeQueue() = default;
+        ThreadSafeQueue()                          = default;
         ThreadSafeQueue(const ThreadSafeQueue<T>&) = delete; // Delete copy constructor
-        virtual ~ThreadSafeQueue()
-        {
-            clear();
-        }
+        virtual ~ThreadSafeQueue()                 { clear(); }
 
-    public:
         // Returns and maintains item at front of Queue
         const T& front()
         {
@@ -85,7 +81,7 @@ namespace util
         }
 
     protected:
-        std::mutex m_queueMutex;
+        std::mutex    m_queueMutex;
         std::deque<T> m_deque;
     };
 }

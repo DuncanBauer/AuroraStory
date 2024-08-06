@@ -3,17 +3,13 @@
 #include <chrono>
 #include <ctime>
 
-
 #include "Typedefs.h"
 
 namespace util
 {
-    class TimeTool
+    namespace TimeTool
     {
-    public:
-        TimeTool() = delete;
-
-        static inline i64 getEpochSeconds()
+        i64 getEpochSeconds()
         {
             // Get the current time as a time_point
             auto now = std::chrono::system_clock::now();
@@ -22,7 +18,7 @@ namespace util
             return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
         }
 
-        static inline i64 getEpochMilliseconds()
+        i64 getEpochMilliseconds()
         {
             // Get the current time as a time_point
             auto now = std::chrono::system_clock::now();
@@ -31,7 +27,7 @@ namespace util
             return std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
         }
 
-        static inline i64 dateToEpochSeconds(u32 year, u32 month, u32 day)
+        i64 dateToEpochSeconds(u32 year, u32 month, u32 day)
         {
             std::tm timeInfo = {};
             timeInfo.tm_year = year - 1900; // Year since 1900

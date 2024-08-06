@@ -7,109 +7,107 @@
 typedef unsigned char byte;
 
 constexpr std::size_t k_packetHandshakeServerLength = 13; // the size of the handshake packet
-constexpr short k_gameVersion = 62; // major game version
-constexpr short k_gameMinorVersion = 1; // minor game version, if 0, then the string is empty
-constexpr byte k_gmsLocale = 8;
-
-constexpr std::size_t k_ivBufferSize = 16;
-constexpr std::size_t k_headerSize = 4;
-const std::string k_gameFilePath = "C:/Nexon/Maplestory/";
+constexpr short       k_gameVersion                 = 62; // major game version
+constexpr short       k_gameMinorVersion            = 1;  // minor game version, if 0, then the string is empty
+constexpr byte        k_gmsLocale                   = 8;
+constexpr std::size_t k_ivBufferSize                = 16;
+constexpr std::size_t k_headerSize                  = 4;
 
 namespace Job
 {
-    constexpr u16 k_BEGINNER = 0;
-    constexpr u16 k_WARRIOR = 100;
-    constexpr u16 k_FIGHTER = 110;
-    constexpr u16 k_CRUSADER = 111;
-    constexpr u16 k_HERO = 112;
-    constexpr u16 k_PAGE = 120;
-    constexpr u16 k_WHITE_KNIGHT = 121;
-    constexpr u16 k_PALADIN = 122;
-    constexpr u16 k_SPEARMAN = 130;
-    constexpr u16 k_DRAGON_KNIGHT = 131;
-    constexpr u16 k_DARK_KNIGHT = 132;
-    constexpr u16 k_MAGICIAN = 200;
-    constexpr u16 k_FP_WIZARD = 210;
-    constexpr u16 k_FP_MAGE = 211;
-    constexpr u16 k_FP_ARCHMAGE = 212;
-    constexpr u16 k_IL_WIZARD = 220;
-    constexpr u16 k_IL_MAGE = 221;
-    constexpr u16 k_IL_ARCHMAGE = 222;
-    constexpr u16 k_CLERIC = 230;
-    constexpr u16 k_PRIEST = 231;
-    constexpr u16 k_BISHOP = 232;
-    constexpr u16 k_BOWMAN = 300;
-    constexpr u16 k_HUNTER = 310;
-    constexpr u16 k_RANGER = 311;
-    constexpr u16 k_BOW_MASTER = 312;
-    constexpr u16 k_CROSSBOWMAN = 320;
-    constexpr u16 k_SNIPER = 321;
+    constexpr u16 k_BEGINNER        = 0;
+    constexpr u16 k_WARRIOR         = 100;
+    constexpr u16 k_FIGHTER         = 110;
+    constexpr u16 k_CRUSADER        = 111;
+    constexpr u16 k_HERO            = 112;
+    constexpr u16 k_PAGE            = 120;
+    constexpr u16 k_WHITE_KNIGHT    = 121;
+    constexpr u16 k_PALADIN         = 122;
+    constexpr u16 k_SPEARMAN        = 130;
+    constexpr u16 k_DRAGON_KNIGHT   = 131;
+    constexpr u16 k_DARK_KNIGHT     = 132;
+    constexpr u16 k_MAGICIAN        = 200;
+    constexpr u16 k_FP_WIZARD       = 210;
+    constexpr u16 k_FP_MAGE         = 211;
+    constexpr u16 k_FP_ARCHMAGE     = 212;
+    constexpr u16 k_IL_WIZARD       = 220;
+    constexpr u16 k_IL_MAGE         = 221;
+    constexpr u16 k_IL_ARCHMAGE     = 222;
+    constexpr u16 k_CLERIC          = 230;
+    constexpr u16 k_PRIEST          = 231;
+    constexpr u16 k_BISHOP          = 232;
+    constexpr u16 k_BOWMAN          = 300;
+    constexpr u16 k_HUNTER          = 310;
+    constexpr u16 k_RANGER          = 311;
+    constexpr u16 k_BOW_MASTER      = 312;
+    constexpr u16 k_CROSSBOWMAN     = 320;
+    constexpr u16 k_SNIPER          = 321;
     constexpr u16 k_CROSSBOW_MASTER = 322;
-    constexpr u16 k_THIEF = 400;
-    constexpr u16 k_ASSASSIN = 410;
-    constexpr u16 k_HERMIT = 411;
-    constexpr u16 k_NIGHT_LORD = 412;
-    constexpr u16 k_BANDIT = 420;
-    constexpr u16 k_CHIEF_BANDIT = 421;
-    constexpr u16 k_SHADOWER = 422;
-    constexpr u16 k_PIRATE = 500;
-    constexpr u16 k_BRAWLER = 510;
-    constexpr u16 k_MARAUDER = 511;
-    constexpr u16 k_BUCCANEER = 512;
-    constexpr u16 k_GUNSLINGER = 520;
-    constexpr u16 k_OUTLAW = 521;
-    constexpr u16 k_CORSAIR = 522;
-    constexpr u16 k_GM = 900;
-    constexpr u16 k_SUPERGM = 910;
+    constexpr u16 k_THIEF           = 400;
+    constexpr u16 k_ASSASSIN        = 410;
+    constexpr u16 k_HERMIT          = 411;
+    constexpr u16 k_NIGHT_LORD      = 412;
+    constexpr u16 k_BANDIT          = 420;
+    constexpr u16 k_CHIEF_BANDIT    = 421;
+    constexpr u16 k_SHADOWER        = 422;
+    constexpr u16 k_PIRATE          = 500;
+    constexpr u16 k_BRAWLER         = 510;
+    constexpr u16 k_MARAUDER        = 511;
+    constexpr u16 k_BUCCANEER       = 512;
+    constexpr u16 k_GUNSLINGER      = 520;
+    constexpr u16 k_OUTLAW          = 521;
+    constexpr u16 k_CORSAIR         = 522;
+    constexpr u16 k_GM              = 900;
+    constexpr u16 k_SUPERGM         = 910;
 };
 
 namespace SkinColorId
 {
-    constexpr u16 k_NORMAL = 0;
-    constexpr u16 k_DARK = 1;
-    constexpr u16 k_BLACK = 2;
-    constexpr u16 k_PALE = 3;
-    constexpr u16 k_BLUE = 4;
-    constexpr u16 k_WHITE = 9;
+    constexpr u16 k_NORMAL          = 0;
+    constexpr u16 k_DARK            = 1;
+    constexpr u16 k_BLACK           = 2;
+    constexpr u16 k_PALE            = 3;
+    constexpr u16 k_BLUE            = 4;
+    constexpr u16 k_WHITE           = 9;
 };
 
 namespace ItemType
 {
-    constexpr u32 k_EQUIP = 1;
-    constexpr u32 k_ITEM = 2;
+    constexpr u32 k_EQUIP           = 1;
+    constexpr u32 k_ITEM            = 2;
 }
 
 namespace InventoryType
 {
-    constexpr u16 k_EQUIPPED = -1;
-    constexpr u16 k_UNDEFINED = 0;
-    constexpr u16 k_EQUIP = 1;
-    constexpr u16 k_USE = 2;
-    constexpr u16 k_SETUP = 3;
-    constexpr u16 k_ETC = 4;
-    constexpr u16 k_CASH = 5;
+    constexpr u16 k_EQUIPPED        = -1;
+    constexpr u16 k_UNDEFINED       = 0;
+    constexpr u16 k_EQUIP           = 1;
+    constexpr u16 k_USE             = 2;
+    constexpr u16 k_SETUP           = 3;
+    constexpr u16 k_ETC             = 4;
+    constexpr u16 k_CASH            = 5;
 };
 
 // Values are the respective weapons max damage multipliers
 namespace WeaponTypeDmgMultiplier
 {
-    constexpr float k_NONE = 0.0f;
-    constexpr float k_BOW = 3.4f;
-    constexpr float k_CLAW = 3.6f;
-    constexpr float k_DAGGER = 4.0f;
-    constexpr float k_CROSSBOW = 3.6f;
-    constexpr float k_AXE_1H = 4.4f;
-    constexpr float k_AXE_2H = 4.8f;
-    constexpr float k_SWORD_1H = 4.0f;
-    constexpr float k_SWORD_2H = 4.6f;
-    constexpr float k_BLUNT_1h = 4.4f;
-    constexpr float k_BLUNT_2H = 4.8f;
-    constexpr float k_POLEARM = 5.0f;
-    constexpr float k_SPEAR = 5.0f;
-    constexpr float k_STAFF = 3.6f;
-    constexpr float k_WAND = 3.6f;
-    constexpr float k_KNUCKLE = 4.0f;
-    constexpr float k_GUN = 5.0f;
+    constexpr float k_NONE          = 0.0f;
+    constexpr float k_BOW           = 3.4f;
+    constexpr float k_CLAW          = 3.6f;
+    constexpr float k_DAGGER        = 4.0f;
+    constexpr float k_CROSSBOW      = 3.6f;
+    constexpr float k_AXE_1H        = 4.4f;
+    constexpr float k_AXE_2H        = 4.8f;
+    constexpr float k_SWORD_1H      = 4.0f;
+    constexpr float k_SWORD_2H      = 4.6f;
+    constexpr float k_BLUNT_1h      = 4.4f;
+    constexpr float k_BLUNT_2H      = 4.8f;
+    constexpr float k_POLEARM       = 5.0f;
+    constexpr float k_SPEAR         = 5.0f;
+    constexpr float k_STAFF         = 3.6f;
+    constexpr float k_WAND          = 3.6f;
+    constexpr float k_KNUCKLE       = 4.0f;
+    constexpr float k_GUN           = 5.0f;
 };
 
 constexpr u32 expTable[201] = {
@@ -143,23 +141,23 @@ constexpr u32 mountExpTable[30] = {
     1394, 1701, 2247, 2543, 2898, 3156, 3313, 3584, 3923, 4150, 4305, 4550
 };
 
-namespace MapleDataType
+namespace WZDataType
 {
-    constexpr u16 k_NONE = 0;
-    constexpr u16 k_IMG_0x00 = 1;
-    constexpr u16 k_SHORT = 2;
-    constexpr u16 k_INTEGER = 3;
-    constexpr u16 k_FLOAT = 4;
-    constexpr u16 k_DOUBLE = 5;
-    constexpr u16 k_STRING = 6;
-    constexpr u16 k_EXTENDED = 7;
-    constexpr u16 k_PROPERTY = 8;
-    constexpr u16 k_CANVAS = 9;
-    constexpr u16 k_VECTOR = 10;
-    constexpr u16 k_CONVEX = 11;
-    constexpr u16 k_SOUND = 12;
-    constexpr u16 k_UOL = 13;
-    constexpr u16 k_UNKNOWN_TYPE = 14;
+    constexpr u16 k_NONE                  = 0;
+    constexpr u16 k_IMG_0x00              = 1;
+    constexpr u16 k_SHORT                 = 2;
+    constexpr u16 k_INTEGER               = 3;
+    constexpr u16 k_FLOAT                 = 4;
+    constexpr u16 k_DOUBLE                = 5;
+    constexpr u16 k_STRING                = 6;
+    constexpr u16 k_EXTENDED              = 7;
+    constexpr u16 k_PROPERTY              = 8;
+    constexpr u16 k_CANVAS                = 9;
+    constexpr u16 k_VECTOR                = 10;
+    constexpr u16 k_CONVEX                = 11;
+    constexpr u16 k_SOUND                 = 12;
+    constexpr u16 k_UOL                   = 13;
+    constexpr u16 k_UNKNOWN_TYPE          = 14;
     constexpr u16 k_UNKNOWN_EXTENDED_TYPE = 15;
 };
 

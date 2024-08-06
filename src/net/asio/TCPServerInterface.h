@@ -10,7 +10,7 @@ namespace net
     {
     public:
         // Delete copy constructor and assignment operator
-        TCPServerInterface(const TCPServerInterface&) = delete;
+        TCPServerInterface(const TCPServerInterface&)            = delete;
         TCPServerInterface& operator=(const TCPServerInterface&) = delete;
         virtual ~TCPServerInterface();
 
@@ -25,14 +25,14 @@ namespace net
     protected:
         TCPServerInterface(asio::io_context& io_context, u16 port);
         
-        virtual void onClientConnect(ClientConnection client) = 0;
+        virtual void onClientConnect(ClientConnection client)    = 0;
         virtual void onClientDisconnect(ClientConnection client) = 0;
-        virtual void onMessage(Packet& packet) = 0;
+        virtual void onMessage(Packet& packet)                   = 0;
 
     private:
-        asio::io_context& m_ioContext;
-        tcp::acceptor m_acceptor;
+        asio::io_context&             m_ioContext;
+        tcp::acceptor                 m_acceptor;
         util::ThreadSafeQueue<Packet> m_incomingPackets;
-        std::deque<ClientConnection> m_connections;
+        std::deque<ClientConnection>  m_connections;
     };
 }

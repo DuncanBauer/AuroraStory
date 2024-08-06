@@ -24,13 +24,12 @@ struct WorldRates
 
 struct WorldSettings
 {
-    u32 serverFlag;
+    u32         serverFlag;
     std::string serverMessage;
     std::string eventMessage;
-    u16 channelCount;
-    u16 maxPlayers;
-
-    WorldRates rates;
+    u16         channelCount;
+    u16         maxPlayers;
+    WorldRates  rates;
 };
 
 class World
@@ -39,15 +38,14 @@ public:
     World(WorldSettings settings);
     ~World();
 
-    inline WorldSettings& getSettings() { return m_settings; }
+    inline WorldSettings&     getSettings()                   { return m_settings; }
+    inline size_t             getChannelCount()               { return m_channelServers.size(); }
+           std::map<u32, u32> getChannelLoads();
 
-    void startChannels(u16& channelPort);
-    inline u32 getChannelCount() { return (u32)m_channelServers.size(); }
-    std::map<u32, u32> getChannelLoads();
+           void               startChannels(u16& channelPort);
 
 private:
-    WorldSettings m_settings;
-
+    WorldSettings                               m_settings;
     std::vector<std::shared_ptr<ChannelServer>> m_channelServers;
-    std::map<int, std::thread> m_channelServerThreads;
+    std::map<int, std::thread>                  m_channelServerThreads;
 };

@@ -14,6 +14,6 @@ namespace Provider
         static std::filesystem::path fileInWZPath(std::string filename);
  
     private:
-        static std::string m_wzPath;
+        static inline std::string m_wzPath = "wz/";
     };
 }

@@ -69,22 +69,14 @@ namespace net
 
     void TCPServerInterface::update(size_t maxPackets, bool wait)
     {
-        //if (wait)
-        //{
-        //    size_t packetCount = 0;
-        //    while (packetCount < maxPackets && !m_incomingPackets.empty())
-        //    {
-        //        auto packet = m_incomingPackets.pop_front();
-        //        onMessage(packet);
-        //        packetCount++;
-        //    }
-        //}
     }
 
     void TCPServerInterface::messageClient(ClientConnection client, const Packet& packet)
     {
         if (client && client->isConnected())
+        {
             client->send(packet);
+        }
         else
         {
             onClientDisconnect(client);
@@ -126,6 +118,8 @@ namespace net
         // Remove dead clients, all in one go - this way, we dont invalidate the
         // container as we iterated through it.
         if (bInvalidClientExists)
+        {
             m_connections.erase(std::remove(m_connections.begin(), m_connections.end(), nullptr), m_connections.end());
+        }
     }
 }

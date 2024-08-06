@@ -174,7 +174,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\provider\wz\NxWzFile.h" />
+    <ClInclude Include="src\provider\wz\nx\NxAudio.h" />
+    <ClInclude Include="src\provider\wz\nx\NxBitmap.h" />
+    <ClInclude Include="src\provider\wz\nx\NxNode.h" />
     <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\Master.h" />
     <ClInclude Include="src\Typedefs.h" />
@@ -192,14 +194,17 @@
     <ClInclude Include="src\net\packets\PacketConstants.h" />
     <ClInclude Include="src\net\packets\PacketCreator.h" />
     <ClInclude Include="src\net\packets\PacketHandler.h" />
-    <ClInclude Include="src\provider\wz\nx\audio.h" />
-    <ClInclude Include="src\provider\wz\nx\bitmap.h" />
-    <ClInclude Include="src\provider\wz\nx\file.h" />
-    <ClInclude Include="src\provider\wz\nx\file_impl.h" />
-    <ClInclude Include="src\provider\wz\nx\node.h" />
-    <ClInclude Include="src\provider\wz\nx\node_impl.h" />
-    <ClInclude Include="src\provider\wz\nx\nx.h" />
-    <ClInclude Include="src\provider\wz\nx\nxfwd.h" />
+    <ClInclude Include="src\provider\wz\Data.h" />
+    <ClInclude Include="src\provider\wz\DataDirectoryEntry.h" />
+    <ClInclude Include="src\provider\wz\DataEntity.h" />
+    <ClInclude Include="src\provider\wz\DataEntry.h" />
+    <ClInclude Include="src\provider\wz\DataFileEntry.h" />
+    <ClInclude Include="src\provider\wz\DataProvider.h" />
+    <ClInclude Include="src\provider\wz\DataProviderFactory.h" />
+    <ClInclude Include="src\provider\wz\nx\NxFile.h" />
+    <ClInclude Include="src\provider\wz\nx\NxWzFile.h" />
+    <ClInclude Include="src\provider\wz\wz\WzFile.h" />
+    <ClInclude Include="src\provider\wz\xml\XmlWzFile.h" />
     <ClInclude Include="src\util\HashPassword.h" />
     <ClInclude Include="src\util\LoggingTool.h" />
     <ClInclude Include="src\util\MapleAESOFB.h" />
@@ -214,12 +219,12 @@
     <ClInclude Include="vendor\aes\aestab.h" />
     <ClInclude Include="vendor\aes\brg_endian.h" />
     <ClInclude Include="vendor\aes\brg_types.h" />
-    <ClInclude Include="src\provider\wz\WzFile.h" />
-    <ClInclude Include="src\provider\wz\XmlWzFile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\provider\wz\NxWzFile.cpp" />
+    <ClCompile Include="src\provider\wz\nx\NxNode.cpp" />
     <ClCompile Include="src\Master.cpp" />
+    <ClCompile Include="src\util\MapleAESOFB.cpp" />
+    <ClCompile Include="src\util\PacketTool.cpp" />
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\game\Character.cpp" />
     <ClCompile Include="src\game\Party.cpp" />
@@ -244,19 +249,19 @@
     <ClCompile Include="src\net\packets\handlers\login\LoginPassword.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerListRequest.cpp" />
     <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp" />
-    <ClCompile Include="src\provider\wz\nx\audio.cpp" />
-    <ClCompile Include="src\provider\wz\nx\bitmap.cpp" />
-    <ClCompile Include="src\provider\wz\nx\file.cpp" />
-    <ClCompile Include="src\provider\wz\nx\node.cpp" />
-    <ClCompile Include="src\provider\wz\nx\nx.cpp" />
+    <ClCompile Include="src\provider\wz\DataProviderFactory.cpp" />
+    <ClCompile Include="src\provider\wz\nx\NxFile.cpp">
+      <ObjectFileName>$(IntDir)\NxFile1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\NxWzFile.cpp" />
+    <ClCompile Include="src\provider\wz\wz\WzFile.cpp" />
+    <ClCompile Include="src\provider\wz\xml\XmlWzFile.cpp" />
     <ClCompile Include="src\util\MongoDb.cpp" />
     <ClCompile Include="vendor\aes\aes_modes.c" />
     <ClCompile Include="vendor\aes\aes_ni.c" />
     <ClCompile Include="vendor\aes\aescrypt.c" />
     <ClCompile Include="vendor\aes\aeskey.c" />
     <ClCompile Include="vendor\aes\aestab.c" />
-    <ClCompile Include="src\provider\wz\WzFile.cpp" />
-    <ClCompile Include="src\provider\wz\XmlWzFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

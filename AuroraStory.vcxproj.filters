@@ -43,6 +43,12 @@
     <Filter Include="src\provider\wz\nx">
       <UniqueIdentifier>{DCE09F7D-C8C4-60D3-3125-5B261D284B55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\provider\wz\wz">
+      <UniqueIdentifier>{07E29F7D-F3C5-60D3-5C26-5B2648294B55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\provider\wz\xml">
+      <UniqueIdentifier>{E7259C31-5387-793F-DCF4-BFF14855B0FE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\util">
       <UniqueIdentifier>{BA5238CF-A61F-93DA-CF38-8182BB64C868}</UniqueIdentifier>
     </Filter>
@@ -105,29 +111,38 @@
     <ClInclude Include="src\net\packets\PacketHandler.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\audio.h">
+    <ClInclude Include="src\provider\wz\Data.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataDirectoryEntry.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataEntity.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataEntry.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataFileEntry.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataProvider.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\DataProviderFactory.h">
+      <Filter>src\provider\wz</Filter>
+    </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\NxFile.h">
       <Filter>src\provider\wz\nx</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\bitmap.h">
+    <ClInclude Include="src\provider\wz\nx\NxWzFile.h">
       <Filter>src\provider\wz\nx</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\file.h">
-      <Filter>src\provider\wz\nx</Filter>
+    <ClInclude Include="src\provider\wz\wz\WzFile.h">
+      <Filter>src\provider\wz\wz</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\file_impl.h">
-      <Filter>src\provider\wz\nx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\node.h">
-      <Filter>src\provider\wz\nx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\node_impl.h">
-      <Filter>src\provider\wz\nx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\nx.h">
-      <Filter>src\provider\wz\nx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\nxfwd.h">
-      <Filter>src\provider\wz\nx</Filter>
+    <ClInclude Include="src\provider\wz\xml\XmlWzFile.h">
+      <Filter>src\provider\wz\xml</Filter>
     </ClInclude>
     <ClInclude Include="src\util\HashPassword.h">
       <Filter>src\util</Filter>
@@ -206,7 +221,7 @@
     <ClCompile Include="src\net\packets\creators\GetHandshake.cpp">
       <Filter>src\net\packets\creators</Filter>
     </ClCompile>
-    <ClCompile Include="src\net\packets\creators\GetPing.cpp">
+    <ClCompile Include="src\net\packets\creators\getPing.cpp">
       <Filter>src\net\packets\creators</Filter>
     </ClCompile>
     <ClCompile Include="src\net\packets\creators\login\GetCharacterList.cpp">
@@ -248,20 +263,23 @@
     <ClCompile Include="src\net\packets\handlers\login\ServerStatusRequest.cpp">
       <Filter>src\net\packets\handlers\login</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\audio.cpp">
+    <ClCompile Include="src\provider\wz\DataProviderFactory.cpp">
+      <Filter>src\provider\wz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\NxFile.cpp">
+      <Filter>src\provider\wz</Filter>
+    </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\NxFile.cpp">
       <Filter>src\provider\wz\nx</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\bitmap.cpp">
+    <ClCompile Include="src\provider\wz\nx\NxWzFile.cpp">
       <Filter>src\provider\wz\nx</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\file.cpp">
-      <Filter>src\provider\wz\nx</Filter>
+    <ClCompile Include="src\provider\wz\wz\WzFile.cpp">
+      <Filter>src\provider\wz\wz</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\node.cpp">
-      <Filter>src\provider\wz\nx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\nx.cpp">
-      <Filter>src\provider\wz\nx</Filter>
+    <ClCompile Include="src\provider\wz\xml\XmlWzFile.cpp">
+      <Filter>src\provider\wz\xml</Filter>
     </ClCompile>
     <ClCompile Include="src\util\MongoDb.cpp">
       <Filter>src\util</Filter>

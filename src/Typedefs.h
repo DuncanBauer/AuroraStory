@@ -15,8 +15,8 @@
 class Player;
 
 // Integer types
-using i8 = int8_t;
-using u8 = uint8_t;
+using i8  = int8_t;
+using u8  = uint8_t;
 using i16 = int16_t;
 using u16 = uint16_t;
 using i32 = int32_t;
@@ -29,16 +29,16 @@ using Packet = std::vector<byte>;
 using ClientConnection = std::shared_ptr<Player>;
 
 // Mongo result types
-using FindOneResult = std::optional<bsoncxx::v_noabi::document::value>;
-using FindManyResult = std::optional<mongocxx::v_noabi::cursor>;
-using InsertOneResult = std::optional<mongocxx::v_noabi::result::insert_one>;
+using FindOneResult    = std::optional<bsoncxx::v_noabi::document::value>;
+using FindManyResult   = std::optional<mongocxx::v_noabi::cursor>;
+using InsertOneResult  = std::optional<mongocxx::v_noabi::result::insert_one>;
 using InsertManyResult = std::optional<mongocxx::v_noabi::result::insert_many>;
-using UpdateResult = std::optional<mongocxx::v_noabi::result::update>;
-using DeleteResult = std::optional<mongocxx::v_noabi::result::delete_result>;
+using UpdateResult     = std::optional<mongocxx::v_noabi::result::update>;
+using DeleteResult     = std::optional<mongocxx::v_noabi::result::delete_result>;
 
 // Time
 using seconds_t = std::chrono::seconds;
-using Calendar = std::tm;
+using Calendar  = std::tm;
 
 using Point = struct {
     u32 x;

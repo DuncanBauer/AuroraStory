@@ -29,26 +29,25 @@ void Player::processPacket(Packet& packet)
     //PacketHandler::m_packetHandlers[opCode](*this, packet);
 }
 
-void Player::loadAccountData(const bsoncxx::v_noabi::document::value& data)
+void Player::loadAccountData(bsoncxx::v_noabi::document::value const& data)
 {
     bsoncxx::document::view view = data.view();
 
     try
     {
         // Extract data from the BSON document
-        m_account.accountId = view["_id"].get_int32().value;
-        m_account.username = std::string(view["username"].get_string().value);
+        m_account.accountId      = view["_id"].get_int32().value;
+        m_account.username       = std::string(view["username"].get_string().value);
+        m_account.isGM           = view["gm_level"].get_int32().value;
+        m_account.isLoggedIn     = view["logged_in"].get_int32().value;
+        m_account.birthday       = view["birthday"].get_int64().value;
+        m_account.isBanned       = view["banned"].get_bool().value;
+        m_account.isGuestAccount = view["guest"].get_bool().value;
 
         if (view.find("pin") != view.end())
         {
             m_account.pin = std::string(view["pin"].get_string().value);
         }
-
-        m_account.isGM = view["gm_level"].get_int32().value;
-        m_account.isLoggedIn = view["logged_in"].get_int32().value;
-        m_account.birthday = view["birthday"].get_int64().value;
-        m_account.isBanned = view["banned"].get_bool().value;
-        m_account.isGuestAccount = view["guest"].get_bool().value;
     
         if (view.find("ban_reason") != view.end())
         {
@@ -75,7 +74,7 @@ std::vector<Character> Player::loadCharacters(u32 serverId)
     return characters;
 }
 
-void Player::autoRegister(const std::string& username, const std::string& password)
+void Player::autoRegister(std::string const& username, std::string const& password)
 {
     std::string passwordHash = util::generateHash(password);
     util::MongoDb::getInstance().autoRegisterAccount(username, passwordHash, getIp());
@@ -86,7 +85,7 @@ void Player::banAccount()
 
 }
 
-u16 Player::login(const std::string& username, const std::string& password, const bsoncxx::v_noabi::document::value& data)
+u16 Player::login(std::string const& username, std::string const& password, bsoncxx::v_noabi::document::value const& data)
 {
     //if (m_attemptedLogins >= 5)
     //{
@@ -126,9 +125,9 @@ u32 Player::logout()
     return 0;
 }
 
-std::string Player::getPin()
+bool Player::checkPin(std::string pin)
 {
-    return m_account.pin;
+    return m_account.pin == pin;
 }
 
 void Player::setPin(std::string pin)
@@ -137,44 +136,19 @@ void Player::setPin(std::string pin)
     util::MongoDb::getInstance().setPin(m_account.username, pin);
 }
 
-bool Player::checkPin(std::string pin)
-{
-    return m_account.pin == pin;
-}
-
 u32 Player::changeChannel()
 {
     return 0;
 }
 
-bool Player::isGM()
-{
-    return m_account.isGM;
-}
-
-bool Player::isLoggedIn()
-{
-    return m_account.isLoggedIn;
-}
-
-bool Player::isGuestAccount()
-{
-    return m_account.isGuestAccount;
-}
-
-bool Player::isAccountBanned()
-{
-    return m_account.isBanned;
-}
-
-bool Player::hasBannedIP()
+bool Player::hasBannedIP() const
 {
     //std::vector<std::string> ips = Master::getBannedIPs();
     //return std::find(ips.begin(), ips.end(), getIp()) != ips.end();
     return false;
 }
 
-bool Player::hasBannedMAC()
+bool Player::hasBannedMAC() const
 {
     //std::vector<std::string> macs = Master::getBannedMACs();
     //return std::find(macs.begin(), macs.end(), getIp()) != macs.end();

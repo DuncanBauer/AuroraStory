@@ -82,12 +82,44 @@ namespace util
 {
     class MongoDb
     {
-    private:
-        bool m_initialized = false;
+    public:
+        // Delete copy constructor and assignment operator
+        MongoDb(MongoDb const&)            = delete;
+        MongoDb& operator=(MongoDb const&) = delete;
 
-        mongocxx::uri m_uri;
-        mongocxx::client m_client;
-        mongocxx::database m_db;
+        // Static method to access the singleton instance
+        static MongoDb&  getInstance();
+
+        void             initialize(std::string const& uri, std::string const& db);
+        u32              getNextSequence(std::string const& counterName);
+
+        FindOneResult    accountExists(std::string const& username);
+        InsertOneResult  autoRegisterAccount(std::string const& username, std::string const& passwordHash, std::string const& ip);
+        UpdateResult     setPin(std::string const& username, std::string const& pin);
+        FindOneResult    getCharacterByName(std::string const& name, u16 const worldId);
+        FindOneResult    getCharacterById(u32 const id, u16 const worldId);
+        InsertOneResult  createCharacter(std::string const& name, u16 const gender, u16 const skinColor, u16 const hair, u16 const face);
+
+    private:
+        // Private constructor to prevent instantiation
+        MongoDb() = default;
+
+        FindOneResult    findOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        FindManyResult   findManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        InsertOneResult  insertOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& document, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        InsertManyResult insertManyWithRetry(mongocxx::collection& collection, std::vector<bsoncxx::document::view> const& documents, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        UpdateResult     updateOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        UpdateResult     updateManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        FindOneResult    findOneAndUpdateWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, bsoncxx::document::view const& update, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        DeleteResult     deleteOneWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        DeleteResult     deleteManyWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+        FindOneResult    findOneAndDeleteWithRetry(mongocxx::collection& collection, bsoncxx::document::view const& filter, u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
+   
+    private:
+        bool                 m_initialized = false;
+        mongocxx::uri        m_uri;
+        mongocxx::client     m_client;
+        mongocxx::database   m_db;
 
         // Collections
         mongocxx::collection m_counterCollection;
@@ -107,59 +139,5 @@ namespace util
         mongocxx::collection m_fameLogCollection;
         mongocxx::collection m_reportLogCollection;
         mongocxx::collection m_tradeLogCollection;
-
-        // Private constructor to prevent instantiation
-        MongoDb() {}
-
-    public:
-        // Delete copy constructor and assignment operator
-        MongoDb(const MongoDb&) = delete;
-        MongoDb& operator=(const MongoDb&) = delete;
-
-        // Static method to access the singleton instance
-        static MongoDb& getInstance();
-
-        void initialize(const std::string& uri, const std::string& db);
-        u32 getNextSequence(const std::string& counterName);
-
-        FindOneResult accountExists(const std::string& username);
-        InsertOneResult autoRegisterAccount(const std::string& username, const std::string& passwordHash, const std::string& ip);
-
-        UpdateResult setPin(const std::string& username, const std::string& pin);
-
-        FindOneResult getCharacterByName(const std::string& name, const u16 worldId);
-        FindOneResult getCharacterById(const u32 id, const u16 worldId);
-        InsertOneResult createCharacter(const std::string& name, const u16 gender, const u16 skinColor, const u16 hair, const u16 face);
-
-    private:
-        FindOneResult findOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        FindManyResult findManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        InsertOneResult insertOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& document,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        InsertManyResult insertManyWithRetry(mongocxx::collection& collection, const std::vector<bsoncxx::document::view>& documents,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        UpdateResult updateOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        UpdateResult updateManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        FindOneResult findOneAndUpdateWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter, const bsoncxx::document::view& update,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        DeleteResult deleteOneWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        DeleteResult deleteManyWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
-
-        FindOneResult findOneAndDeleteWithRetry(mongocxx::collection& collection, const bsoncxx::document::view& filter,
-            u16 max_retries = 3, u16 retry_u16erval_ms = 1000);
     };
 }

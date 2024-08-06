@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-#include "DataProvider.h"
+#include "provider/wz/DataProvider.h"
 
 namespace Provider
 {
