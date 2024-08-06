@@ -1,6 +1,9 @@
 #include <filesystem>
 
 #include "MapleDataProviderFactory.h"
+#include "WzFile.h"
+#include "NxWzFile.h"
+#include "XmlWzFile.h"
 #include "util/LoggingTool.h"
 
 namespace Provider
