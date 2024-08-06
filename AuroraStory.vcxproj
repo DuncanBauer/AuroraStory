@@ -174,6 +174,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\provider\wz\NxWzFile.h" />
     <ClInclude Include="src\MapleConstants.h" />
     <ClInclude Include="src\Master.h" />
     <ClInclude Include="src\Typedefs.h" />
@@ -213,8 +214,11 @@
     <ClInclude Include="vendor\aes\aestab.h" />
     <ClInclude Include="vendor\aes\brg_endian.h" />
     <ClInclude Include="vendor\aes\brg_types.h" />
+    <ClInclude Include="src\provider\wz\WzFile.h" />
+    <ClInclude Include="src\provider\wz\XmlWzFile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\provider\wz\NxWzFile.cpp" />
     <ClCompile Include="src\Master.cpp" />
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\game\Character.cpp" />
@@ -251,6 +255,8 @@
     <ClCompile Include="vendor\aes\aescrypt.c" />
     <ClCompile Include="vendor\aes\aeskey.c" />
     <ClCompile Include="vendor\aes\aestab.c" />
+    <ClCompile Include="src\provider\wz\WzFile.cpp" />
+    <ClCompile Include="src\provider\wz\XmlWzFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

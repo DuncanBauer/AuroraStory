@@ -1,6 +1,6 @@
 #include <filesystem>
 
-#include "MapleDataProviderFactory.h"
+#include "DataProviderFactory.h"
 #include "WzFile.h"
 #include "NxWzFile.h"
 #include "XmlWzFile.h"
@@ -8,7 +8,7 @@
 
 namespace Provider
 {
-    MapleDataProvider MapleDataProviderFactory::getWZ(std::filesystem::path file) 
+    DataProvider DataProviderFactory::getWZ(std::filesystem::path file) 
     {
         if (file.string().ends_with("nx"))
         {
@@ -45,12 +45,12 @@ namespace Provider
         }
     }
 
-    MapleDataProvider MapleDataProviderFactory::getDataProvider(const std::string& fileIn) 
+    DataProvider DataProviderFactory::getDataProvider(const std::string& fileIn) 
     {
         return getWZ(fileIn);
     }
 
-    std::filesystem::path MapleDataProviderFactory::fileInWZPath(std::string filename)
+    std::filesystem::path DataProviderFactory::fileInWZPath(std::string filename)
     {
         std::filesystem::path file(m_wzPath + filename);
         if (std::filesystem::exists(file))

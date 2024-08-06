@@ -22,7 +22,7 @@ Master::Master()
     m_settings.gameVersion                          = config["gameVersion"].as<u16>();
     m_settings.worldCount                           = config["worldCount"].as<u16>();
     m_settings.maxCharactersPerWorld                = config["maxCharactersPerWorld"].as<u16>();
-    m_settings.wzFileType                           = config["wzFileType"].as<WzFileType>();
+    m_settings.wzFileType                           = config["wzFileType"].as<u16>();
 
     // Login Settings
     m_settings.loginServerInterval                  = config["loginServerInterval"].as<u16>();

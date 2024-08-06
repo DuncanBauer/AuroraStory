@@ -143,7 +143,37 @@ constexpr u32 mountExpTable[30] = {
     1394, 1701, 2247, 2543, 2898, 3156, 3313, 3584, 3923, 4150, 4305, 4550
 };
 
-enum WzFileType
+namespace MapleDataType
+{
+    constexpr u16 k_NONE = 0;
+    constexpr u16 k_IMG_0x00 = 1;
+    constexpr u16 k_SHORT = 2;
+    constexpr u16 k_INTEGER = 3;
+    constexpr u16 k_FLOAT = 4;
+    constexpr u16 k_DOUBLE = 5;
+    constexpr u16 k_STRING = 6;
+    constexpr u16 k_EXTENDED = 7;
+    constexpr u16 k_PROPERTY = 8;
+    constexpr u16 k_CANVAS = 9;
+    constexpr u16 k_VECTOR = 10;
+    constexpr u16 k_CONVEX = 11;
+    constexpr u16 k_SOUND = 12;
+    constexpr u16 k_UOL = 13;
+    constexpr u16 k_UNKNOWN_TYPE = 14;
+    constexpr u16 k_UNKNOWN_EXTENDED_TYPE = 15;
+};
+
+//class NxMapleDataType : public MapleDataType
+//{
+//    static const u16 k_INTEGER = 1;
+//    static const u16 k_DOUBLE = 2;
+//    static const u16 k_STRING = 3;
+//    static const u16 k_VECTOR = 4;
+//    static const u16 k_BITMAP = 5;
+//    static const u16 k_AUDIO = 6;
+//};
+
+enum class WzFileType : u16
 {
     XML = 0,
     WZ  = 1,

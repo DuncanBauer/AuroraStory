@@ -2,11 +2,11 @@
 
 #include <filesystem>
 
-#include "MapleDataProvider.h"
+#include "DataProvider.h"
 
 namespace Provider
 {
-    class XmlWzFile : public MapleDataProvider
+    class XmlWzFile : public DataProvider
     {
     public:
         XmlWzFile(std::filesystem::path file);

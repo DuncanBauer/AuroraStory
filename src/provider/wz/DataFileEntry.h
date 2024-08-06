@@ -1,10 +1,10 @@
 #pragma once
 
-#include "MapleDataEntry.h"
+#include "DataEntry.h"
 
 namespace Provider
 {
-    class MapleDataFileEntry : public MapleDataEntry
+    class DataFileEntry : public DataEntry
     {
     public:
         inline void setOffset(int offset) { m_offset = offset; }

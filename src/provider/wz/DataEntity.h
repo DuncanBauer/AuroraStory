@@ -4,7 +4,7 @@
 
 namespace Provider
 {
-    class MapleDataEntity
+    class DataEntity
     {
     public:
         inline std::string getName() { return m_name; }
