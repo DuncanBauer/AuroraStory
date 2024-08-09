@@ -60,35 +60,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MapleConstants.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Master.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Typedefs.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\World.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Character.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Equip.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Inventory.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Item.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Party.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\Player.h">
-      <Filter>src\game</Filter>
     </ClInclude>
     <ClInclude Include="src\net\asio\TCPConnection.h">
       <Filter>src\net\asio</Filter>
@@ -102,32 +78,11 @@
     <ClInclude Include="src\net\login\LoginServer.h">
       <Filter>src\net\login</Filter>
     </ClInclude>
-    <ClInclude Include="src\net\packets\PacketConstants.h">
-      <Filter>src\net\packets</Filter>
-    </ClInclude>
     <ClInclude Include="src\net\packets\PacketCreator.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
     <ClInclude Include="src\net\packets\PacketHandler.h">
       <Filter>src\net\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\interfaces\Data.h">
-      <Filter>src\provider\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\interfaces\DataDirectoryEntry.h">
-      <Filter>src\provider\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\interfaces\DataEntity.h">
-      <Filter>src\provider\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\interfaces\DataEntry.h">
-      <Filter>src\provider\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\interfaces\DataFileEntry.h">
-      <Filter>src\provider\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\DataProvider.h">
-      <Filter>src\provider\wz</Filter>
     </ClInclude>
     <ClInclude Include="src\provider\wz\DataProviderFactory.h">
       <Filter>src\provider\wz</Filter>
@@ -135,17 +90,8 @@
     <ClInclude Include="src\provider\wz\nx\NxFile.h">
       <Filter>src\provider\wz\nx</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\nx\NxWzFile.h">
+    <ClInclude Include="src\provider\wz\nx\NxFileDataProvider.h">
       <Filter>src\provider\wz\nx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\wz\WzFile.h">
-      <Filter>src\provider\wz\wz</Filter>
-    </ClInclude>
-    <ClInclude Include="src\provider\wz\xml\XmlWzFile.h">
-      <Filter>src\provider\wz\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\HashPassword.h">
-      <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\LoggingTool.h">
       <Filter>src\util</Filter>
@@ -186,22 +132,27 @@
     <ClInclude Include="src\provider\wz\nx\NxAudio.h" />
     <ClInclude Include="src\provider\wz\nx\NxBitmap.h" />
     <ClInclude Include="src\provider\wz\nx\NxNode.h" />
+    <ClInclude Include="src\provider\ItemInfoProvider.h" />
+    <ClInclude Include="src\constants\CryptoConstants.h" />
+    <ClInclude Include="src\constants\MapleConstants.h" />
+    <ClInclude Include="src\world\World.h" />
+    <ClInclude Include="src\client\Character.h" />
+    <ClInclude Include="src\client\Equip.h" />
+    <ClInclude Include="src\client\Inventory.h" />
+    <ClInclude Include="src\client\Item.h" />
+    <ClInclude Include="src\world\Party.h" />
+    <ClInclude Include="src\client\Player.h" />
+    <ClInclude Include="src\constants\PacketConstants.h" />
+    <ClInclude Include="src\provider\wz\WzDataProvider.h" />
+    <ClInclude Include="src\client\StatEffect.h" />
+    <ClInclude Include="src\provider\wz\wz\WzFileDataProvider.h" />
+    <ClInclude Include="src\provider\wz\wz\WzNode.h" />
+    <ClInclude Include="src\provider\wz\wz\WzImage.h" />
+    <ClInclude Include="src\provider\wz\xml\XmlFileDataProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Character.cpp">
-      <Filter>src\game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Party.cpp">
-      <Filter>src\game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Player.cpp">
-      <Filter>src\game</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
@@ -269,14 +220,8 @@
     <ClCompile Include="src\provider\wz\nx\NxFile.cpp">
       <Filter>src\provider\wz\nx</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\nx\NxWzFile.cpp">
+    <ClCompile Include="src\provider\wz\nx\NxFileDataProvider.cpp">
       <Filter>src\provider\wz\nx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\provider\wz\wz\WzFile.cpp">
-      <Filter>src\provider\wz\wz</Filter>
-    </ClCompile>
-    <ClCompile Include="src\provider\wz\xml\XmlWzFile.cpp">
-      <Filter>src\provider\wz\xml</Filter>
     </ClCompile>
     <ClCompile Include="src\util\MongoDb.cpp">
       <Filter>src\util</Filter>
@@ -301,5 +246,16 @@
     <ClCompile Include="src\util\PacketTool.cpp" />
     <ClCompile Include="src\util\TimeTool.cpp" />
     <ClCompile Include="src\net\packets\creators\login\CharacterCreationResponses.cpp" />
+    <ClCompile Include="src\provider\ItemInfoProvider.cpp" />
+    <ClCompile Include="src\world\World.cpp" />
+    <ClCompile Include="src\client\Character.cpp" />
+    <ClCompile Include="src\world\Party.cpp" />
+    <ClCompile Include="src\client\Player.cpp" />
+    <ClCompile Include="src\client\StatEffect.cpp" />
+    <ClCompile Include="src\provider\wz\wz\WzFileDataProvider.cpp" />
+    <ClCompile Include="src\provider\wz\wz\WzNode.cpp" />
+    <ClCompile Include="src\provider\wz\wz\WzImage.cpp" />
+    <ClCompile Include="src\provider\wz\xml\XmlFileDataProvider.cpp" />
+    <ClCompile Include="src\client\Inventory.cpp" />
   </ItemGroup>
 </Project>

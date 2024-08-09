@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-#include "net/packets/PacketConstants.h"
+#include "constants/PacketConstants.h"
 #include "util/PacketTool.h"
 #include "util/LoggingTool.h"
 #include "Typedefs.h"
@@ -33,9 +33,9 @@ namespace PacketCreator
     Packet getServerStatus(u16 status);
 
     Packet getCharacterList(std::shared_ptr<Player> player, u32 serverId);
-    void   addCharacterEntry(Packet packet, Character character);
-    void   addCharacterLook(Packet packet, Character character, bool mega);
-    void   addCharacterStats(Packet packet, Character character);
+    void   addCharacterEntry(Packet & packet, Character character);
+    void   addCharacterLook(Packet & packet, Character character, bool mega);
+    void   addCharacterStats(Packet & packet, Character character);
 
     Packet checkCharacterNameResponse(std::string characterName, bool isUsed);
 

@@ -1,8 +1,10 @@
 #pragma once
 
-#include "game/Character.h"
+#include "bcrypt/BCrypt.hpp"
+
+#include "client/Character.h"
+#include "constants/MapleConstants.h"
 #include "net/asio/TCPConnection.h"
-#include "MapleConstants.h"
 
 using asio::ip::tcp;
 
@@ -27,6 +29,10 @@ public:
     ~Player();
 
     void                   processPacket(Packet& packet);
+
+    inline std::string generatePasswordHash(const std::string& password)                    { return BCrypt::generateHash(password); }
+    inline bool        verifyPassword(const std::string& password, const std::string& hash) { return BCrypt::validatePassword(password, hash); }
+
     
     void                   loadAccountData(bsoncxx::v_noabi::document::value const& data);
     std::vector<Character> loadCharacters(u32 serverId);

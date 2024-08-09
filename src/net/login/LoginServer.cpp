@@ -1,6 +1,6 @@
 #include "LoginServer.h"
 #include "Master.h"
-#include "game/Player.h"
+#include "client/Player.h"
 
 LoginServer::LoginServer(asio::io_context& io_context)
     : TCPServerInterface(io_context, 8484)

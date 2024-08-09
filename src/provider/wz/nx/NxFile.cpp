@@ -25,7 +25,6 @@
 #include "NxBitmap.h"
 #include "NxFile.h"
 #include "NxNode.h"
-#include "NxWzFile.h"
 
 namespace Provider
 {

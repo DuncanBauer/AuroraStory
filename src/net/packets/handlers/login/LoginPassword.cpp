@@ -1,10 +1,9 @@
 #include "util/LoggingTool.h"
 #include "util/PacketTool.h"
 #include "util/MongoDb.h"
-#include "util/HashPassword.h"
 
 #include "Master.h"
-#include "game/Player.h"
+#include "client/Player.h"
 #include "net/packets/PacketHandler.h"
 #include "net/packets/PacketCreator.h"
 #include "Typedefs.h"

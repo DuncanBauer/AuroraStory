@@ -1,12 +1,20 @@
 #pragma once
 
-#include "MapleConstants.h"
+#include "constants/MapleConstants.h"
 #include "Typedefs.h"
 
 class Item
 {
 public:
-    Item() :m_id(-1) {}
+    Item() = default;
+    Item(Item && other)
+    {
+        m_id = other.m_id;
+        m_owner = other.m_owner;
+        m_position = other.m_position;
+        m_quantity = other.m_quantity;
+        m_petId = other.m_petId;
+    }
     Item(Item const& other)
     {
         m_id = other.m_id;
@@ -19,13 +27,33 @@ public:
     Item(u32 id, byte position, u32 quantity, u32 petId) : m_id(id), m_position(position), m_quantity(quantity), m_petId(petId) {}
     ~Item() {}
 
-    inline u32         const getItemType() const { return ItemType::k_ITEM; }
+    Item& operator=(Item const& other)
+    {
+        m_id = other.m_id;
+        m_owner = other.m_owner;
+        m_position = other.m_position;
+        m_quantity = other.m_quantity;
+        m_petId = other.m_petId;
+        return *this;
+    }
+
+    Item& operator=(Item && other)
+    {
+        m_id = other.m_id;
+        m_owner = other.m_owner;
+        m_position = other.m_position;
+        m_quantity = other.m_quantity;
+        m_petId = other.m_petId;
+        return *this;
+    }
+
+    inline u32         const getItemType() const { return Constants::ItemType::k_ITEM; }
 
     // Getters
     inline u32         const getId()       const { return m_id; }
     inline std::string const getOwner()    const { return m_owner; }
     inline byte        const getPosition() const { return m_position; }
-    inline u16         const getQuantity() const { return m_quantity; }
+    inline u32         const getQuantity() const { return m_quantity; }
     inline u32         const getPetid()    const { return m_petId; }
 
     // Setters
@@ -39,7 +67,7 @@ private:
     u32         m_id       = 0;
     std::string m_owner    = "";
     byte        m_position = 0;
-    u16         m_quantity = 0;
+    u32         m_quantity = 0;
     u32         m_petId    = 0;
 };
 

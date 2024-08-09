@@ -2,10 +2,10 @@
 
 #include "asio.hpp"
 
-#include "World.h"
 #include "net/login/LoginServer.h"
 #include "net/packets/PacketHandler.h"
-#include "provider/wz/DataProvider.h"
+#include "provider/wz/WzDataProvider.h"
+#include "world/World.h"
 #include "util/MongoDb.h"
 
 struct DbSettings
@@ -43,7 +43,7 @@ struct ServerSettings
 
 class Master
 {
-    using WzProviders = std::map<std::string, std::shared_ptr<Provider::DataProvider>>;
+    using WzProviders = std::map<std::string, std::shared_ptr<Provider::WzDataProvider>>;
     using Worlds      = std::vector<std::shared_ptr<World>>;
 
 public:

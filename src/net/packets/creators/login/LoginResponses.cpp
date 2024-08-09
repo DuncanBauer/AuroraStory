@@ -12,7 +12,7 @@ namespace PacketCreator
     Packet getLoginSuccess(std::string username)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeByteArray(packet, { 0, 0, 0, 0, 0, 0, (byte)0xFF, 0x6A, 1, 0, 0, 0, 0x4E });
         util::PacketTool::writeMapleString(packet, username);
         util::PacketTool::writeByteArray(packet, { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (byte)0xDC, 0x3D, 0x0B, 0x28, 0x64, (byte)0xC5, 1, 8, 0, 0, 0 });
@@ -48,7 +48,7 @@ namespace PacketCreator
     Packet getLoginFailed(u32 reason)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeInt(packet, reason);
         util::PacketTool::writeShort(packet, 0);
         return packet;
@@ -76,7 +76,7 @@ namespace PacketCreator
     Packet getPermBan(u32 reason)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeShort(packet, 2); // Account is banned
         util::PacketTool::writeInt(packet, 0);
         util::PacketTool::writeShort(packet, reason);
@@ -87,7 +87,7 @@ namespace PacketCreator
     Packet getTempBan(u64 timestampTill, byte reason)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_LOGIN_STATUS);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_LOGIN_STATUS);
         util::PacketTool::writeByte(packet, 0x02);
         util::PacketTool::writeByteArray(packet, { 0x00, 0x00, 0x00, 0x00, 0x00 }); // Account is banned
         util::PacketTool::writeByte(packet, reason);

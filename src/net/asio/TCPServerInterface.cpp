@@ -1,5 +1,5 @@
+#include "client/Player.h"
 #include "TCPServerInterface.h"
-#include "game/Player.h"
 #include "Typedefs.h"
 
 namespace net

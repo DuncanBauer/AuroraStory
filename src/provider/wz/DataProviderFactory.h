@@ -2,17 +2,17 @@
 
 #include "string"
 
-#include "DataProvider.h"
+#include "WzDataProvider.h"
 
 namespace Provider
 {
     class DataProviderFactory
     {
     public:
-        static std::shared_ptr<DataProvider> getDataProvider(std::string const& fileIn);
+        static std::shared_ptr<WzDataProvider> getDataProvider(std::string const& fileIn);
  
     private:
-        static std::shared_ptr<DataProvider> getWZ(std::filesystem::path file);
+        static std::shared_ptr<WzDataProvider> getWZ(std::filesystem::path file);
         static inline std::string m_wzPath = "wz";
     };
 }

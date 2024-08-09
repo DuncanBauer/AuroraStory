@@ -11,7 +11,7 @@ namespace PacketCreator
     Packet getPing()
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_PING);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_PING);
         return packet;
     }
 }

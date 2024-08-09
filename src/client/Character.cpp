@@ -5,6 +5,7 @@
 #include "Master.h"
 #include "Player.h"
 #include "net/packets/PacketCreator.h"
+#include "provider/ItemInfoProvider.h"
 #include "util/LoggingTool.h"
 #include "util/MongoDb.h"
 
@@ -62,17 +63,27 @@ Character::Character(const Character& other)
     this->m_skinId        = other.m_skinId;
 
     // Inventory
-    m_inventory.emplace(InventoryType::k_EQUIPPED,  Inventory(InventoryType::k_EQUIPPED, 100));
-    m_inventory.emplace(InventoryType::k_UNDEFINED, Inventory(InventoryType::k_UNDEFINED, 100));
-    m_inventory.emplace(InventoryType::k_EQUIP,     Inventory(InventoryType::k_EQUIP, 100));
-    m_inventory.emplace(InventoryType::k_USE,       Inventory(InventoryType::k_USE, 100));
-    m_inventory.emplace(InventoryType::k_SETUP,     Inventory(InventoryType::k_SETUP, 100));
-    m_inventory.emplace(InventoryType::k_ETC,       Inventory(InventoryType::k_ETC, 100));
-    m_inventory.emplace(InventoryType::k_CASH,      Inventory(InventoryType::k_CASH, 100));
+    m_inventory.emplace(Constants::InventoryType::k_EQUIPPED,  Inventory(Constants::InventoryType::k_EQUIPPED,  100));
+    m_inventory.emplace(Constants::InventoryType::k_UNDEFINED, Inventory(Constants::InventoryType::k_UNDEFINED, 100));
+    m_inventory.emplace(Constants::InventoryType::k_EQUIP,     Inventory(Constants::InventoryType::k_EQUIP,     100));
+    m_inventory.emplace(Constants::InventoryType::k_USE,       Inventory(Constants::InventoryType::k_USE,       100));
+    m_inventory.emplace(Constants::InventoryType::k_SETUP,     Inventory(Constants::InventoryType::k_SETUP,     100));
+    m_inventory.emplace(Constants::InventoryType::k_ETC,       Inventory(Constants::InventoryType::k_ETC,       100));
+    m_inventory.emplace(Constants::InventoryType::k_CASH,      Inventory(Constants::InventoryType::k_CASH,      100));
 }
 
 Character::~Character()
 {}
+
+bool Character::saveToDB()
+{
+    return true;
+}
+
+bool Character::loadFromDB()
+{
+    return true;
+}
 
 bool Character::canCreateCharacter(std::string const& name, u32 world)
 {
@@ -113,9 +124,6 @@ u32 Character::createCharacter(std::shared_ptr<Player> player, std::string name,
                                u32 top,     u32 bottom,  u32 shoes,     u32 weapon, u32 gender, 
                                u32 baseStr, u32 baseDex, u32 baseInt,   u32 baseLuk)
 {
-    //characters(str, dex, luk, int, gm, skincolor, gender, job, hair, face, map,  meso, 
-    //           spawnpoint, accountid, name, world, hp, mp, maxhp, maxmp, level, ap, sp)
-
     // Starting equip options
     std::unordered_set<u32> legalItems = { 1302000, 1312004, 1322005, 1442079,                                          // weapons
                                            1040002, 1040006, 1040010, 1041002, 1041006, 1041010, 1041011, 1042167,      // bottom
@@ -125,8 +133,7 @@ u32 Character::createCharacter(std::shared_ptr<Player> player, std::string name,
                                            20000, 20001, 20002, 21000, 21001, 21002, 21201, 20401, 20402, 21700, 20100  // face
     };
 
-    // Check to make sure all pieces of starting equipment are allowed by the server and not
-    // packet edited
+    // Check to make sure all pieces of starting equipment are allowed by the server and not packet edited
     std::vector<u32> items{ weapon, top, bottom, shoes, hair, face };
     for (size_t i = 0; i < items.size(); i++)
     {
@@ -140,9 +147,9 @@ u32 Character::createCharacter(std::shared_ptr<Player> player, std::string name,
     }
 
     // Check account has available character slots in this world
-         
-         
-         
+ 
+ 
+
     // Check the character name is available in this world
     if (!canCreateCharacter(name, player->getWorld()))
     {
@@ -152,7 +159,7 @@ u32 Character::createCharacter(std::shared_ptr<Player> player, std::string name,
     // Create the new character and add it to the DB
     Character newChar(player->getId(), player->getWorld());
     newChar.setCharacterName(name);
-    newChar.setJob(Job::k_BEGINNER);
+    newChar.setJob(Constants::Job::k_BEGINNER);
     newChar.setLevel(1);
     newChar.setGenderId(gender);
     newChar.setFaceId(face);
@@ -160,44 +167,44 @@ u32 Character::createCharacter(std::shared_ptr<Player> player, std::string name,
     newChar.setSkinId(skin);
     newChar.setMapId(10000); // This should be the starting map... I hope
 
-    Inventory equipped = newChar.getInventory(InventoryType::k_EQUIPPED);
-    //ItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+    Inventory& equipped = newChar.getInventory(Constants::InventoryType::k_EQUIPPED);
+    Provider::ItemInfoProvider ii = Provider::ItemInfoProvider::getInstance();
 
-    //// Add starting equipment to the equipped inventory
-    //if (top > 0) 
-    //{
-    //    Item eq_top = ii.getEquipById(top);
-    //    eq_top.setPosition((byte)-5);
-    //    equipped.addItemFromDB(eq_top);
-    //}
+    // Add starting equipment to the equipped inventory
+    if (top > 0) 
+    {
+        Item eq_top = ii.getEquipById(top);
+        eq_top.setPosition((byte)-5);
+        equipped.addItemFromDB(eq_top);
+    }
 
-    //if (bottom > 0) 
-    //{
-    //    Item eq_bottom = ii.getEquipById(bottom);
-    //    eq_bottom.setPosition((byte)-6);
-    //    equipped.addItemFromDB(eq_bottom);
-    //}
+    if (bottom > 0) 
+    {
+        Item eq_bottom = ii.getEquipById(bottom);
+        eq_bottom.setPosition((byte)-6);
+        equipped.addItemFromDB(eq_bottom);
+    }
 
-    //if (shoes > 0) 
-    //{
-    //    Item eq_shoes = ii.getEquipById(shoes);
-    //    eq_shoes.setPosition((byte)-7);
-    //    equipped.addItemFromDB(eq_shoes);
-    //}
+    if (shoes > 0) 
+    {
+        Item eq_shoes = ii.getEquipById(shoes);
+        eq_shoes.setPosition((byte)-7);
+        equipped.addItemFromDB(eq_shoes);
+    }
 
-    //if (weapon > 0) 
-    //{
-    //    Item eq_weapon = ii.getEquipById(weapon);
-    //    eq_weapon.setPosition((byte)-11);
-    //    equipped.addItemFromDB(eq_weapon.copy());
-    //}
+    if (weapon > 0) 
+    {
+        Item eq_weapon = ii.getEquipById(weapon);
+        eq_weapon.setPosition((byte)-11);
+        equipped.addItemFromDB(eq_weapon);
+    }
 
-    //// Try to insert a new character into the DB
-    //if (!newChar.insertNewChar(recipe))
-    //{
-    //    return -2;
-    //}
-    //
+    // Try to insert a new character into the DB
+    if (!newChar.saveToDB())
+    {
+        return -2;
+    }
+
     //player->send(PacketCreator::addNewCharEntry(newChar));
     //Master::getInstance().createCharacterEntry(newChar);
     SERVER_INFO("{} created a new character: {}", player->getAccount().username, newChar.getCharacterName());
@@ -224,11 +231,6 @@ const std::string Character::getCharacterNameById(u32 id, u16 world)
         return std::string((*result).view()["name"].get_string().value);
     }
     return "";
-}
-
-bool Character::saveToDB()
-{
-    return true;
 }
 
 Inventory& Character::getInventory(u32 const inventoryType)

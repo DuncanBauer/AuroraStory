@@ -1,5 +1,13 @@
+#include <iostream>
+#include <iomanip>
+#include <vector>
+
+#include "aes.h"
+
 #include "MapleAESOFB.h"
-#include "MapleConstants.h"
+#include "util/PacketTool.h"
+#include "constants/CryptoConstants.h"
+#include "constants/MapleConstants.h"
 
 namespace util
 {
@@ -17,7 +25,7 @@ namespace util
 		{
 			memcpy(temp_iv, iv, 16);
 
-			aes_encrypt_key256(k_aesKey, cx);
+			aes_encrypt_key256(Constants::Crypto::k_aesKey, cx);
 
 			if (size > (pos + t_pos))
 			{
@@ -123,7 +131,7 @@ namespace util
 
     void MapleAESOFB::createPacketHeader(byte* buffer, byte* iv, u32 size)
 	{
-		short version = (short)(0xFFFF - k_gameVersion);
+		short version = (short)(0xFFFF - Constants::Maple::k_gameVersion);
 		short mapleVersion = (short)(((version >> 8) & 0xFF) | ((version << 8) & 0xFF00));
 
 		int iiv = (iv[3]) & 0xFF;
@@ -161,22 +169,22 @@ namespace util
 		byte new_iv[4] = { 0xF2, 0x53, 0x50, 0xC6 };
 		byte input;
 		byte value_input;
-		u32 full_iv;
-		u32 shift;
-		u32 loop_counter = 0;
+		u32  full_iv;
+		u32  shift;
+		u32  loop_counter = 0;
 
 		for (; loop_counter < 4; loop_counter++)
 		{
 			input = iv[loop_counter];
-			value_input = k_shuffle[input];
+			value_input = Constants::Crypto::k_shuffle[input];
 
-			new_iv[0] += (k_shuffle[new_iv[1]] - input);
+			new_iv[0] += (Constants::Crypto::k_shuffle[new_iv[1]] - input);
 			new_iv[1] -= (new_iv[2] ^ value_input);
-			new_iv[2] ^= (k_shuffle[new_iv[3]] + input);
+			new_iv[2] ^= (Constants::Crypto::k_shuffle[new_iv[3]] + input);
 			new_iv[3] -= (new_iv[0] - value_input);
 
 			full_iv = (new_iv[3] << 24) | (new_iv[2] << 16) | (new_iv[1] << 8) | new_iv[0];
-			shift = (full_iv >> 0x1D) | (full_iv << 0x03);
+			shift   = (full_iv >> 0x1D) | (full_iv << 0x03);
 
 			new_iv[0] = static_cast<byte>(shift & 0xFFu);
 			new_iv[1] = static_cast<byte>((shift >> 8) & 0xFFu);

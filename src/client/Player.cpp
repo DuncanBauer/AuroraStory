@@ -3,7 +3,6 @@
 #include "Master.h"
 #include "net/packets/PacketCreator.h"
 #include "net/packets/PacketHandler.h"
-#include "util/HashPassword.h"
 #include "util/LoggingTool.h"
 #include "util/MongoDb.h"
 #include "util/PacketTool.h"
@@ -76,7 +75,7 @@ std::vector<Character> Player::loadCharacters(u32 serverId)
 
 void Player::autoRegister(std::string const& username, std::string const& password)
 {
-    std::string passwordHash = util::generateHash(password);
+    std::string passwordHash = generatePasswordHash(password);
     util::MongoDb::getInstance().autoRegisterAccount(username, passwordHash, getIp());
 }
 
@@ -95,7 +94,7 @@ u32 Player::login(std::string const& username, std::string const& password, bson
     loadAccountData(data);
     bsoncxx::document::view view = data.view();
     std::string passwordHash = std::string(view["password_hash"].get_string().value);
-    bool passwordVerified = util::verifyPassword(password, passwordHash);
+    bool passwordVerified = verifyPassword(password, passwordHash);
 
     if (m_account.isBanned)
     {

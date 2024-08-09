@@ -18,7 +18,7 @@ namespace PacketCreator
     Packet pinOperation(byte mode)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_PIN_OPERATION);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_PIN_OPERATION);
         util::PacketTool::writeByte(packet, mode);
         return packet;
     }

@@ -1,20 +1,20 @@
 #include <filesystem>
 
 #include "DataProviderFactory.h"
-#include "wz/WzFile.h"
-#include "nx/NxWzFile.h"
-#include "xml/XmlWzFile.h"
+#include "nx/NxFileDataProvider.h"
+#include "wz/WzFileDataProvider.h"
+#include "xml/XmlFileDataProvider.h"
 #include "util/LoggingTool.h"
 
 namespace Provider
 {
-    std::shared_ptr<DataProvider> DataProviderFactory::getWZ(std::filesystem::path file)
+    std::shared_ptr<WzDataProvider> DataProviderFactory::getWZ(std::filesystem::path file)
     {
         if (file.string().ends_with("nx"))
         {
             try
             {
-                return std::make_shared<NxWzFile>(file);
+                return std::make_shared<NxFileDataProvider>(file);
             }
             catch (std::exception e)
             {
@@ -25,7 +25,7 @@ namespace Provider
         {
             try 
             {
-                //return WzFile(file);
+                //return WzFileDataProvider(file);
             }
             catch (std::exception e)
             {
@@ -36,7 +36,7 @@ namespace Provider
         {
             try
             {
-                //return XmlWzFile(file);
+                //return XmlFileDataProvider(file);
             }
             catch (std::exception e)
             {
@@ -44,10 +44,10 @@ namespace Provider
             }
         }
 
-        return std::shared_ptr<DataProvider>();
+        return std::shared_ptr<WzDataProvider>();
     }
 
-    std::shared_ptr<DataProvider> DataProviderFactory::getDataProvider(std::string const& filename)
+    std::shared_ptr<WzDataProvider> DataProviderFactory::getDataProvider(std::string const& filename)
     {
         std::filesystem::path file;
 
@@ -56,7 +56,6 @@ namespace Provider
         {
             SERVER_ERROR("WZ directory does not exist.");
             throw;
-            //return nullptr;
         }
 
         // Iterate through the directory and find the file

@@ -20,7 +20,7 @@ namespace PacketCreator
     Packet getServerStatus(u16 status)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_SERVER_STATUS);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_SERVER_STATUS);
         util::PacketTool::writeShort(packet, status);
         return packet;
     }

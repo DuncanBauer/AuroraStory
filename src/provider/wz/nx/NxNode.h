@@ -2,7 +2,6 @@
 
 #include "NxAudio.h"
 #include "NxBitmap.h"
-#include "provider/wz/interfaces/DataEntity.h"
 #include "Typedefs.h"
 
 namespace Provider
@@ -53,9 +52,10 @@ namespace Provider
 
     class NxFileData;
     using vector = std::pair<i32, i32>;
-    class NxNode : public DataEntity
+    class NxNode
     {
     public:
+        NxNode() = default;
         NxNode(NxNodeData const* nodeData, NxFileData const* fileData);
 
                NxNode      begin()                         const;

@@ -1,7 +1,7 @@
 #include <set>
 
 #include "Master.h"
-#include "game/Inventory.h"
+#include "client/Inventory.h"
 #include "net/packets/PacketCreator.h"
 #include "Typedefs.h"
 
@@ -17,7 +17,7 @@ namespace PacketCreator
     Packet getCharacterList(std::shared_ptr<Player> player, u32 serverId)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_CHAR_LIST);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_CHAR_LIST);
         util::PacketTool::writeIntAsByte(packet, 0);
 
         std::vector<Character> characters = player->loadCharacters(serverId);
@@ -40,12 +40,12 @@ namespace PacketCreator
      * @param mplew The MaplePacketLittleEndianWrite instance to write the stats to.
      * @param chr The character to add.
      */
-    void addCharacterEntry(Packet packet, Character character)
+    void addCharacterEntry(Packet & packet, Character character)
     {
         addCharacterStats(packet, character);
         addCharacterLook(packet, character, false);
 
-        if (character.getJob() == Job::k_GM)
+        if (character.getJob() == Constants::Job::k_GM)
         {
             util::PacketTool::writeIntAsByte(packet, 0);
             return;
@@ -64,7 +64,7 @@ namespace PacketCreator
      * @param mplew The Packet instance to write the stats to.
      * @param chr The character to add the stats of.
      */
-    void addCharacterStats(Packet packet, Character character)
+    void addCharacterStats(Packet & packet, Character character)
     {
         util::PacketTool::writeInt(packet, character.getCharacterId()); // character id
 
@@ -113,7 +113,7 @@ namespace PacketCreator
      * @param chr The character to add the looks of.
      * @param mega Unknown
      */
-    void addCharacterLook(Packet packet, Character character, bool mega) 
+    void addCharacterLook(Packet & packet, Character character, bool mega) 
     {
         util::PacketTool::writeIntAsByte(packet, character.getGenderId());
         util::PacketTool::writeIntAsByte(packet, character.getSkinId());
@@ -121,7 +121,7 @@ namespace PacketCreator
         util::PacketTool::writeIntAsByte(packet, mega ? 0 : 1); // whats mega??
         util::PacketTool::writeInt(packet, character.getHairId());
 
-        Inventory equipInventory = character.getInventory(InventoryType::k_EQUIPPED);
+        Inventory equipInventory = character.getInventory(Constants::InventoryType::k_EQUIPPED);
         std::map<byte, u32> visibleEquip;
         std::map<byte, u32> maskedEquip;
         for (const auto& pair : equipInventory.getItems())

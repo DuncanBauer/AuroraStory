@@ -2,7 +2,7 @@
 #include <ranges>
 
 #include "Party.h"
-#include "Player.h"
+#include "client/Player.h"
 
 Party::Party(Character leader)
 {

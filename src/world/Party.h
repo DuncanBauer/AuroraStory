@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "game/Character.h"
-#include "MapleConstants.h"
+#include "client/Character.h"
+#include "constants/MapleConstants.h"
 #include "Typedefs.h"
 
 struct PartyMember

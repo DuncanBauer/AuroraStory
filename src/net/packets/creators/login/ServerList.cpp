@@ -17,7 +17,7 @@ namespace PacketCreator
     Packet getServerData(u32 serverIndex, std::string serverName, std::map<u32, u32> channelLoad)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_SERVER_LIST);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_SERVER_LIST);
         util::PacketTool::writeIntAsByte(packet, serverIndex);
         util::PacketTool::writeMapleString(packet, serverName);
         util::PacketTool::writeIntAsByte(packet, Master::getInstance().getWorlds()[serverIndex]->getSettings().serverFlag);
@@ -62,7 +62,7 @@ namespace PacketCreator
     Packet getEndOfServerList()
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_SERVER_LIST);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_SERVER_LIST);
         util::PacketTool::writeIntAsByte(packet, 0xFF);
         return packet;
     }

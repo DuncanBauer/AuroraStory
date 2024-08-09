@@ -1,7 +1,7 @@
 #include "TCPConnection.h"
-#include "MapleConstants.h"
-#include "util/MapleAESOFB.h"
+#include "constants/CryptoConstants.h"
 #include "net/packets/PacketCreator.h"
+#include "util/MapleAESOFB.h"
 #include "util/PacketTool.h"
 
 namespace net
@@ -9,8 +9,8 @@ namespace net
     TCPConnection::TCPConnection(tcp::socket socket, util::ThreadSafeQueue<Packet>& incomingPackets)
         : m_socket(std::move(socket)),
           m_incomingPacketServerQueue(incomingPackets),
-          m_ivRecv(k_ivBufferSize),
-          m_ivSend(k_ivBufferSize)
+          m_ivRecv(Constants::Crypto::k_ivBufferSize),
+          m_ivSend(Constants::Crypto::k_ivBufferSize)
     {
     }
 

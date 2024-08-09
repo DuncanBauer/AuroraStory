@@ -7,7 +7,7 @@ namespace PacketCreator
     Packet characterCreationSuccess(Character character)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_ADD_NEW_CHAR_ENTRY);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_ADD_NEW_CHAR_ENTRY);
         util::PacketTool::writeIntAsByte(packet, 0);
         addCharacterEntry(packet, character);
         return packet;
@@ -33,7 +33,7 @@ namespace PacketCreator
     Packet characterCreationFailed(u32 cid, u32 state)
     {
         Packet packet;
-        util::PacketTool::writeShort(packet, SendOps::k_DELETE_CHAR_RESPONSE);
+        util::PacketTool::writeShort(packet, Constants::SendOps::k_DELETE_CHAR_RESPONSE);
         util::PacketTool::writeInt(packet, cid);
         util::PacketTool::writeByte(packet, state);
         return packet;

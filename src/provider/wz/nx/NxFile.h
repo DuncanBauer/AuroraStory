@@ -8,7 +8,7 @@
 namespace Provider
 {
     class NxNodeData;
-    class NxWzFile;
+    class NxFileDataProvider;
 
 #pragma pack(push, 1)
     class NxFileHeader
@@ -60,7 +60,6 @@ namespace Provider
         inline operator    NxNode()         const { return getRoot(); }
         
         inline NxNode      getRoot()        const { return NxNode(m_data->m_nodeTable, m_data);}
-        inline NxFileData* getData()        const { return m_data; }
         inline u32         getNodeCount()   const { return m_data->m_header->m_nodeCount; }
         inline u32         getStringCount() const { return m_data->m_header->m_stringCount; }
         inline u32         getBitmapCount() const { return m_data->m_header->m_bitmapCount; }

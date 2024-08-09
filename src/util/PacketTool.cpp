@@ -8,14 +8,14 @@ namespace util
 {
     namespace PacketTool
     {
-        byte readByte(Packet& packet)
+        byte readByte(Packet & packet)
         {
             byte result = packet.front();
             packet.erase(packet.begin());
             return result;
         }
 
-        u16 readShort(Packet& packet)
+        u16 readShort(Packet & packet)
         {
             u16 r1, r2;
             u16 result = 0;
@@ -29,7 +29,7 @@ namespace util
             return result;
         }
 
-        u32 readInt(Packet& packet)
+        u32 readInt(Packet & packet)
         {
             u32 r1, r2, r3, r4;
             u32 result = 0;
@@ -47,7 +47,7 @@ namespace util
             return result;
         }
         
-        u64 readLong(Packet& packet)
+        u64 readLong(Packet & packet)
         {
             u64 r1, r2, r3, r4,
                 r5, r6, r7, r8;
@@ -74,7 +74,7 @@ namespace util
             return result;
         }
 
-        std::string readString(Packet& packet, int length)
+        std::string readString(Packet & packet, int length)
         {
             std::string data;
             for (int i = 0; i < length; i++)
@@ -84,25 +84,25 @@ namespace util
             return data;
         }
         
-        std::string readMapleString(Packet& packet)
+        std::string readMapleString(Packet & packet)
         {
             u16 length = readShort(packet);
             std::string str = readString(packet, length);
             return str;
         }
 
-        void writeByte(Packet& packet, byte data)
+        void writeByte(Packet & packet, byte data)
         {
             packet.push_back(data);
         }
 
-        void writeShort(Packet& packet, u16 data)
+        void writeShort(Packet & packet, u16 data)
         {
             writeByte(packet, data & 0xFF);
             writeByte(packet, (data >> 8) & 0xFF);
         }
 
-        void writeInt(Packet& packet, u32 data)
+        void writeInt(Packet & packet, u32 data)
         {
             writeByte(packet, data & 0xFF);
             writeByte(packet, (data >> 8) & 0xFF);
@@ -110,12 +110,12 @@ namespace util
             writeByte(packet, (data >> 24) & 0xFF);
         }
 
-        void writeIntAsByte(Packet& packet, u32 data)
+        void writeIntAsByte(Packet & packet, u32 data)
         {
             writeByte(packet, (byte)data);
         }
 
-        void writeLong(Packet& packet, u64 data)
+        void writeLong(Packet & packet, u64 data)
         {
             writeByte(packet, data & 0xFF);
             writeByte(packet, (data >> 8) & 0xFF);
@@ -127,7 +127,7 @@ namespace util
             writeByte(packet, (data >> 56) & 0xFF);
         }
 
-        void writeString(Packet& packet, std::string data)
+        void writeString(Packet & packet, std::string data)
         {
             for (byte c : data)
             {
@@ -135,13 +135,13 @@ namespace util
             }
         }
 
-        void writeMapleString(Packet& packet, std::string data)
+        void writeMapleString(Packet & packet, std::string data)
         {
             writeShort(packet, static_cast<short>(data.size()));
             writeString(packet, data);
         }
 
-        void writeByteArray(Packet& packet, std::vector<byte> byteArray)
+        void writeByteArray(Packet & packet, std::vector<byte> byteArray)
         {
             for (byte val : byteArray)
             {
