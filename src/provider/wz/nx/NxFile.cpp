@@ -83,10 +83,10 @@ namespace Provider
         {
             throw std::runtime_error("Failed to create memory m_mapping of file " + name + ", errno: " + std::strerror(errno));
         }
-
-#    ifndef NDEBUG
+    
+    #ifndef NDEBUG
         std::cout << "=== File " << name << " m_mapped to address " << m_data->m_base << " ===\n";
-#    endif
+    #endif
 
 #endif
 

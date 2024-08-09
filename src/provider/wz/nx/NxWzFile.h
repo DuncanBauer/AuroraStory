@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include "provider/wz/DataProvider.h"
+#include "provider/wz/nx/NxFile.h"
 
 namespace Provider
 {
@@ -12,9 +13,11 @@ namespace Provider
         NxWzFile() = delete;
         NxWzFile(std::filesystem::path file);
 
-        void fillDataEntities(std::filesystem::path file, DataDirectoryEntry wzdir);
-        //Data getData(std::string path) override;
+        std::shared_ptr<DataEntity>         getData(std::string const& path) override;
+        std::shared_ptr<DataEntity>         getRoot();
+        std::shared_ptr<DataDirectoryEntry> createDirectory(Provider::NxNode& node);
 
     private:
+        Provider::NxFile m_nxFile;
     };
 }

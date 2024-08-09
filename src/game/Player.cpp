@@ -85,7 +85,7 @@ void Player::banAccount()
 
 }
 
-u16 Player::login(std::string const& username, std::string const& password, bsoncxx::v_noabi::document::value const& data)
+u32 Player::login(std::string const& username, std::string const& password, bsoncxx::v_noabi::document::value const& data)
 {
     //if (m_attemptedLogins >= 5)
     //{

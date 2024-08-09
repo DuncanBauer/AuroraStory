@@ -8,10 +8,10 @@ namespace Provider
     class DataEntry : public DataEntity
     {
     public:
-        inline DataEntity getParent() { return m_parent; }
-        inline u32 getSize() { return m_size; }
-        inline u32 getChecksum() { return m_checksum; }
-        inline u32 getOffset() { return m_offset; }
+        inline DataEntity getParent()   { return m_parent; }
+        inline u32        getSize()     { return m_size; }
+        inline u32        getChecksum() { return m_checksum; }
+        inline u32        getOffset()   { return m_offset; }
 
     protected:
         DataEntity m_parent;

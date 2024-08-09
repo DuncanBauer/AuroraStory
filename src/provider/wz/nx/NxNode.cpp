@@ -48,6 +48,80 @@ namespace Provider
         return m_data->m_nodeType;
     }
 
+    //! Only gets an immediate child of the current node
+    NxNode NxNode::getChild(std::string desiredChild) const
+    {
+        if (!m_data) 
+        {
+            return { nullptr, m_fileData };
+        }
+
+              auto currentChildPtr     = m_fileData->m_nodeTable + m_data->m_children;      // Pointer to current child
+              auto remainingChildCount = m_data->m_childCount;                              // Remaining number of children
+        const auto basePointer         = reinterpret_cast<const char*>(m_fileData->m_base); // Base pointer for nodes
+        const auto stringTable         = m_fileData->m_stringTable;                         // Pointer to the string table
+        const auto pathLength          = desiredChild.length();                             // Length of the input path
+
+        while (true)
+        {
+            // Return if there are no children
+            if (!remainingChildCount)
+            {
+                return { nullptr, m_fileData };
+            }
+
+            const auto halfChildCount      = static_cast<decltype(remainingChildCount)>(remainingChildCount >> 1);
+            const auto midChildPtr         = currentChildPtr + halfChildCount;
+            const auto currChildNameLoc    = basePointer + stringTable[midChildPtr->m_name];
+            const auto currChildNameLength = *reinterpret_cast<std::uint16_t const*>(currChildNameLoc);       // Length of the string
+            const auto currChildName       = reinterpret_cast<std::uint8_t const*>(currChildNameLoc + 2);     // Pointer to the child string
+            const auto pathString          = reinterpret_cast<std::uint8_t const*>(desiredChild.data());  // Pointer to the input path
+            const auto comparisonLength    = currChildNameLength < pathLength ? currChildNameLength : pathLength; // Length to compare
+                  bool isAdjusted          = false;
+
+            for (u32 i = 0; i < comparisonLength; ++i)
+            {
+                // Adjust search to the left half
+                if (currChildName[i] > pathString[i])
+                {
+                    remainingChildCount = halfChildCount;
+                    isAdjusted = true;
+                    break;
+                }
+                // Adjust search to the right half
+                else if (currChildName[i] < pathString[i])
+                {
+                    currentChildPtr = midChildPtr + 1; 
+                    remainingChildCount -= halfChildCount + 1;
+                    isAdjusted = true;
+                    break;
+                }
+            }
+
+            // Continue the loop to adjust search parameters
+            if (isAdjusted)
+            {
+                continue; 
+            }
+            // Adjust for the right half
+            else if (currChildNameLength < pathLength)
+            {
+                currentChildPtr = midChildPtr + 1;
+                remainingChildCount -= halfChildCount + 1;
+            }
+            // Adjust for the left half
+            else if (currChildNameLength > pathLength)
+            {
+                remainingChildCount = halfChildCount;
+            }
+            // Found the matching child
+            else
+            {
+                return { midChildPtr, m_fileData };
+            }
+        }
+    }
+
     std::int64_t NxNode::getInt(std::int64_t def) const
     {
         if (!m_data)
@@ -138,7 +212,7 @@ namespace Provider
     std::string NxNode::toString() const
     {
         const auto s = reinterpret_cast<char const*>(m_fileData->m_base) + m_fileData->m_stringTable[m_data->m_string];
-        return { s + 2, *reinterpret_cast<std::uint16_t const*>(s) };
+        return { s + 2, *reinterpret_cast<u16 const*>(s) };
     }
 
     NxBitmap NxNode::toBitmap() const
@@ -168,5 +242,29 @@ namespace Provider
     {
         return { reinterpret_cast<char const*>(m_fileData->m_base) + m_fileData->m_audioTable[m_data->m_audio.index],
                 m_data->m_audio.length };
+    }
+
+    //! Gets a child by path (Including non-immediate child nodes)
+    NxNode NxNode::resolve(std::string path) const noexcept
+    {
+        std::size_t i      = 0;
+        std::size_t last_i = 0;
+        NxNode currentNode = *this;
+        while (i < path.length()) 
+        {
+            if (path[i] == '/') 
+            {
+                currentNode = currentNode[path.substr(last_i, i - last_i)];
+                ++i;
+                last_i = i;
+            }
+            else 
+            {
+                ++i;
+            }
+        }
+
+        currentNode = currentNode[path.substr(last_i, i - last_i)];
+        return currentNode;
     }
 }

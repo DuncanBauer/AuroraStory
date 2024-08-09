@@ -1,15 +1,14 @@
 #pragma once
 
-#include "Data.h"
-#include "DataDirectoryEntry.h"
+#include "interfaces/Data.h"
+#include "interfaces/DataDirectoryEntry.h"
 
 namespace Provider
 {
-    template<typename T>
     class DataProvider
     {
     public:
-        virtual Data               getData(std::string path) = 0;
-        virtual DataDirectoryEntry getRoot()                 = 0;
+        virtual std::shared_ptr<DataEntity> getData(std::string const& path) = 0;
+        virtual std::shared_ptr<DataEntity> getRoot()                        = 0;
     };
 }

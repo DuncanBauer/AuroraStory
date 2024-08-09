@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
-#include "Typedefs.h"
+#include <unordered_set>
 
 #include "net/channel/ChannelServer.h"
+#include "Typedefs.h"
 
 struct WorldRates
 {
@@ -24,6 +25,7 @@ struct WorldRates
 
 struct WorldSettings
 {
+    u32         worldId;
     u32         serverFlag;
     std::string serverMessage;
     std::string eventMessage;
@@ -36,16 +38,27 @@ class World
 {
 public:
     World(WorldSettings settings);
+    World(const World&) = delete;
+    World(World&&)      = delete;
     ~World();
-
-    inline WorldSettings&     getSettings()                   { return m_settings; }
-    inline size_t             getChannelCount()               { return m_channelServers.size(); }
-           std::map<u32, u32> getChannelLoads();
 
            void               startChannels(u16& channelPort);
 
+    inline WorldSettings&     getSettings()                               { return m_settings; }
+    inline size_t             getChannelCount()                           { return m_channelServers.size(); }
+           std::map<u32, u32> getChannelLoads();                          
+    inline u32                getChannelLoad(u32 channelId)               { return m_channelServers[channelId]->getUserLoad(); }
+
+    inline std::unordered_set<u32> getAccountCharacterIds(u32 accountId)  { return m_accountCharacterIds[accountId]; }
+           void               addCharacterToAccount(u32 accountId, u32 characterId);
+           void               removeCharacterToAccount(u32 accountId, u32 characterId);
+    inline size_t             getAccountCharacterCount(u32 accountId)     { return m_accountCharacterIds[accountId].size(); }
+
 private:
     WorldSettings                               m_settings;
+
     std::vector<std::shared_ptr<ChannelServer>> m_channelServers;
-    std::map<int, std::thread>                  m_channelServerThreads;
+    std::map<u32, std::thread>                  m_channelServerThreads;
+
+    std::map<u32, std::unordered_set<u32>>      m_accountCharacterIds;
 };

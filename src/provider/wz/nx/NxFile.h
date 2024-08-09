@@ -47,7 +47,7 @@ namespace Provider
     class NxFile
     {
     public:
-        NxFile() = default;
+        NxFile() = delete;
         NxFile(std::filesystem::path file);
         ~NxFile();
 

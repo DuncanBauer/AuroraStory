@@ -27,7 +27,7 @@ namespace RecvOps
     constexpr u16 k_CLIENT_START                 = 0x19;
     constexpr u16 k_RELOG                        = 0x1C;
                                                  
-    // CHANNEL                                   
+    // CHANNEL
     constexpr u16 k_PLAYER_LOGGED_IN             = 0x14;
     constexpr u16 k_STRANGE_DATA                 = 0x1A;
     constexpr u16 k_CHANGE_MAP                   = 0x23;

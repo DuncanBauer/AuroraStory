@@ -9,8 +9,8 @@ namespace Provider
     {
     public:
         inline std::vector<DataDirectoryEntry> getSubdirectories() { return m_subdirectories; }
-        inline std::vector<DataFileEntry> getFiles() { return m_files; }
-        DataEntry getEntry(std::string name);
+        inline std::vector<DataFileEntry>      getFiles()          { return m_files; }
+               DataEntry                       getEntry(std::string name);
 
     protected:
         std::vector<DataDirectoryEntry> m_subdirectories;

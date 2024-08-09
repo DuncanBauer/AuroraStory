@@ -8,21 +8,32 @@ class Character
 {
 public:
     Character();
+    Character(u32 const accountId, u32 const worldId);
     Character(Character const& other);
     ~Character();
 
+    static bool              canCreateCharacter(std::string const& name, u32 world);
+    static u32               createCharacter(std::shared_ptr<Player> player, std::string name, 
+                                             u32 face,    u32 hair,    u32 hairColor, u32 skin, 
+                                             u32 top,     u32 bottom,  u32 shoes,     u32 weapon, u32 gender, 
+                                             u32 baseStr, u32 baseDex, u32 baseInt,   u32 baseLuk);
+    
     static u32         const getCharacterIdByName(std::string name, u16 world);
     static std::string const getCharacterNameById(u32 id, u16 world);
 
+    bool                     saveToDB();
+
     // Getters
+    inline u32         const getAccountId()     const { return m_accountId; }
     inline u32         const getCharacterId()   const { return m_characterId; }
-    inline std::string const getCharacterName() const { return m_characterName; }
-    inline u16         const getWorld()         const { return m_world; }
-    inline u16         const getChannel()       const { return m_channel; }
+    inline u32         const getWorld()         const { return m_world; }
+    inline u32         const getChannel()       const { return m_channel; }
     inline u32         const getMapId()         const { return m_mapId; }
     inline u32         const getSpawnpoint()    const { return m_spawnpoint; }
-    inline u16         const getJob()           const { return m_job; }
-    inline u16         const getLevel()         const { return m_level; }
+    inline std::string const getCharacterName() const { return m_characterName; }
+    inline u32         const getGMLevel()       const { return m_gmLevel; }
+    inline u32         const getJob()           const { return m_job; }
+    inline u32         const getLevel()         const { return m_level; }
     inline i32         const getRank()          const { return m_rank; }
     inline i32         const getRankMove()      const { return m_rankMove; }
     inline i32         const getJobRank()       const { return m_jobRank; }
@@ -57,17 +68,19 @@ public:
     inline u32         const getHairId()        const { return m_hairId; }
     inline u32         const getSkinId()        const { return m_skinId; }
 
-    Inventory&               getInventory(u16 inventoryType);
+    Inventory&               getInventory(u32 const inventoryType);
 
     // Setters
+    inline void              setAccountId(u32 val)             { m_accountId = val; }
     inline void              setCharacterId(u32 val)           { m_characterId = val; }
-    inline void              setCharacterName(std::string val) { m_characterName = val; }
-    inline void              setWorld(u16 val)                 { m_world = val; }
-    inline void              setChannel(u16 val)               { m_channel = val; }
+    inline void              setWorld(u32 val)                 { m_world = val; }
+    inline void              setChannel(u32 val)               { m_channel = val; }
     inline void              setMapId(u32 val)                 { m_mapId = val; }
     inline void              setSpawnpoint(u32 val)            { m_spawnpoint = val; }
-    inline void              setJob(u16 val)                   { m_job = val; }
-    inline void              setLevel(u16 val)                 { m_level = val; }
+    inline void              setCharacterName(std::string val) { m_characterName = val; }
+    inline void              setGMLevel(u32 val)               { m_gmLevel = val; }
+    inline void              setJob(u32 val)                   { m_job = val; }
+    inline void              setLevel(u32 val)                 { m_level = val; }
     inline void              setRank(i32 val)                  { m_rank = val; }
     inline void              setRankMove(i32 val)              { m_rankMove = val; }
     inline void              setJobRank(i32 val)               { m_jobRank = val; }
@@ -103,14 +116,16 @@ public:
     inline void              setSkinId(u32 val)                { m_skinId = val; }
 
 private:
+    u32                      m_accountId     = 0;
     u32                      m_characterId   = 0;
-    std::string              m_characterName = 0;
-    u16                      m_world         = 0;
-    u16                      m_channel       = 0;
+    u32                      m_world         = 0;
+    u32                      m_channel       = 0;
     u32                      m_mapId         = 0;
     u32                      m_spawnpoint    = 0;
-    u16                      m_job           = 0;
-    u16                      m_level         = 0;
+    std::string              m_characterName = "";
+    u32                      m_gmLevel       = 0;
+    u32                      m_job           = 0;
+    u32                      m_level         = 0;
     i32                      m_rank          = 0;
     i32                      m_rankMove      = 0;
     i32                      m_jobRank       = 0;

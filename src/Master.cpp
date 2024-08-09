@@ -1,4 +1,5 @@
 #include <memory>
+#include <unordered_set>
 
 #include "yaml-cpp/yaml.h"
 
@@ -6,6 +7,7 @@
 #include "net/channel/ChannelServer.h"
 #include "net/login/LoginServer.h"
 #include "net/packets/PacketHandler.h"
+#include "provider/wz/DataProviderFactory.h"
 #include "util/MongoDb.h"
 
 Master::Master()
@@ -21,7 +23,7 @@ Master::Master()
     m_settings.serverName                           = config["serverName"].as<std::string>();
     m_settings.gameVersion                          = config["gameVersion"].as<u16>();
     m_settings.worldCount                           = config["worldCount"].as<u16>();
-    m_settings.maxCharactersPerWorld                = config["maxCharactersPerWorld"].as<u16>();
+    m_settings.defaultMaxCharactersPerWorld         = config["defaultMaxCharactersPerWorld"].as<u16>();
     m_settings.wzFileType                           = config["wzFileType"].as<u16>();
 
     // Login Settings
@@ -39,11 +41,12 @@ Master::Master()
     m_settings.eventSettings.ludibriumMazePQEnabled = config["ludibriumMazePQEnabled"].as<bool>();
     
     // Loop through each world in the list
-    int i = 0;
+    u32 i = 0;
     for (const auto& world : config["worlds"]) 
     {
         WorldSettings worldSettings;
 
+        worldSettings.worldId                       = i;
         worldSettings.serverFlag                    = world["serverFlag"].as<u16>();
         worldSettings.serverMessage                 = world["serverMessage"].as<std::string>();
         worldSettings.eventMessage                  = world["eventMessage"].as<std::string>();
@@ -90,10 +93,27 @@ void Master::initialize()
 
     // Initialize MongoDb
     util::MongoDb::getInstance().initialize(m_settings.dbSettings.mongoURI, m_settings.dbSettings.mongoDB);
-    //util::MongoDb::initialize(m_settings.dbSettings.mongoURI, m_settings.dbSettings.mongoDB);
 
     // Initialize PacketHandlers
     PacketHandler::initialize();
+
+    // Initialize WZ data
+    m_wzProviders["Base"]      = Provider::DataProviderFactory::getDataProvider("Base");
+    m_wzProviders["Character"] = Provider::DataProviderFactory::getDataProvider("Character");
+    m_wzProviders["Effect"]    = Provider::DataProviderFactory::getDataProvider("Effect");
+    m_wzProviders["Etc"]       = Provider::DataProviderFactory::getDataProvider("Etc");
+    m_wzProviders["Item"]      = Provider::DataProviderFactory::getDataProvider("Item");
+    m_wzProviders["Map"]       = Provider::DataProviderFactory::getDataProvider("Map");
+    m_wzProviders["Mob"]       = Provider::DataProviderFactory::getDataProvider("Mob");
+    m_wzProviders["Morph"]     = Provider::DataProviderFactory::getDataProvider("Morph");
+    m_wzProviders["Npc"]       = Provider::DataProviderFactory::getDataProvider("Npc");
+    m_wzProviders["Quest"]     = Provider::DataProviderFactory::getDataProvider("Quest");
+    m_wzProviders["Reactor"]   = Provider::DataProviderFactory::getDataProvider("Reactor");
+    m_wzProviders["Skill"]     = Provider::DataProviderFactory::getDataProvider("Skill");
+    m_wzProviders["Sound"]     = Provider::DataProviderFactory::getDataProvider("Sound");
+    m_wzProviders["String"]    = Provider::DataProviderFactory::getDataProvider("String");
+    m_wzProviders["TamingMob"] = Provider::DataProviderFactory::getDataProvider("TamingMob");
+    m_wzProviders["UI"]        = Provider::DataProviderFactory::getDataProvider("UI");
 }
 
 void Master::run()
@@ -132,3 +152,30 @@ void Master::run()
 
 void Master::stop()
 {}
+
+void Master::createCharacter(u32 accountId, Character character) 
+{
+    u32 characterId = character.getCharacterId();
+    u32 worldId = character.getWorld();
+    std::shared_ptr<World> world = m_worlds[worldId];
+
+    world->addCharacterToAccount(accountId, characterId);
+}
+
+void Master::deleteCharacter(u32 accountId, u32 characterId) 
+{
+    //accountCharacterCount.put(accountId, (short)(accountCharacterCount.get(accountId) - 1));
+
+    //Set<Integer> accChars = accountChars.get(accountId);
+    //accChars.remove(characterId);
+
+    //Integer world = worldChars.remove(characterId);
+    //if (world != null) 
+    //{
+    //    World wserv = this.getWorld(world);
+    //    if (wserv != null)
+    //    {
+    //        wserv.unregisterAccountCharacterView(accountId, characterId);
+    //    }
+    //}
+}

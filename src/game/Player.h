@@ -32,17 +32,19 @@ public:
     std::vector<Character> loadCharacters(u32 serverId);
     void                   autoRegister(std::string const& username, std::string const& password);
     void                   banAccount();
-    u16                    login(std::string const& username, std::string const& password, bsoncxx::v_noabi::document::value const& data);
+    u32                    login(std::string const& username, std::string const& password, bsoncxx::v_noabi::document::value const& data);
     u32                    logout();
     bool                   checkPin(std::string pin);
     u32                    changeChannel();
 
-    inline void            setWorld(u16 val)              { m_world = val; }
-    inline void            setChannel(u16 val)            { m_channel = val; }
+    inline void            setWorld(u32 val)              { m_world = val; }
+    inline void            setChannel(u32 val)            { m_channel = val; }
            void            setPin(std::string val);
 
-    inline u16             getWorld()               const { return m_world; }
-    inline u16             getChannel()             const { return m_channel; }
+    inline Account         getAccount()             const { return m_account;}
+    inline u32             getWorld()               const { return m_world; }
+    inline u32             getChannel()             const { return m_channel; }
+    inline u32             getId()                  const { return m_account.accountId; }
     inline std::string     getPin()                 const { return m_account.pin; }
     inline bool            isGM()                   const { return m_account.isGM; }
     inline bool            isLoggedIn()             const { return m_account.isLoggedIn; }
@@ -53,10 +55,10 @@ public:
 
 
 private:
-    u16       m_attemptedLogins = 0;
-    u64       m_lastPong        = 0;
-    u16       m_world           = 0;
-    u16       m_channel         = 0;
     Account   m_account;
+    u32       m_attemptedLogins = 0;
+    u64       m_lastPong        = 0;
+    u32       m_world           = 0;
+    u32       m_channel         = 0;
     Character m_character;
 };

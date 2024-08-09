@@ -194,11 +194,11 @@
     <ClInclude Include="src\net\packets\PacketConstants.h" />
     <ClInclude Include="src\net\packets\PacketCreator.h" />
     <ClInclude Include="src\net\packets\PacketHandler.h" />
-    <ClInclude Include="src\provider\wz\Data.h" />
-    <ClInclude Include="src\provider\wz\DataDirectoryEntry.h" />
-    <ClInclude Include="src\provider\wz\DataEntity.h" />
-    <ClInclude Include="src\provider\wz\DataEntry.h" />
-    <ClInclude Include="src\provider\wz\DataFileEntry.h" />
+    <ClInclude Include="src\provider\wz\interfaces\Data.h" />
+    <ClInclude Include="src\provider\wz\interfaces\DataDirectoryEntry.h" />
+    <ClInclude Include="src\provider\wz\interfaces\DataEntity.h" />
+    <ClInclude Include="src\provider\wz\interfaces\DataEntry.h" />
+    <ClInclude Include="src\provider\wz\interfaces\DataFileEntry.h" />
     <ClInclude Include="src\provider\wz\DataProvider.h" />
     <ClInclude Include="src\provider\wz\DataProviderFactory.h" />
     <ClInclude Include="src\provider\wz\nx\NxFile.h" />
@@ -208,7 +208,6 @@
     <ClInclude Include="src\util\HashPassword.h" />
     <ClInclude Include="src\util\LoggingTool.h" />
     <ClInclude Include="src\util\MapleAESOFB.h" />
-    <ClInclude Include="src\util\MapleTool.h" />
     <ClInclude Include="src\util\MongoDb.h" />
     <ClInclude Include="src\util\PacketTool.h" />
     <ClInclude Include="src\util\ThreadSafeQueue.h" />
@@ -221,10 +220,12 @@
     <ClInclude Include="vendor\aes\brg_types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\net\packets\creators\login\CharacterCreationResponses.cpp" />
     <ClCompile Include="src\provider\wz\nx\NxNode.cpp" />
     <ClCompile Include="src\Master.cpp" />
     <ClCompile Include="src\util\MapleAESOFB.cpp" />
     <ClCompile Include="src\util\PacketTool.cpp" />
+    <ClCompile Include="src\util\TimeTool.cpp" />
     <ClCompile Include="src\World.cpp" />
     <ClCompile Include="src\game\Character.cpp" />
     <ClCompile Include="src\game\Party.cpp" />

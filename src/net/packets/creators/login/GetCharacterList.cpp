@@ -17,7 +17,6 @@ namespace PacketCreator
     Packet getCharacterList(std::shared_ptr<Player> player, u32 serverId)
     {
         Packet packet;
-
         util::PacketTool::writeShort(packet, SendOps::k_CHAR_LIST);
         util::PacketTool::writeIntAsByte(packet, 0);
 
@@ -29,7 +28,7 @@ namespace PacketCreator
             addCharacterEntry(packet, character);
         }
 
-        util::PacketTool::writeInt(packet, Master::getInstance().getSettings().maxCharactersPerWorld);
+        util::PacketTool::writeInt(packet, Master::getInstance().getSettings().defaultMaxCharactersPerWorld);
 
         return packet;
     }
@@ -119,7 +118,7 @@ namespace PacketCreator
         util::PacketTool::writeIntAsByte(packet, character.getGenderId());
         util::PacketTool::writeIntAsByte(packet, character.getSkinId());
         util::PacketTool::writeInt(packet, character.getFaceId());
-        util::PacketTool::writeIntAsByte(packet, mega ? 0 : 1); // ??
+        util::PacketTool::writeIntAsByte(packet, mega ? 0 : 1); // whats mega??
         util::PacketTool::writeInt(packet, character.getHairId());
 
         Inventory equipInventory = character.getInventory(InventoryType::k_EQUIPPED);

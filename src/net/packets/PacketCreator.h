@@ -37,5 +37,8 @@ namespace PacketCreator
     void   addCharacterLook(Packet packet, Character character, bool mega);
     void   addCharacterStats(Packet packet, Character character);
 
-    Packet characterNameResponse(std::string characterName, bool isUsed);
-};
+    Packet checkCharacterNameResponse(std::string characterName, bool isUsed);
+
+    Packet characterCreationSuccess(Character character);
+    Packet characterCreationFailed(u32 cid, u32 state);
+}

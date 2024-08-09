@@ -31,3 +31,13 @@ std::map<u32, u32> World::getChannelLoads()
     }
     return loads;
 }
+
+void World::addCharacterToAccount(u32 accountId, u32 characterId)
+{
+    m_accountCharacterIds[accountId].insert(characterId);
+}
+
+void World::removeCharacterToAccount(u32 accountId, u32 characterId)
+{
+    m_accountCharacterIds[accountId].erase(characterId);
+}

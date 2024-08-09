@@ -111,19 +111,19 @@
     <ClInclude Include="src\net\packets\PacketHandler.h">
       <Filter>src\net\packets</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\Data.h">
+    <ClInclude Include="src\provider\wz\interfaces\Data.h">
       <Filter>src\provider\wz</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\DataDirectoryEntry.h">
+    <ClInclude Include="src\provider\wz\interfaces\DataDirectoryEntry.h">
       <Filter>src\provider\wz</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\DataEntity.h">
+    <ClInclude Include="src\provider\wz\interfaces\DataEntity.h">
       <Filter>src\provider\wz</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\DataEntry.h">
+    <ClInclude Include="src\provider\wz\interfaces\DataEntry.h">
       <Filter>src\provider\wz</Filter>
     </ClInclude>
-    <ClInclude Include="src\provider\wz\DataFileEntry.h">
+    <ClInclude Include="src\provider\wz\interfaces\DataFileEntry.h">
       <Filter>src\provider\wz</Filter>
     </ClInclude>
     <ClInclude Include="src\provider\wz\DataProvider.h">
@@ -151,9 +151,6 @@
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\MapleAESOFB.h">
-      <Filter>src\util</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\MapleTool.h">
       <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="src\util\MongoDb.h">
@@ -186,6 +183,9 @@
     <ClInclude Include="vendor\aes\brg_types.h">
       <Filter>vendor\aes</Filter>
     </ClInclude>
+    <ClInclude Include="src\provider\wz\nx\NxAudio.h" />
+    <ClInclude Include="src\provider\wz\nx\NxBitmap.h" />
+    <ClInclude Include="src\provider\wz\nx\NxNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Master.cpp">
@@ -266,9 +266,6 @@
     <ClCompile Include="src\provider\wz\DataProviderFactory.cpp">
       <Filter>src\provider\wz</Filter>
     </ClCompile>
-    <ClCompile Include="src\provider\wz\NxFile.cpp">
-      <Filter>src\provider\wz</Filter>
-    </ClCompile>
     <ClCompile Include="src\provider\wz\nx\NxFile.cpp">
       <Filter>src\provider\wz\nx</Filter>
     </ClCompile>
@@ -299,5 +296,10 @@
     <ClCompile Include="vendor\aes\aestab.c">
       <Filter>vendor\aes</Filter>
     </ClCompile>
+    <ClCompile Include="src\provider\wz\nx\NxNode.cpp" />
+    <ClCompile Include="src\util\MapleAESOFB.cpp" />
+    <ClCompile Include="src\util\PacketTool.cpp" />
+    <ClCompile Include="src\util\TimeTool.cpp" />
+    <ClCompile Include="src\net\packets\creators\login\CharacterCreationResponses.cpp" />
   </ItemGroup>
 </Project>

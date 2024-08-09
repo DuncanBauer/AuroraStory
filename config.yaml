@@ -6,7 +6,7 @@ mongoDB: "aurorastory"
 serverName: "AuroraStory"
 gameVersion: 62
 worldCount: 2
-maxCharactersPerWorld: 6
+defaultMaxCharactersPerWorld: 6
 wzFileType: 2 # This value represents the type of files you wish to use insie the wz folder. Keep the subdirectories. 0 - XML, 1 - WZ, 2 - NX 
 
 # LOGIN SETTINGS

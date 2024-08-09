@@ -2,6 +2,7 @@
 
 #include "NxAudio.h"
 #include "NxBitmap.h"
+#include "provider/wz/interfaces/DataEntity.h"
 #include "Typedefs.h"
 
 namespace Provider
@@ -23,6 +24,7 @@ namespace Provider
         u16 width;
         u16 height;
     };
+
     struct audio
     {
         u32 index;
@@ -32,7 +34,6 @@ namespace Provider
 #pragma pack(push, 1)
     class NxNodeData
     {
-
     public:
         u32        const m_name;
         u32        const m_children;
@@ -50,9 +51,9 @@ namespace Provider
     };
 #pragma pack(pop)
 
-    typedef std::pair<std::int32_t, std::int32_t> vector;
     class NxFileData;
-    class NxNode
+    using vector = std::pair<i32, i32>;
+    class NxNode : public DataEntity
     {
     public:
         NxNode(NxNodeData const* nodeData, NxFileData const* fileData);
@@ -63,6 +64,8 @@ namespace Provider
         inline NxNode      operator++(int inc)                   { return { m_data++, m_fileData }; }
         inline bool        operator==(NxNode const& other) const { return m_data == other.m_data; }
         inline bool        operator!=(NxNode const& other) const { return m_data != other.m_data; }
+        inline NxNode      operator[](std::string path)    const { return getChild(path); }
+        inline NxNode      operator[](char const* path)    const { return getChild(path); }
         
         inline operator    u8()                            const { return static_cast<u8>(getInt()); }
         inline operator    i8()                            const { return static_cast<i8>(getInt()); }
@@ -82,14 +85,18 @@ namespace Provider
         
                std::string getName()                       const;
                NxNodeType  getDataType()                   const;
+               u32         getSize()                       const { return m_data->m_childCount; }
+               u32         getChildren()                   const { return m_data->m_children; }
+               NxNode      getChild(std::string path)      const;
                i64         getInt(i64 def = 0)             const;
                double      getDouble(double def = 0)       const;
                std::string getString(std::string def = "") const;
                vector      getVector(vector def = {0,0})   const;
                NxBitmap    getBitmap()                     const;
                NxAudio     getAudio()                      const;
-                                                        
-    private:                                            
+               NxNode      resolve(std::string path)       const noexcept;
+
+    public:
         inline i64         toInt()                         const { return m_data->m_integer; }
         inline double      toDouble()                      const { return m_data->m_double; }
                std::string toString()                      const;

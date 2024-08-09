@@ -8,7 +8,7 @@ class Inventory
 {
 public:
     Inventory() = default;
-    Inventory(u16 type, u16 slotLimit) 
+    Inventory(u32 type, u32 slotLimit) 
     { 
         m_type = type; 
         m_slotLimit = slotLimit; 
@@ -16,8 +16,8 @@ public:
     ~Inventory() {}
 
     // Getters
-    inline u16                  getInventoryType()       const { return m_type; }
-    inline u16                  getSlotLimit()           const { return m_slotLimit; }
+    inline u32                  getInventoryType()       const { return m_type; }
+    inline u32                  getSlotLimit()           const { return m_slotLimit; }
     inline std::map<byte, Item> getItems()               const { return m_items; }
     inline Item                 getItemInSlot(byte slot)
     {
@@ -35,7 +35,7 @@ public:
     // Setters
 
 private:
-    u16                  m_type      = 0;
-    u16                  m_slotLimit = 0;
+    u32                  m_type      = 0;
+    u32                  m_slotLimit = 0;
     std::map<byte, Item> m_items;
 };

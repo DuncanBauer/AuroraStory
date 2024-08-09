@@ -149,7 +149,7 @@ namespace util
             }
         }
 
-        static inline std::stringstream outputShortHex(short packetShort)
+        std::stringstream outputShortHex(short packetShort)
         {
             std::stringstream ss;
             ss << "0x"
@@ -164,7 +164,7 @@ namespace util
             return ss;
         }
 
-        static inline std::stringstream outputByteHex(byte packetByte)
+        std::stringstream outputByteHex(byte packetByte)
         {
             std::stringstream ss;
             ss << "0x"
@@ -179,7 +179,7 @@ namespace util
             return ss;
         }
 
-        //static inline std::stringstream outputPacketHex(Packet packet)
+        //std::stringstream outputPacketHex(Packet packet)
         //{
         //    std::stringstream ss;
         //    for (byte val : packet)
@@ -196,7 +196,7 @@ namespace util
         //    return ss;
         //}
 
-        static inline std::stringstream outputPacketHex(Packet packet)
+        std::stringstream outputPacketHex(Packet packet)
         {
             std::stringstream ss;
             for (byte val : packet)
@@ -212,7 +212,7 @@ namespace util
             return ss;
         }
 
-        static inline std::stringstream outputByteBufferHex(byte* buffer, size_t size)
+        std::stringstream outputByteBufferHex(byte* buffer, size_t size)
         {
             std::stringstream ss;
             for (int i = 0; i < size; i++)
@@ -228,7 +228,7 @@ namespace util
             return ss;
         }
 
-        static inline std::stringstream outputPacketDec(Packet packet)
+        std::stringstream outputPacketDec(Packet packet)
         {
             std::stringstream ss;
             for (byte val : packet)
@@ -240,7 +240,7 @@ namespace util
             return ss;
         }
 
-        static inline std::stringstream outputPacketString(Packet packet)
+        std::stringstream outputPacketString(Packet packet)
         {
             std::stringstream ss;
             for (byte val : packet)
@@ -251,6 +251,5 @@ namespace util
 
             return ss;
         }
-
     }
 }
